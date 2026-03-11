@@ -7,17 +7,17 @@ module ob_opb(
     input logic [1:0] i_action,
     input logic i_valid,
     input logic [PRICE_LEN-1:0] i_price,
-    output logic o_add,
+    output logic [1:0]o_action,
     output logic [PRICE_LEN-1:0] o_price,
     output logic o_valid,
     output logic [QUANTITY_LEN-1:0] o_quantity
 ); 
 
 // OPB: use orderid as index and store the price and quantity of the given 
-(* ram_style = "block" *) ob_packet_t OPB [0:DEPTH-1];
-
+// (* ram_style = "block" *) ob_packet_t OPB [0:OPB_DEPTH-1];
+ob_packet_t OPB [0:OPB_DEPTH-1];
 // this table track tif each entry is valid (purpose: not reset bram when rst_n)
-logic valid_table[0:DEPTH-1];
+logic [OPB_DEPTH-1:0]valid_table;
 
 
 // packet being fed from prev cycle (only used when it is an add order)
@@ -31,23 +31,48 @@ assign execute = (i_action == 2'b10);
 assign delete = (i_action == 2'b11);
 
 // updated packet if it is the given orderid is canceled or executed
-ob_packet_t                 packet_out;
+ob_packet_t                 packet_out, packet_delete;
 logic [QUANTITY_LEN-1:0]    quantity_to_remove;
 
 //pipeline vars
 logic [QUANTITY_LEN-1:0]    p_quantity;
 logic [ORDERID_LEN-1:0]     p_order_id;
 logic                       p_add, p_exec_cancel, p_delete;
+logic [PRICE_LEN-1:0]       p_price;
+logic [1:0]                 p_action;
+logic                       p_valid;
 
-
-// pipeline orderid and quantity
+// pipeline orderid / quantity / price / action / valid
 always_ff @(posedge i_clk, negedge i_rst_n) begin
     if(!i_rst_n) begin
         p_quantity <= '0;
         p_order_id <= '0;
+        p_price <= '0;
+        p_action <= '0;
+        p_valid <= 0;
+        o_action <= '0;
+        o_price <= '0;
+        o_valid <= 0;
+        o_quantity <= '0;
     end else begin
         p_quantity <= i_quantity;
         p_order_id <= i_order_id;
+        p_price <= i_price;
+        p_action <= i_action;
+        p_valid <= i_valid;
+        o_action <= p_action;
+        o_valid <= p_valid;
+        o_quantity <= p_quantity;
+        if(p_action == add) begin
+            o_price <= p_price;
+        end else begin
+            o_price <= packet_out.price;
+        end
+        if(p_action == 2'b11) begin
+            o_quantity <= packet_delete.quantity;
+        end else begin
+            o_quantity <= p_quantity;
+        end
     end
 end
 
@@ -100,6 +125,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         p_delete <= 0;
         if(delete && i_valid && valid_table[i_order_id]) begin
             p_delete <= 1;
+            packet_delete <= OPB[i_order_id];
         end
     end
 end
@@ -118,6 +144,8 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         end
     end
 end
+
+
 
 
 endmodule

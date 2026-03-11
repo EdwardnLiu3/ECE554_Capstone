@@ -1,9 +1,9 @@
 package ob_pkg;
 
-    parameter int ORDERID_LEN = 14;
-    parameter int PRICE_LEN = ;
-    parameter int QUANTITY_LEN = ;
-    parameter int TOT_QUATITY_LEN = ;
+    parameter int ORDERID_LEN = 3;
+    parameter int PRICE_LEN = 8;
+    parameter int QUANTITY_LEN = 8;
+    parameter int TOT_QUATITY_LEN = 8;
 
     typedef struct packed {
         logic [PRICE_LEN-1:0] price;
