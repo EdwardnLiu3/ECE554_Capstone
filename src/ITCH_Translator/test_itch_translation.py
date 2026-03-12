@@ -140,6 +140,7 @@ def run_tests(csv_path: Path, messages: list[dict], ticker: str) -> None:
     passed = 0
     failed = 0
     match_counter = 0
+    order_id_map  = {}    # mirrors the hashtable in the translator
     errors = []
 
     with open(csv_path, newline="") as f:
@@ -150,13 +151,24 @@ def run_tests(csv_path: Path, messages: list[dict], ticker: str) -> None:
 
             ts        = float(row[0])
             lob_type  = int(row[1])
-            order_id  = int(row[2])
+            raw_oid   = int(row[2])
             size      = int(row[3])
             price     = int(row[4])
             direction = int(row[5])
 
             if lob_type not in LOBSTER_TO_ITCH:
                 continue  # skipped by translator
+
+            # Mirror the translator's hashtable logic to get the expected mapped ID
+            if lob_type == 1:
+                mapped_oid = len(order_id_map) + 1
+                order_id_map[raw_oid] = mapped_oid
+            elif lob_type in (5, 7):
+                mapped_oid = 0
+            else:
+                if raw_oid not in order_id_map:
+                    order_id_map[raw_oid] = len(order_id_map) + 1
+                mapped_oid = order_id_map[raw_oid]
 
             msg_idx = passed + failed
             if msg_idx >= len(messages):
@@ -195,8 +207,8 @@ def run_tests(csv_path: Path, messages: list[dict], ticker: str) -> None:
 
             # --- type-specific fields ---
             if expected_type == 'A':
-                if m.get("order_id") != order_id:
-                    row_errors.append(f"order_id {m.get('order_id')} != {order_id}")
+                if m.get("order_id") != mapped_oid:
+                    row_errors.append(f"order_id {m.get('order_id')} != {mapped_oid} (raw={raw_oid})")
                 expected_side = 'B' if direction == 1 else 'S'
                 if m.get("side") != expected_side:
                     row_errors.append(f"side {m.get('side')!r} != {expected_side!r}")
@@ -208,19 +220,19 @@ def run_tests(csv_path: Path, messages: list[dict], ticker: str) -> None:
                     row_errors.append(f"price {m.get('price')} != {price}")
 
             elif expected_type == 'X':
-                if m.get("order_id") != order_id:
-                    row_errors.append(f"order_id {m.get('order_id')} != {order_id}")
+                if m.get("order_id") != mapped_oid:
+                    row_errors.append(f"order_id {m.get('order_id')} != {mapped_oid} (raw={raw_oid})")
                 if m.get("cancelled_shares") != size:
                     row_errors.append(f"cancelled_shares {m.get('cancelled_shares')} != {size}")
 
             elif expected_type == 'D':
-                if m.get("order_id") != order_id:
-                    row_errors.append(f"order_id {m.get('order_id')} != {order_id}")
+                if m.get("order_id") != mapped_oid:
+                    row_errors.append(f"order_id {m.get('order_id')} != {mapped_oid} (raw={raw_oid})")
 
             elif expected_type == 'E':
                 match_counter += 1
-                if m.get("order_id") != order_id:
-                    row_errors.append(f"order_id {m.get('order_id')} != {order_id}")
+                if m.get("order_id") != mapped_oid:
+                    row_errors.append(f"order_id {m.get('order_id')} != {mapped_oid} (raw={raw_oid})")
                 if m.get("executed_shares") != size:
                     row_errors.append(f"executed_shares {m.get('executed_shares')} != {size}")
                 if m.get("match_number") != match_counter:
