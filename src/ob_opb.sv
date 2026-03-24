@@ -1,3 +1,11 @@
+////////////////////////////////////////////////////////////////////////////////
+// 
+// This module keep track of the price and quantity corresponding to the orderid
+// and output the price, quantity, and action for FLB to make changes
+//
+// Each of the action take 2 cycles and is pipelined
+//
+////////////////////////////////////////////////////////////////////////////////
 import ob_pkg::*;
 module ob_opb(
     input logic i_clk,
@@ -10,7 +18,7 @@ module ob_opb(
     output logic [1:0]o_action,
     output logic [PRICE_LEN-1:0] o_price,
     output logic o_valid,
-    output logic [QUANTITY_LEN-1:0] o_quantity
+    output logic [QUANTITY_LEN-1:0] o_quantity // add: quantity added, others: quantity removed
 ); 
 
 // OPB: use orderid as index and store the price and quantity of the given 
@@ -25,10 +33,10 @@ ob_packet_t packet_in;
 
 // action status
 logic add, cancel, execute, delete;
-assign add = (i_action == 2'b00);
-assign cancel = (i_action == 2'b01);
-assign execute = (i_action == 2'b10);
-assign delete = (i_action == 2'b11);
+assign add = (i_action == ADD);
+assign cancel = (i_action == CANCEL);
+assign execute = (i_action == EXECUTE);
+assign delete = (i_action == DELETE);
 
 // updated packet if it is the given orderid is canceled or executed
 ob_packet_t                 packet_out, packet_delete;
@@ -68,7 +76,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         end else begin
             o_price <= packet_out.price;
         end
-        if(p_action == 2'b11) begin
+        if(p_action == DELETE) begin
             o_quantity <= packet_delete.quantity;
         end else begin
             o_quantity <= p_quantity;

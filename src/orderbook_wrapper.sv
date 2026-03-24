@@ -66,9 +66,13 @@ ob_flb bid_flb(
     .i_quantity(p_quantity_bid),
     .i_action(p_action_bid),
     .i_valid(p_valid_bid),
+    .i_side(1'b1),
     .o_valid(),
-    .o_best_bid(),
-    .o_best_ask(),
+    .o_action(),
+    .o_current_price(),
+    .o_current_quant(),
+    .o_best_price(),
+    .o_best_price_quant(),
     .o_total_quant()
 );
 
@@ -79,9 +83,13 @@ ob_flb ask_flb(
     .i_quantity(p_quantity_ask),
     .i_action(p_action_ask),
     .i_valid(p_valid_ask),
+    .i_side(1'b0),
     .o_valid(),
-    .o_best_bid(),
-    .o_best_ask(),
+    .o_action(),
+    .o_current_price(),
+    .o_current_quant(),
+    .o_best_price(),
+    .o_best_price_quant(),
     .o_total_quant()
 );
 
