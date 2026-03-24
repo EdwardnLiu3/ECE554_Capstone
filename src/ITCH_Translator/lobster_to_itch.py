@@ -32,8 +32,8 @@ from pathlib import Path
 # ITCH 5.0 encoder functions
 # Each returns raw bytes for the ITCH message body (no length prefix).
 # ---------------------------------------------------------------------------
-
-STOCK_LOCATE  = 1     # Arbitrary; would be assigned by exchange
+#Todo: hashtable for orderID  key: Order ID, value: numerical numbers (1,2,3,4....)
+STOCK_LOCATE  = 1     # Todo: implement 1 hot for multiple stocks
 TRACKING_NUM  = 0     # Arbitrary
 
 
@@ -235,7 +235,8 @@ def frame_message(itch_body: bytes) -> bytes:
 # LOBSTER row -> ITCH message
 # ---------------------------------------------------------------------------
 
-def translate_row(row: list[str], ticker: str, match_counter: list[int]) -> bytes | None:
+def translate_row(row: list[str], ticker: str, match_counter: list[int],
+                  order_id_map: dict) -> bytes | None:
     """
     Translate one LOBSTER message CSV row into a framed ITCH binary message.
 
@@ -247,39 +248,57 @@ def translate_row(row: list[str], ticker: str, match_counter: list[int]) -> byte
       4: price     (int, dollar * 10000)
       5: direction (int, 1=buy, -1=sell)
 
+    order_id_map: hashtable mapping raw LOBSTER order IDs to sequential
+                  integers (1, 2, 3, ...). A new entry is created on the
+                  first sight of each order ID (type 1). Subsequent messages
+                  look up the mapped value. Hidden orders (type 5, raw id=0)
+                  are always encoded as 0.
+
     Returns framed bytes, or None if the row is skipped.
     """
-    ts        = float(row[0])
-    msg_type  = int(row[1])
-    order_id  = int(row[2])
-    size      = int(row[3])
-    price     = int(row[4])
-    direction = int(row[5])
+    ts         = float(row[0])
+    msg_type   = int(row[1])
+    raw_oid    = int(row[2])
+    size       = int(row[3])
+    price      = int(row[4])
+    direction  = int(row[5])
+
+    # Resolve order ID through the hashtable
+    if msg_type == 1:
+        # New order: assign the next sequential integer
+        mapped_oid = len(order_id_map) + 1
+        order_id_map[raw_oid] = mapped_oid
+    elif msg_type == 5:
+        # Hidden execution: no visible order ID, always 0
+        mapped_oid = 0
+    elif msg_type == 7:
+        # Trading halt: no order ID field
+        mapped_oid = 0
+    else:
+        # Cancel / delete / execute: look up existing mapping.
+        # If not seen before (pre-window order), assign a new sequential ID on first sight.
+        if raw_oid not in order_id_map:
+            order_id_map[raw_oid] = len(order_id_map) + 1
+        mapped_oid = order_id_map[raw_oid]
 
     if msg_type == 1:
-        # New limit order -> Add Order
-        body = encode_add_order(ts, order_id, direction, size, price, ticker)
+        body = encode_add_order(ts, mapped_oid, direction, size, price, ticker)
 
     elif msg_type == 2:
-        # Partial cancel -> Order Cancel
-        body = encode_order_cancel(ts, order_id, size)
+        body = encode_order_cancel(ts, mapped_oid, size)
 
     elif msg_type == 3:
-        # Full delete -> Order Delete
-        body = encode_order_delete(ts, order_id)
+        body = encode_order_delete(ts, mapped_oid)
 
     elif msg_type == 4:
-        # Visible execution -> Order Executed
         match_counter[0] += 1
-        body = encode_order_executed(ts, order_id, size, match_counter[0])
+        body = encode_order_executed(ts, mapped_oid, size, match_counter[0])
 
     elif msg_type == 5:
-        # Hidden execution -> Non-Cross Trade (order_id=0 in LOBSTER)
         match_counter[0] += 1
         body = encode_trade(ts, 0, direction, size, price, ticker, match_counter[0])
 
     elif msg_type == 7:
-        # Trading halt/resume -> Stock Trading Action
         body = encode_trading_action(ts, price, ticker)
 
     else:
@@ -293,7 +312,8 @@ def translate_row(row: list[str], ticker: str, match_counter: list[int]) -> byte
 # ---------------------------------------------------------------------------
 
 def translate_file(message_csv: Path, output_bin: Path, ticker: str) -> None:
-    match_counter = [0]  # mutable counter passed by reference
+    match_counter = [0]   # mutable counter passed by reference
+    order_id_map  = {}    # hashtable: raw LOBSTER order ID -> sequential int
     total_rows = 0
     skipped = 0
 
@@ -305,7 +325,7 @@ def translate_file(message_csv: Path, output_bin: Path, ticker: str) -> None:
             if len(row) != 6:
                 skipped += 1
                 continue
-            packet = translate_row(row, ticker, match_counter)
+            packet = translate_row(row, ticker, match_counter, order_id_map)
             if packet is None:
                 skipped += 1
                 continue
@@ -313,6 +333,7 @@ def translate_file(message_csv: Path, output_bin: Path, ticker: str) -> None:
             total_rows += 1
 
     print(f"Translated {total_rows} messages -> {output_bin}")
+    print(f"Unique order IDs mapped: {len(order_id_map)}")
     if skipped:
         print(f"Skipped {skipped} rows (unknown type or malformed)")
 
