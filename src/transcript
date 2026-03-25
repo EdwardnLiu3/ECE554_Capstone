@@ -1,298 +1,43 @@
-# Compile of ob_flb.sv was successful.
-# Compile of ob_opb.sv failed with 10 errors.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook_wrapper.sv was successful.
-# Compile of tb_ob_opb.sv was successful.
-# 5 compiles, 1 failed with 10 errors.
-# Compile of ob_opb.sv failed with 1 errors.
-# Compile of ob_opb.sv failed with 1 errors.
-# Compile of ob_pkg.sv was successful.
-# Compile of ob_opb.sv failed with 1 errors.
-# Compile of ob_opb.sv failed with 1 errors.
-# Compile of ob_opb.sv was successful.
-vsim -gui work.tb_ob_opb
-# vsim -gui work.tb_ob_opb 
-# Start time: 00:19:42 on Mar 11,2026
+vsim -gui work.tb_ob_flb
+# vsim -gui work.tb_ob_flb 
+# Start time: 00:30:54 on Mar 25,2026
 # Loading sv_std.std
 # Loading work.ob_pkg
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
+# Loading work.tb_ob_flb_sv_unit
+# Loading work.tb_ob_flb
+# Loading work.ob_flb_sv_unit
+# Loading work.ob_flb
 # WARNING: No extended dataflow license exists
-add wave -position insertpoint sim:/tb_ob_opb/dut/*
+add wave -position insertpoint sim:/tb_ob_flb/dut/*
 add wave -position insertpoint  \
-sim:/tb_ob_opb/dut/OPB
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv(94)
-#    Time: 205 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv line 94
-# Compile of ob_flb.sv was successful.
-# Compile of ob_opb.sv was successful.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook_wrapper.sv was successful.
-# Compile of tb_ob_opb.sv was successful.
-# 5 compiles, 0 failed with no errors.
-# Compile of ob_flb.sv was successful.
-# Compile of ob_opb.sv was successful.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook_wrapper.sv was successful.
-# Compile of tb_ob_opb.sv was successful.
-# 5 compiles, 0 failed with no errors.
-add wave -position insertpoint sim:/tb_ob_opb/dut/*
+sim:/tb_ob_flb/dut/FLB
 add wave -position insertpoint  \
-sim:/tb_ob_opb/dut/OPB
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_pkg
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
+sim:/tb_ob_flb/dut/valid_table
 run -all
-# GetModuleFileName: The specified module could not be found.
-# 
-# 
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv(94)
-#    Time: 205 ns  Iteration: 1  Instance: /tb_ob_opb
+# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(77)
+#    Time: 205 ns  Iteration: 1  Instance: /tb_ob_flb
 # 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv line 94
-# Compile of ob_flb.sv was successful.
-# Compile of ob_opb.sv was successful.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook_wrapper.sv was successful.
-# Compile of tb_ob_opb.sv was successful.
-# 5 compiles, 0 failed with no errors.
-vsim -gui work.tb_ob_opb
-# End time: 00:36:10 on Mar 11,2026, Elapsed time: 0:16:28
-# Errors: 0, Warnings: 2
-# vsim -gui work.tb_ob_opb 
-# Start time: 00:36:10 on Mar 11,2026
-# Loading sv_std.std
-# Loading work.ob_pkg
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-add wave -position insertpoint sim:/tb_ob_opb/dut/*
+# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 77
 add wave -position insertpoint  \
-sim:/tb_ob_opb/dut/OPB
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv(97)
-#    Time: 215 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv line 97
+{sim:/tb_ob_flb/dut/valid_table[101]} \
+{sim:/tb_ob_flb/dut/valid_table[100]} \
+{sim:/tb_ob_flb/dut/valid_table[99]}
 # Compile of ob_flb.sv was successful.
-# Compile of ob_opb.sv was successful.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook_wrapper.sv was successful.
-# Compile of tb_ob_opb.sv was successful.
-# 5 compiles, 0 failed with no errors.
+# Compile of ob_flb.sv was successful.
 restart
 # ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_pkg
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
+# Loading work.ob_flb_sv_unit
+# Loading work.ob_flb
 run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv(97)
-#    Time: 215 ns  Iteration: 1  Instance: /tb_ob_opb
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(77)
+#    Time: 205 ns  Iteration: 1  Instance: /tb_ob_flb
 # 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv line 97
-# Compile of ob_flb.sv was successful.
-# Compile of ob_opb.sv was successful.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook_wrapper.sv was successful.
-# Compile of tb_ob_opb.sv was successful.
-# 5 compiles, 0 failed with no errors.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_pkg
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv(97)
-#    Time: 215 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv line 97
-# Compile of tb_ob_opb.sv was successful.
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Error: (vsim-3063) Port 'o_add' not found in the connected module (8th connection).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv Line: 22
-vsim -gui work.tb_ob_opb
-# vsim -gui work.tb_ob_opb 
-# Start time: 00:36:10 on Mar 11,2026
-# Loading sv_std.std
-# Loading work.ob_pkg
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Error: (vsim-3063) Port 'o_add' not found in the connected module (8th connection).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv Line: 22
-# Error loading design
-# End time: 00:49:31 on Mar 11,2026, Elapsed time: 0:13:21
-# Errors: 2, Warnings: 1
-vsim -gui work.tb_ob_opb
-# vsim -gui work.tb_ob_opb 
-# Start time: 00:49:44 on Mar 11,2026
-# Loading sv_std.std
-# Loading work.ob_pkg
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Error: (vsim-3063) Port 'o_add' not found in the connected module (8th connection).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv Line: 22
-# Error loading design
-# End time: 00:49:45 on Mar 11,2026, Elapsed time: 0:00:01
-# Errors: 1, Warnings: 1
-# Compile of ob_flb.sv was successful.
-# Compile of ob_opb.sv was successful.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook_wrapper.sv was successful.
-# Compile of tb_ob_opb.sv was successful.
-# 5 compiles, 0 failed with no errors.
-vsim -gui work.tb_ob_opb
-# vsim -gui work.tb_ob_opb 
-# Start time: 00:49:58 on Mar 11,2026
-# Loading sv_std.std
-# Loading work.ob_pkg
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Error: (vsim-3063) Port 'o_add' not found in the connected module (8th connection).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv Line: 22
-# Error loading design
-# End time: 00:49:59 on Mar 11,2026, Elapsed time: 0:00:01
-# Errors: 1, Warnings: 2
-# Compile of ob_flb.sv was successful.
-# Compile of ob_opb.sv was successful.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook_wrapper.sv was successful.
-# Compile of tb_ob_opb.sv was successful.
-# 5 compiles, 0 failed with no errors.
-vsim -gui work.tb_ob_opb
-# vsim -gui work.tb_ob_opb 
-# Start time: 00:50:53 on Mar 11,2026
-# Loading sv_std.std
-# Loading work.ob_pkg
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_opb.sv(10).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv Line: 22
-add wave -position insertpoint sim:/tb_ob_opb/dut/*
+# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 77
 add wave -position insertpoint  \
-sim:/tb_ob_opb/dut/OPB
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv(97)
-#    Time: 215 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv line 97
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_opb.sv(10).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv Line: 22
-run -all
-# GetModuleFileName: The specified module could not be found.
-# 
-# 
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv(97)
-#    Time: 215 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv line 97
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_opb.sv(10).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv Line: 22
-run -all
-# GetModuleFileName: The specified module could not be found.
-# 
-# 
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv(97)
-#    Time: 215 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv line 97
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_opb.sv(10).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv Line: 22
-run -all
-# GetModuleFileName: The specified module could not be found.
-# 
-# 
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv(97)
-#    Time: 215 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv line 97
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_opb.sv(10).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv Line: 22
-run -all
-# GetModuleFileName: The specified module could not be found.
-# 
-# 
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv(97)
-#    Time: 215 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv line 97
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_opb.sv(10).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv Line: 22
-run -all
-# GetModuleFileName: The specified module could not be found.
-# 
-# 
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv(97)
-#    Time: 215 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv line 97
-add wave -position insertpoint  \
-sim:/tb_ob_opb/dut/packet_delete
-# Compile of tb_ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_opb.sv(10).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv Line: 22
-run -all
-# GetModuleFileName: The specified module could not be found.
-# 
-# 
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv(97)
-#    Time: 215 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv line 97
-# End time: 01:30:00 on Mar 11,2026, Elapsed time: 0:39:07
-# Errors: 0, Warnings: 2
+{sim:/tb_ob_flb/dut/valid_table[3]} \
+{sim:/tb_ob_flb/dut/valid_table[2]} \
+{sim:/tb_ob_flb/dut/valid_table[1]} \
+{sim:/tb_ob_flb/dut/valid_table[0]}

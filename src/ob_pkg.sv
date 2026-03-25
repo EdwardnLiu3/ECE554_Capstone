@@ -6,6 +6,7 @@ package ob_pkg;
     parameter int TOT_QUATITY_LEN = 8;
     parameter int NUM_LEVELS = 4096;
     parameter int FLB_CACHE_LEVEL = 10;
+    parameter int CACHE_POS = $clog2(FLB_CACHE_LEVEL);
 
     // action
     parameter ADD = 2'b00;
@@ -20,8 +21,8 @@ package ob_pkg;
     } ob_packet_t;
 
     typedef struct packed {
+        logic valid;
         logic [$clog2(NUM_LEVELS)-1:0] index;
-        logic [PRICE_LEN-1:0] price;
         logic [QUANTITY_LEN-1:0] quantity;
     } flb_cache_packet_t;
     
