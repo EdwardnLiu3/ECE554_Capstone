@@ -1,6 +1,7 @@
+# Compile of tb_ob_flb.sv was successful.
 vsim -gui work.tb_ob_flb
 # vsim -gui work.tb_ob_flb 
-# Start time: 00:30:54 on Mar 25,2026
+# Start time: 17:54:09 on Mar 26,2026
 # Loading sv_std.std
 # Loading work.ob_pkg
 # Loading work.tb_ob_flb_sv_unit
@@ -12,32 +13,20 @@ add wave -position insertpoint sim:/tb_ob_flb/dut/*
 add wave -position insertpoint  \
 sim:/tb_ob_flb/dut/FLB
 add wave -position insertpoint  \
-sim:/tb_ob_flb/dut/valid_table
+sim:/tb_ob_flb/dut/cache
 run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(77)
-#    Time: 205 ns  Iteration: 1  Instance: /tb_ob_flb
-# 1
-# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 77
-add wave -position insertpoint  \
-{sim:/tb_ob_flb/dut/valid_table[101]} \
-{sim:/tb_ob_flb/dut/valid_table[100]} \
-{sim:/tb_ob_flb/dut/valid_table[99]}
-# Compile of ob_flb.sv was successful.
-# Compile of ob_flb.sv was successful.
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(91)
+#    Time: 325 ns  Iteration: 1  Instance: /tb_ob_flb
+# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 91
+# Compile of tb_ob_flb.sv was successful.
 restart
 # ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_flb_sv_unit
-# Loading work.ob_flb
+# Loading work.tb_ob_flb_sv_unit
+# Loading work.tb_ob_flb
 run -all
 # GetModuleFileName: The specified module could not be found.
 # 
 # 
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(77)
-#    Time: 205 ns  Iteration: 1  Instance: /tb_ob_flb
-# 1
-# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 77
-add wave -position insertpoint  \
-{sim:/tb_ob_flb/dut/valid_table[3]} \
-{sim:/tb_ob_flb/dut/valid_table[2]} \
-{sim:/tb_ob_flb/dut/valid_table[1]} \
-{sim:/tb_ob_flb/dut/valid_table[0]}
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(91)
+#    Time: 325 ns  Iteration: 1  Instance: /tb_ob_flb
+# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 91

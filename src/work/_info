@@ -11,62 +11,62 @@ cModel Technology
 dC:/Users/tyler_hyposvu/UW/ECE554/MiniLabs/Minilab3
 vob_flb
 Z0 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-Z1 DXx4 work 6 ob_pkg 0 22 g_882>@PER0S70oheg<f;1
-DXx4 work 14 ob_flb_sv_unit 0 22 9=9PmzS?fLo>f^bIX32If0
-Z2 !s110 1774417059
+Z1 DXx4 work 6 ob_pkg 0 22 3CIR4@G>f3KCE6[A;bG8=3
+DXx4 work 14 ob_flb_sv_unit 0 22 1aLDk=JGClMQ0T:`EkcaQ3
+Z2 !s110 1774565578
 Z3 VDg1SIo80bB@j0V0VzS_@n1
 r1
 !s85 0
 !i10b 1
-!s100 Z;Pm:k5@F?6DjLRnfHR1=1
-IThBG>TPSF]AejNPSG[2`_2
+!s100 D1M6G;FijJPEI_FM>Kd<G2
+I2GQYJkWJmHoZ00Mh04KZG0
 !s105 ob_flb_sv_unit
 S1
 Z4 dC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src
-Z5 w1774417056
+Z5 w1774565531
 Z6 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_flb.sv
 Z7 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_flb.sv
-!i122 55
-L0 2 155
+!i122 92
+L0 2 200
 Z8 OV;L;2020.1;71
 31
-Z9 !s108 1774417059.000000
-!s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_flb.sv|
-Z10 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_flb.sv|
+Z9 !s108 1774565578.000000
+Z10 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_flb.sv|
+Z11 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_flb.sv|
 !i113 1
-Z11 o-work work -sv
-Z12 tCvgOpt 0
+Z12 o-work work -sv
+Z13 tCvgOpt 0
 Xob_flb_sv_unit
 R0
 R1
 R2
-V9=9PmzS?fLo>f^bIX32If0
+V1aLDk=JGClMQ0T:`EkcaQ3
 r1
 !s85 0
 !i10b 1
-!s100 ea_625C0PVUo:K@MhGYF91
-I9=9PmzS?fLo>f^bIX32If0
+!s100 3cd]OX:^9Xzj_E<Z7CkQ53
+I1aLDk=JGClMQ0T:`EkcaQ3
 !i103 1
 S1
 R4
 R5
 R6
 R7
-!i122 55
-Z13 L0 1 0
+!i122 92
+Z14 L0 1 0
 R8
 31
 R9
-Z14 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_flb.sv|
 R10
-!i113 1
 R11
+!i113 1
 R12
+R13
 vob_opb
 R0
 R1
 DXx4 work 14 ob_opb_sv_unit 0 22 IU39I<:HQX@gVZ9TTFFN@3
-Z15 !s110 1774388617
+Z15 !s110 1774561925
 R3
 r1
 !s85 0
@@ -79,16 +79,16 @@ R4
 Z16 w1774336096
 Z17 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_opb.sv
 Z18 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_opb.sv
-!i122 47
+!i122 79
 L0 10 150
 R8
 31
-Z19 !s108 1774388617.000000
+Z19 !s108 1774561925.000000
 Z20 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_opb.sv|
 Z21 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_opb.sv|
 !i113 1
-R11
 R12
+R13
 Xob_opb_sv_unit
 R0
 R1
@@ -105,7 +105,7 @@ R4
 R16
 R17
 R18
-!i122 47
+!i122 79
 L0 9 0
 R8
 31
@@ -113,23 +113,23 @@ R19
 R20
 R21
 !i113 1
-R11
 R12
+R13
 Xob_pkg
 R0
 R15
 !i10b 1
-!s100 UU56Cl=mY=mz=kfm;3d0i0
+!s100 8V;CU8XeYfQmjTWFVS7CT2
 !s11b Dg1SIo80bB@j0V0VzS_@n1
-Ig_882>@PER0S70oheg<f;1
-Vg_882>@PER0S70oheg<f;1
+I3CIR4@G>f3KCE6[A;bG8=3
+V3CIR4@G>f3KCE6[A;bG8=3
 S1
 R4
-w1774380726
+w1774561886
 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_pkg.sv
 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_pkg.sv
-!i122 48
-R13
+!i122 80
+R14
 R8
 r1
 !s85 0
@@ -138,8 +138,8 @@ R19
 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_pkg.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_pkg.sv|
 !i113 1
-R11
 R12
+R13
 vorderbook_wrapper
 R0
 R1
@@ -157,7 +157,7 @@ R4
 Z22 w1773784772
 Z23 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/orderbook_wrapper.sv
 Z24 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/orderbook_wrapper.sv
-!i122 49
+!i122 81
 L0 8 89
 R8
 31
@@ -165,8 +165,8 @@ R19
 Z25 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/orderbook_wrapper.sv|
 Z26 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/orderbook_wrapper.sv|
 !i113 1
-R11
 R12
+R13
 Xorderbook_wrapper_sv_unit
 R0
 R1
@@ -183,7 +183,7 @@ R4
 R22
 R23
 R24
-!i122 49
+!i122 81
 L0 7 0
 R8
 31
@@ -191,61 +191,61 @@ R19
 R25
 R26
 !i113 1
-R11
 R12
+R13
 vtb_ob_flb
 R0
 R1
-DXx4 work 17 tb_ob_flb_sv_unit 0 22 _TE3><[ce[eB23VCmBg^=2
-Z27 !s110 1774388982
+DXx4 work 17 tb_ob_flb_sv_unit 0 22 4?Kj5kL5=`b;Pb6i7T>[f0
+Z27 !s110 1774565761
 R3
 r1
 !s85 0
 !i10b 1
-!s100 `V6eAC_[3B0^di:eiUDU;3
-Ikccm_cd<=9MF37PQ6CBCE2
+!s100 B4_IIhTOX7>[J7ae`ebR22
+IziUPA0RjVKJS863JI8XjQ1
 !s105 tb_ob_flb_sv_unit
 S1
 R4
-Z28 w1774388955
+Z28 w1774565759
 Z29 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv
 Z30 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv
-!i122 53
-L0 3 78
+!i122 96
+L0 3 92
 R8
 31
-Z31 !s108 1774388982.000000
-Z32 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv|
-Z33 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv|
+Z31 !s108 1774565761.000000
+!s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv|
+Z32 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv|
 !i113 1
-R11
 R12
+R13
 Xtb_ob_flb_sv_unit
 R0
 R1
 R27
-V_TE3><[ce[eB23VCmBg^=2
+V4?Kj5kL5=`b;Pb6i7T>[f0
 r1
 !s85 0
 !i10b 1
-!s100 fi:[<<c22X;T@6NFeIdF]2
-I_TE3><[ce[eB23VCmBg^=2
+!s100 f8A3Y[C62izFI<ej6Kbz>3
+I4?Kj5kL5=`b;Pb6i7T>[f0
 !i103 1
 S1
 R4
 R28
 R29
 R30
-!i122 53
-Z34 L0 2 0
+!i122 96
+Z33 L0 2 0
 R8
 31
 R31
+Z34 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv|
 R32
-R33
 !i113 1
-R11
 R12
+R13
 vtb_ob_opb
 R0
 R1
@@ -263,7 +263,7 @@ R4
 Z35 w1773210562
 Z36 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv
 Z37 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv
-!i122 50
+!i122 82
 L0 4 97
 R8
 31
@@ -271,8 +271,8 @@ R19
 Z38 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv|
 Z39 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv|
 !i113 1
-R11
 R12
+R13
 Xtb_ob_opb_sv_unit
 R0
 R1
@@ -289,13 +289,13 @@ R4
 R35
 R36
 R37
-!i122 50
-R34
+!i122 82
+R33
 R8
 31
 R19
 R38
 R39
 !i113 1
-R11
 R12
+R13

@@ -64,17 +64,31 @@ module tb_ob_flb;
 
         // send operations every cycle
 
+        
         send_op(ADD, 10, 100);
+        send_op(ADD, 140, 200);
+        send_op(ADD, 120, 300);
+        send_op(ADD, 30, 1200);
+        send_op(ADD, 120, 600);
+        send_op(ADD, 110, 900);
+        send_op(ADD, 110, 500);
+        send_op(ADD, 30, 1000);
+        send_op(ADD, 150, 400);
+        send_op(ADD, 140, 700);
+        send_op(ADD, 120, 800);
+        send_op(ADD, 110, 900);
+        send_op(ADD, 130, 1000);
+        send_op(ADD, 190, 1100);
+        send_op(ADD, 190, 100);
+        send_op(CANCEL, 110, 500);
+        send_op(CANCEL, 120, 800);
 
-        send_op(ADD, 100, 100);
-        send_op(CANCEL, 30, 100);
-        send_op(EXECUTE, 10, 100);
-        send_op(ADD, 20, 100);
+        
         @(posedge i_clk) i_valid = 0;
 
         repeat(10) @(posedge i_clk);
 
-        $finish;
+        $stop;
     end
 
 endmodule
