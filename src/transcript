@@ -30,3 +30,15 @@ run -all
 # ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(91)
 #    Time: 325 ns  Iteration: 1  Instance: /tb_ob_flb
 # Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 91
+# Compile of ob_flb.sv was successful.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.ob_flb_sv_unit
+# Loading work.ob_flb
+run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(91)
+#    Time: 325 ns  Iteration: 1  Instance: /tb_ob_flb
+# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 91

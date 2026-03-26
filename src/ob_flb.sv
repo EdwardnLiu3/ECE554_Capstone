@@ -173,9 +173,9 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         for(int i = FLB_CACHE_LEVEL-1; i > add_pos4; i--) begin
             cache[i] <= cache[i-1];
         end
-        cache[add_pos4].valid = 1'b1;
-        cache[add_pos4].index = index4;
-        cache[add_pos4].quantity = new_qty4;
+        cache[add_pos4].valid <= 1'b1;
+        cache[add_pos4].index <= index4;
+        cache[add_pos4].quantity <= new_qty4;
     end
 end
 
