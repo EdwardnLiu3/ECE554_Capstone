@@ -1,7 +1,7 @@
-# Compile of tb_ob_flb.sv was successful.
+# Compile of ob_flb.sv was successful.
 vsim -gui work.tb_ob_flb
 # vsim -gui work.tb_ob_flb 
-# Start time: 17:54:09 on Mar 26,2026
+# Start time: 00:33:30 on Mar 29,2026
 # Loading sv_std.std
 # Loading work.ob_pkg
 # Loading work.tb_ob_flb_sv_unit
@@ -10,35 +10,16 @@ vsim -gui work.tb_ob_flb
 # Loading work.ob_flb
 # WARNING: No extended dataflow license exists
 add wave -position insertpoint sim:/tb_ob_flb/dut/*
-add wave -position insertpoint  \
-sim:/tb_ob_flb/dut/FLB
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: tyler_hyposvu  Hostname: TYLER  ProcessID: 49956
+#           Attempting to use alternate WLF file "./wlftfnc7v2".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftfnc7v2
 add wave -position insertpoint  \
 sim:/tb_ob_flb/dut/cache
+add wave -position insertpoint  \
+sim:/tb_ob_flb/dut/last_valid5
 run -all
-# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(91)
-#    Time: 325 ns  Iteration: 1  Instance: /tb_ob_flb
-# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 91
-# Compile of tb_ob_flb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.tb_ob_flb_sv_unit
-# Loading work.tb_ob_flb
-run -all
-# GetModuleFileName: The specified module could not be found.
-# 
-# 
-# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(91)
-#    Time: 325 ns  Iteration: 1  Instance: /tb_ob_flb
-# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 91
-# Compile of ob_flb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_flb_sv_unit
-# Loading work.ob_flb
-run -all
-# GetModuleFileName: The specified module could not be found.
-# 
-# 
 # ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(91)
 #    Time: 325 ns  Iteration: 1  Instance: /tb_ob_flb
 # Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 91

@@ -4,7 +4,7 @@ package ob_pkg;
     parameter int PRICE_LEN = 11;
     parameter int QUANTITY_LEN = 11;
     parameter int TOT_QUATITY_LEN = 22;
-    parameter int NUM_LEVELS = 4096;
+    parameter int NUM_LEVELS = 16384;
     parameter int FLB_CACHE_LEVEL = 10;
     parameter int CACHE_POS = $clog2(FLB_CACHE_LEVEL);
 

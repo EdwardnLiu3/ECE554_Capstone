@@ -33,7 +33,7 @@ logic [QUANTITY_LEN-1:0]                            old_qty3, new_qty4;
 flb_cache_packet_t          cache [0:FLB_CACHE_LEVEL-1];
 logic [NUM_LEVELS-1:0]      valid_table, cache_valid_table;
 logic                       cache_hit4;
-logic [CACHE_POS-1:0]       hit_pos4, last_valid5, add_pos4;
+logic [CACHE_POS-1:0]       hit_pos4, to_insert5, add_pos4;
 logic [FLB_CACHE_LEVEL:0]   epoch5;
 logic                       add_2_cache;
 flb_cache_packet_t          tmp, carry;
@@ -156,6 +156,9 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
             cache[i].index <= '0;
             cache[i].quantity <= '0;
         end
+        to_insert5 <= '0;
+        epoch5 <= '0;
+        cache_valid_table = '0;
     end else if(cache_hit4) begin
         if(new_qty4 == 0) begin
             for(int i = hit_pos4; i < FLB_CACHE_LEVEL-1; i++) begin
@@ -163,7 +166,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
             end 
             cache[FLB_CACHE_LEVEL-1].valid <= 1'b0;
             cache_valid_table[index4] <= 1'b0;
-            last_valid5 <= last_valid5 - 1'b1;
+            to_insert5 <= to_insert5 - 1'b1;
             epoch5 <= epoch5 + 1'b1;
         end else begin
             cache[hit_pos4].valid <= 1'b1;
@@ -176,6 +179,9 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         cache[add_pos4].valid <= 1'b1;
         cache[add_pos4].index <= index4;
         cache[add_pos4].quantity <= new_qty4;
+        epoch5 <= epoch5 + 1'b1;
+        if(to_insert5 < FLB_CACHE_LEVEL)
+            to_insert5 <= to_insert5 + 1'b1;
     end
 end
 
@@ -189,12 +195,12 @@ always_comb begin
     for(int i = 0; i < FLB_CACHE_LEVEL; i++) begin
         if(cache[i].valid && (cache[i].index == index4) && valid4) begin
             cache_hit4 = 1'b1;
-            hit_pos4 = i;
+            hit_pos4 = i[CACHE_POS-1:0];
         end
     end
     for(int i = FLB_CACHE_LEVEL-2; i >= 0; i--) begin
         if(!cache[i].valid || (index4 > cache[i].index))
-            add_pos4 = i;
+            add_pos4 = i[CACHE_POS-1:0];
     end
 end
 
