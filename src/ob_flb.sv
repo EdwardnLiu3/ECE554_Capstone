@@ -204,4 +204,15 @@ always_comb begin
     end
 end
 
+flb_refill_engine_bid refill_engine(
+    .i_clk(i_clk),
+    .i_rst_n(i_rst_n),
+    .i_valid_table(valid_table),
+    .i_cache_valid_table(cache),
+    .i_epoch(epoch5),
+    .o_epoch(),
+    .o_idx(),
+    .o_found()
+)
+
 endmodule

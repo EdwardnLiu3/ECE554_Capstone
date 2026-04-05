@@ -10,7 +10,7 @@ module tb_ob_flb;
     logic [PRICE_LEN-1:0] i_price;
     
 
-    ob_flb dut(
+    ob_flb iDUT(
         .i_clk(i_clk),
         .i_rst_n(i_rst_n),
         .i_quantity(i_quantity),

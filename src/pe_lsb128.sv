@@ -1,7 +1,7 @@
-module pe_lsb128(
-    input [127:0]   i_data,
-    output          o_found,
-    output [6:0]    o_idx
+module pe_msb128(
+    input logic [127:0] i_data,
+    output logic        o_found,
+    output logic [6:0]  o_idx
 );
 
 always_comb begin

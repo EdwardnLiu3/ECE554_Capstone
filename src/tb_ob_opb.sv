@@ -19,7 +19,7 @@ module tb_ob_opb;
     logic [QUANTITY_LEN-1:0] o_quantity;
 
     // DUT
-    ob_opb dut (
+    ob_opb iDUT (
         .i_clk(i_clk),
         .i_rst_n(i_rst_n),
         .i_order_id(i_order_id),

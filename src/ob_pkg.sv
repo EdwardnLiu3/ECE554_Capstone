@@ -7,6 +7,7 @@ package ob_pkg;
     parameter int NUM_LEVELS = 16384;
     parameter int FLB_CACHE_LEVEL = 10;
     parameter int CACHE_POS = $clog2(FLB_CACHE_LEVEL);
+    parameter int V_TABLE_IDX = $clog2(NUM_LEVELS);
 
     // action
     parameter ADD = 2'b00;
