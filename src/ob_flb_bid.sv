@@ -1,29 +1,30 @@
 import ob_pkg::*; 
-module ob_flb #(parameter int BASE_PRICE = 0)(
-    input logic i_clk,
-    input logic i_rst_n,
-    input logic [QUANTITY_LEN-1:0] i_quantity,
-    input logic [1:0] i_action,
-    input logic i_valid,
-    input logic [PRICE_LEN-1:0] i_price,
-    input logic i_side, // 1 = bid, 0 = ask
-    output logic o_valid,
-    output logic [1:0]o_action,
-    output logic [PRICE_LEN-1:0]o_current_price,
-    output logic [QUANTITY_LEN-1:0]o_current_quant,
-    output logic [PRICE_LEN-1:0]o_best_price,
-    output logic [TOT_QUATITY_LEN-1:0]o_best_price_quant,
-    output logic [TOT_QUATITY_LEN-1:0]o_total_quant
+module ob_flb_bid #(parameter int BASE_PRICE = 0)(
+    input logic                         i_clk,
+    input logic                         i_rst_n,
+    input logic [QUANTITY_LEN-1:0]      i_quantity,
+    input logic [1:0]                   i_action,
+    input logic                         i_valid,
+    input logic [PRICE_LEN-1:0]         i_price,
+    output logic                        o_valid,
+    output logic [1:0]                  o_action,
+    output logic [PRICE_LEN-1:0]        o_current_price,
+    output logic [QUANTITY_LEN-1:0]     o_current_quant,
+    output logic [PRICE_LEN-1:0]        o_best_price,
+    output logic [TOT_QUATITY_LEN-1:0]  o_best_price_quant,
+    output logic                        o_best_valid
 );
+
 
 // index setup
 logic [$clog2(NUM_LEVELS)-1:0]  index2, index3, index4;
 logic [PRICE_LEN-1:0]           price_diff;
 
 // pipeline val
-logic                       valid1, valid2, valid3, valid4;
-logic [1:0]                 action1, action2, action3, action4;
-logic [QUANTITY_LEN-1:0]    quantity1, quantity2, quantity3;
+logic                       valid1, valid2, valid3, valid4, valid5;
+logic [1:0]                 action1, action2, action3, action4, action5;
+logic [QUANTITY_LEN-1:0]    quantity1, quantity2, quantity3, quantity4, quantity5;
+logic [PRICE_LEN-1:0]       price1, price2, price3, price4, price5;
 
 // FLB update
 (* ram_style = "block" *) logic [QUANTITY_LEN-1:0]  FLB [0:NUM_LEVELS-1];
@@ -48,11 +49,13 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         valid2 <= 0;
         valid3 <= 0;
         valid4 <= 0;
+        valid5 <= 0;
     end else begin
         valid1 <= i_valid;
         valid2 <= valid1;
         valid3 <= valid2;
         valid4 <= valid3;
+        valid5 <= valid4;
     end
 end
 
@@ -63,11 +66,13 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         action2 <= '0;
         action3 <= '0;
         action4 <= '0;
+        action5 <= '0;
     end else begin
         action1 <= i_action; 
         action2 <= action1; 
         action3 <= action2;
         action4 <= action3;
+        action5 <= action4;
     end
 end
 
@@ -77,10 +82,31 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         quantity1 <= '0;
         quantity2 <= '0;
         quantity3 <= '0;
+        quantity4 <= '0;
+        quantity5 <= '0;
     end else begin
         quantity1 <= i_quantity;
         quantity2 <= quantity1;
         quantity3 <= quantity2;
+        quantity4 <= quantity3;
+        quantity5 <= quantity4;
+    end
+end
+
+// pipeline price
+always_ff @(posedge i_clk, negedge i_rst_n) begin
+    if(!i_rst_n) begin
+        price1 <= '0;
+        price2 <= '0;
+        price3 <= '0;
+        price4 <= '0;
+        price5 <= '0;
+    end else begin
+        price1 <= i_price;
+        price2 <= price1;
+        price3 <= price2;
+        price4 <= price3;
+        price5 <= price4;
     end
 end
 
@@ -161,13 +187,15 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         end
         to_insert5 <= '0;
         epoch5 <= '0;
-        cache_valid_table = '0;
+        cache_valid_table <= '0;
     end else if(cache_hit4) begin
         if(new_qty4 == 0) begin
             for(int i = hit_pos4; i < FLB_CACHE_LEVEL-1; i++) begin
                 cache[i] <= cache[i+1];
             end 
             cache[FLB_CACHE_LEVEL-1].valid <= 1'b0;
+            cache[FLB_CACHE_LEVEL-1].quantity <= '0;
+            cache[FLB_CACHE_LEVEL-1].index <= '0;
             cache_valid_table[index4] <= 1'b0;
             to_insert5 <= to_insert5 - 1'b1;
             epoch5 <= epoch5 + 1'b1;
@@ -183,20 +211,19 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         cache[add_pos4].index <= index4;
         cache[add_pos4].quantity <= new_qty4;
         cache_valid_table[index4] <= 1'b1;
-        cache_valid_table[cache[FLB_CACHE_LEVEL-1].index] <= 1'b0;
+        if(cache[FLB_CACHE_LEVEL-1].valid)
+            cache_valid_table[cache[FLB_CACHE_LEVEL-1].index] <= 1'b0;
         epoch5 <= epoch5 + 1'b1;
         if(to_insert5 < FLB_CACHE_LEVEL)
             to_insert5 <= to_insert5 + 1'b1;
-    end else begin
-        if(!cache_full && (epoch5 == r_engine_epoch) && r_engine_found) begin
+    end else if(!cache_full && (epoch5 == r_engine_epoch) && r_engine_found) begin
             cache[to_insert5].valid <= 1'b1;
             cache[to_insert5].index <= r_engine_index;
             cache[to_insert5].quantity <= FLB[r_engine_index];
             epoch5 <= epoch5 + 1'b1;
             cache_valid_table[r_engine_index] <= 1'b1;
             to_insert5 <= to_insert5 + 1'b1;
-        end
-    end
+    end 
 end
 
 assign cache_full = to_insert5 == FLB_CACHE_LEVEL;
@@ -207,7 +234,7 @@ always_comb begin
     hit_pos4 = '0;
     add_2_cache = valid4 && 
                   (action4 == ADD) &&
-                  ((!cache[FLB_CACHE_LEVEL-1].valid)||(index4 > cache[FLB_CACHE_LEVEL-1].index));
+                  ((to_insert5 == 0)||(index4 > cache[to_insert5-1].index));
     add_pos4 = FLB_CACHE_LEVEL-1;
     for(int i = 0; i < FLB_CACHE_LEVEL; i++) begin
         if(cache[i].valid && (cache[i].index == index4) && valid4) begin
@@ -231,5 +258,14 @@ flb_refill_engine_bid refill_engine(
     .o_idx(r_engine_index),
     .o_found(r_engine_found)
 );
+
+// OUTPUT
+assign o_best_price = cache[0].index + (BASE_PRICE/100);
+assign o_best_price_quant = cache[0].quantity;
+assign o_best_valid = cache[0].valid;
+assign o_action = action5;
+assign o_current_quant = quantity5;
+assign o_valid = valid5;
+assign o_current_price = price5;
 
 endmodule

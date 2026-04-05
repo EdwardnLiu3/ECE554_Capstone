@@ -10,21 +10,20 @@ module tb_ob_flb;
     logic [PRICE_LEN-1:0] i_price;
     
 
-    ob_flb iDUT(
+    ob_flb_bid iDUT(
         .i_clk(i_clk),
         .i_rst_n(i_rst_n),
         .i_quantity(i_quantity),
         .i_action(i_action),
         .i_valid(i_valid),
         .i_price(i_price),
-        .i_side(1'b1),
         .o_valid(),
         .o_action(),
         .o_current_price(),
         .o_current_quant(),
         .o_best_price(),
         .o_best_price_quant(),
-        .o_total_quant()
+        .o_best_valid()
     );
 
 
@@ -91,6 +90,7 @@ module tb_ob_flb;
         send_op(CANCEL, 220, 900);
         send_op(CANCEL, 190, 1600);
         send_op(ADD, 110, 500);
+        send_op(ADD, 110, 400);
 
 
         

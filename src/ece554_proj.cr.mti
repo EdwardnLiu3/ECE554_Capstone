@@ -1,11 +1,4 @@
-C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_pkg.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_pkg.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling package ob_pkg
-
-Top level modules:
-	--none--
-
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv
+C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_opb.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling package tb_ob_opb_sv_unit
 -- Importing package ob_pkg
@@ -13,6 +6,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 
 Top level modules:
 	tb_ob_opb
+
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_pkg.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_pkg.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling package ob_pkg
+
+Top level modules:
+	--none--
 
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/orderbook_wrapper.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/orderbook_wrapper.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -23,14 +23,12 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	orderbook_wrapper
 
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_refill_engine.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_refill_engine.sv
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_lsb128.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_lsb128.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling package tb_refill_engine_sv_unit
--- Importing package ob_pkg
--- Compiling module tb_refill_engine
+-- Compiling module pe_msb128
 
 Top level modules:
-	tb_refill_engine
+	pe_msb128
 
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -41,19 +39,23 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	flb_refill_engine_bid
 
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_lsb128.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_lsb128.sv
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_refill_engine.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_refill_engine.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module pe_msb128
+-- Compiling package tb_refill_engine_sv_unit
+-- Importing package ob_pkg
+-- Compiling module tb_refill_engine
 
 Top level modules:
-	pe_msb128
+	tb_refill_engine
 
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module pe_msb128
+-- Compiling package tb_ob_flb_sv_unit
+-- Importing package ob_pkg
+-- Compiling module tb_ob_flb
 
 Top level modules:
-	pe_msb128
+	tb_ob_flb
 
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_opb.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/ob_opb.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -63,5 +65,12 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 
 Top level modules:
 	ob_opb
+
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module pe_msb128
+
+Top level modules:
+	pe_msb128
 
 } {} {}}
