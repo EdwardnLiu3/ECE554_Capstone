@@ -30,13 +30,16 @@ logic [QUANTITY_LEN-1:0]    quantity1, quantity2, quantity3;
 logic [QUANTITY_LEN-1:0]                            old_qty3, new_qty4;
 
 // cache
-flb_cache_packet_t          cache [0:FLB_CACHE_LEVEL-1];
-logic [NUM_LEVELS-1:0]      valid_table, cache_valid_table;
-logic                       cache_hit4;
-logic [CACHE_POS-1:0]       hit_pos4, to_insert5, add_pos4;
-logic [FLB_CACHE_LEVEL:0]   epoch5;
-logic                       add_2_cache;
-flb_cache_packet_t          tmp, carry;
+flb_cache_packet_t              cache [0:FLB_CACHE_LEVEL-1];
+logic [NUM_LEVELS-1:0]          valid_table, cache_valid_table;
+logic                           cache_hit4;
+logic [CACHE_POS-1:0]           hit_pos4, to_insert5, add_pos4;
+logic [FLB_CACHE_LEVEL:0]       epoch5, r_engine_epoch;
+logic                           add_2_cache;
+flb_cache_packet_t              add_tmp;
+logic                           cache_full;
+logic [$clog2(NUM_LEVELS)-1:0]  r_engine_index;
+logic                           r_engine_found;
 
 // pipeline valid bit
 always_ff @(posedge i_clk, negedge i_rst_n) begin
@@ -179,18 +182,32 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         cache[add_pos4].valid <= 1'b1;
         cache[add_pos4].index <= index4;
         cache[add_pos4].quantity <= new_qty4;
+        cache_valid_table[index4] <= 1'b1;
+        cache_valid_table[cache[FLB_CACHE_LEVEL-1].index] <= 1'b0;
         epoch5 <= epoch5 + 1'b1;
         if(to_insert5 < FLB_CACHE_LEVEL)
             to_insert5 <= to_insert5 + 1'b1;
+    end else begin
+        if(!cache_full && (epoch5 == r_engine_epoch) && r_engine_found) begin
+            cache[to_insert5].valid <= 1'b1;
+            cache[to_insert5].index <= r_engine_index;
+            cache[to_insert5].quantity <= FLB[r_engine_index];
+            epoch5 <= epoch5 + 1'b1;
+            cache_valid_table[r_engine_index] <= 1'b1;
+            to_insert5 <= to_insert5 + 1'b1;
+        end
     end
 end
+
+assign cache_full = to_insert5 == FLB_CACHE_LEVEL;
 
 // cache hit
 always_comb begin
     cache_hit4 = 0;
     hit_pos4 = '0;
-    add_2_cache = valid4 && ((!cache[FLB_CACHE_LEVEL-1].valid)
-                            ||(index4 > cache[FLB_CACHE_LEVEL-1].index));
+    add_2_cache = valid4 && 
+                  (action4 == ADD) &&
+                  ((!cache[FLB_CACHE_LEVEL-1].valid)||(index4 > cache[FLB_CACHE_LEVEL-1].index));
     add_pos4 = FLB_CACHE_LEVEL-1;
     for(int i = 0; i < FLB_CACHE_LEVEL; i++) begin
         if(cache[i].valid && (cache[i].index == index4) && valid4) begin
@@ -208,11 +225,11 @@ flb_refill_engine_bid refill_engine(
     .i_clk(i_clk),
     .i_rst_n(i_rst_n),
     .i_valid_table(valid_table),
-    .i_cache_valid_table(cache),
+    .i_cache_valid_table(cache_valid_table),
     .i_epoch(epoch5),
-    .o_epoch(),
-    .o_idx(),
-    .o_found()
-)
+    .o_epoch(r_engine_epoch),
+    .o_idx(r_engine_index),
+    .o_found(r_engine_found)
+);
 
 endmodule

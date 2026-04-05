@@ -79,14 +79,24 @@ module tb_ob_flb;
         send_op(ADD, 110, 900);
         send_op(ADD, 130, 1000);
         send_op(ADD, 190, 1100);
+        send_op(ADD, 190, 1300);
+        send_op(ADD, 190, 1400);
+        send_op(ADD, 190, 1500);
+        send_op(ADD, 190, 1600);
         send_op(ADD, 190, 100);
         send_op(CANCEL, 110, 500);
         send_op(CANCEL, 120, 800);
+        send_op(CANCEL, 150, 400);
+        send_op(CANCEL, 140, 700);
+        send_op(CANCEL, 220, 900);
+        send_op(CANCEL, 190, 1600);
+        send_op(ADD, 110, 500);
+
 
         
         @(posedge i_clk) i_valid = 0;
 
-        repeat(10) @(posedge i_clk);
+        repeat(30) @(posedge i_clk);
 
         $stop;
     end

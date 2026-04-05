@@ -257,3 +257,110 @@ run -all
 # ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_refill_engine.sv(59)
 #    Time: 185 ns  Iteration: 1  Instance: /tb_refill_engine
 # Break in Module tb_refill_engine at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_refill_engine.sv line 59
+# Compile of ob_flb.sv failed with 4 errors.
+# Compile of ob_flb.sv was successful.
+vsim -gui work.tb_ob_flb
+# End time: 23:49:04 on Apr 04,2026, Elapsed time: 1:00:59
+# Errors: 0, Warnings: 5
+# vsim -gui work.tb_ob_flb 
+# Start time: 23:49:04 on Apr 04,2026
+# Loading sv_std.std
+# Loading work.ob_pkg
+# Loading work.tb_ob_flb_sv_unit
+# Loading work.tb_ob_flb
+# Loading work.ob_flb_sv_unit
+# Loading work.ob_flb
+# Loading work.flb_refill_engine_bid_sv_unit
+# Loading work.flb_refill_engine_bid
+# Loading work.pe_msb128
+# ** Warning: (vsim-3015) [PCDPC] - Port size (7) does not match connection size (128) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_flb/iDUT/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (7) does not match connection size (128) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_flb/iDUT/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv Line: 28
+# WARNING: No extended dataflow license exists
+add wave -position insertpoint sim:/tb_ob_flb/iDUT/*
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: tyler_hyposvu  Hostname: TYLER  ProcessID: 49956
+#           Attempting to use alternate WLF file "./wlft660g0s".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlft660g0s
+add wave -position insertpoint  \
+sim:/tb_ob_flb/iDUT/cache
+run -all
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(91)
+#    Time: 325 ns  Iteration: 1  Instance: /tb_ob_flb
+# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 91
+# Compile of tb_ob_flb.sv was successful.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.tb_ob_flb_sv_unit
+# Loading work.tb_ob_flb
+# ** Warning: (vsim-3015) [PCDPC] - Port size (7) does not match connection size (128) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_flb/iDUT/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (7) does not match connection size (128) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_flb/iDUT/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv Line: 28
+run -all
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(91)
+#    Time: 525 ns  Iteration: 1  Instance: /tb_ob_flb
+# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 91
+# Compile of ob_flb.sv was successful.
+# Compile of tb_ob_flb.sv was successful.
+# 2 compiles, 0 failed with no errors.
+run -all
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.tb_ob_flb_sv_unit
+# Loading work.tb_ob_flb
+# Loading work.ob_flb_sv_unit
+# Loading work.ob_flb
+# ** Warning: (vsim-3015) [PCDPC] - Port size (7) does not match connection size (128) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_flb/iDUT/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (7) does not match connection size (128) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_flb/iDUT/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv Line: 28
+run -all
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(98)
+#    Time: 595 ns  Iteration: 1  Instance: /tb_ob_flb
+# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 98
+# Compile of tb_ob_flb.sv was successful.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.tb_ob_flb_sv_unit
+# Loading work.tb_ob_flb
+# ** Warning: (vsim-3015) [PCDPC] - Port size (7) does not match connection size (128) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_flb/iDUT/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (7) does not match connection size (128) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_flb/iDUT/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv Line: 28
+run -all
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(100)
+#    Time: 605 ns  Iteration: 1  Instance: /tb_ob_flb
+# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 100
+# Compile of ob_flb.sv was successful.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.ob_flb_sv_unit
+# Loading work.ob_flb
+# ** Warning: (vsim-3015) [PCDPC] - Port size (7) does not match connection size (128) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_flb/iDUT/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (7) does not match connection size (128) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_flb/iDUT/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv Line: 28
+run -all
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(100)
+#    Time: 605 ns  Iteration: 1  Instance: /tb_ob_flb
+# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 100
+# Compile of ob_flb.sv was successful.
+# Compile of tb_ob_flb.sv was successful.
+# 2 compiles, 0 failed with no errors.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.tb_ob_flb_sv_unit
+# Loading work.tb_ob_flb
+# Loading work.ob_flb_sv_unit
+# Loading work.ob_flb
+# ** Warning: (vsim-3015) [PCDPC] - Port size (7) does not match connection size (128) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_flb/iDUT/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (7) does not match connection size (128) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/pe_msb128.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_flb/iDUT/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/flb_refill_engine_bid.sv Line: 28
+run -all
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv(101)
+#    Time: 615 ns  Iteration: 1  Instance: /tb_ob_flb
+# Break in Module tb_ob_flb at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/src/tb_ob_flb.sv line 101
