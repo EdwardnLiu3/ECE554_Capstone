@@ -1,5 +1,5 @@
 import ob_pkg::*; 
-module ob_flb_bid #(parameter int BASE_PRICE = 0)(
+module ob_flb_ask #(parameter int BASE_PRICE = 0)(
     input logic                         i_clk,
     input logic                         i_rst_n,
     input logic [QUANTITY_LEN-1:0]      i_quantity,
@@ -181,10 +181,6 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
     end
 end
 
-//TODO: above are correct and tested 
-//TODO: think splittig the flb into 2 different module (bid&ask) above can stay the same
-// make this one bid
-
 // CACHE
 always_ff @(posedge i_clk, negedge i_rst_n) begin
     if(!i_rst_n) begin
@@ -242,7 +238,7 @@ always_comb begin
     hit_pos4 = '0;
     add_2_cache = valid4 && 
                   (action4 == ADD) &&
-                  ((to_insert5 == 0)||(index4 > cache[to_insert5-1].index));
+                  ((to_insert5 == 0)||(index4 < cache[to_insert5-1].index));
     add_pos4 = FLB_CACHE_LEVEL-1;
     for(int i = 0; i < FLB_CACHE_LEVEL; i++) begin
         if(cache[i].valid && (cache[i].index == index4) && valid4) begin
@@ -251,12 +247,12 @@ always_comb begin
         end
     end
     for(int i = FLB_CACHE_LEVEL-2; i >= 0; i--) begin
-        if(!cache[i].valid || (index4 > cache[i].index))
+        if(!cache[i].valid || (index4 < cache[i].index))
             add_pos4 = i[CACHE_POS-1:0];
     end
 end
 
-flb_refill_engine_bid refill_engine(
+flb_refill_engine_ask refill_engine(
     .i_clk(i_clk),
     .i_rst_n(i_rst_n),
     .i_valid_table(valid_table),

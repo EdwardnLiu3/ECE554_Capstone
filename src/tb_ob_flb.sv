@@ -10,7 +10,7 @@ module tb_ob_flb;
     logic [PRICE_LEN-1:0] i_price;
     
 
-    ob_flb_bid iDUT(
+    ob_flb_ask iDUT(
         .i_clk(i_clk),
         .i_rst_n(i_rst_n),
         .i_quantity(i_quantity),
@@ -63,36 +63,69 @@ module tb_ob_flb;
 
         // send operations every cycle
 
-        
-        send_op(ADD, 10, 100);
-        send_op(ADD, 140, 200);
-        send_op(ADD, 120, 300);
-        send_op(ADD, 30, 1200);
-        send_op(ADD, 120, 600);
-        send_op(ADD, 110, 900);
-        send_op(ADD, 110, 500);
-        send_op(ADD, 30, 1000);
-        send_op(ADD, 150, 400);
-        send_op(ADD, 140, 700);
-        send_op(ADD, 120, 800);
-        send_op(ADD, 110, 900);
-        send_op(ADD, 130, 1000);
-        send_op(ADD, 190, 1100);
-        send_op(ADD, 190, 1300);
-        send_op(ADD, 190, 1400);
-        send_op(ADD, 190, 1500);
-        send_op(ADD, 190, 1600);
-        send_op(ADD, 190, 100);
-        send_op(CANCEL, 110, 500);
-        send_op(CANCEL, 120, 800);
-        send_op(CANCEL, 150, 400);
-        send_op(CANCEL, 140, 700);
-        send_op(CANCEL, 220, 900);
-        send_op(CANCEL, 190, 1600);
-        send_op(ADD, 110, 500);
-        send_op(ADD, 110, 400);
+        // bid
+        // send_op(ADD, 10, 100);
+        // send_op(ADD, 140, 200);
+        // send_op(ADD, 120, 300);
+        // send_op(ADD, 30, 1200);
+        // send_op(ADD, 120, 600);
+        // send_op(ADD, 110, 900);
+        // send_op(ADD, 110, 500);
+        // send_op(ADD, 30, 1000);
+        // send_op(ADD, 150, 400);
+        // send_op(ADD, 140, 700);
+        // send_op(ADD, 120, 800);
+        // send_op(ADD, 110, 900);
+        // send_op(ADD, 130, 1000);
+        // send_op(ADD, 190, 1100);
+        // send_op(ADD, 190, 1300);
+        // send_op(ADD, 190, 1400);
+        // send_op(ADD, 190, 1500);
+        // send_op(ADD, 190, 1600);
+        // send_op(ADD, 190, 100);
+        // send_op(CANCEL, 110, 500);
+        // send_op(CANCEL, 120, 800);
+        // send_op(CANCEL, 150, 400);
+        // send_op(CANCEL, 140, 700);
+        // send_op(CANCEL, 220, 900);
+        // send_op(CANCEL, 190, 1600);
+        // send_op(ADD, 110, 500);
+        // send_op(ADD, 110, 400);
 
-
+        // ask
+        send_op(ADD, 10, 1600);
+        send_op(ADD, 10, 1600);
+        send_op(ADD, 10, 1600);
+        send_op(ADD, 10, 1600);
+        send_op(ADD, 10, 1600);
+        send_op(ADD, 10, 1600);
+        // send_op(ADD, 140, 1500);
+        // send_op(ADD, 120, 1400);
+        // send_op(ADD, 30, 1300);
+        // send_op(ADD, 120, 600);
+        // send_op(ADD, 110, 900);
+        // send_op(ADD, 110, 500);
+        // send_op(ADD, 30, 1000);
+        // send_op(ADD, 150, 400);
+        // send_op(ADD, 140, 900);
+        // send_op(ADD, 120, 800);
+        // send_op(ADD, 110, 700);
+        // send_op(ADD, 130, 900);
+        // send_op(ADD, 190, 400);
+        // send_op(ADD, 190, 300);
+        // send_op(ADD, 190, 200);
+        // send_op(ADD, 190, 100);
+        // send_op(ADD, 190, 900);
+        // send_op(ADD, 190, 1000);
+        // send_op(CANCEL, 110, 500);
+        // send_op(CANCEL, 120, 800);
+        // send_op(CANCEL, 340, 400);
+        // send_op(CANCEL, 110, 700);
+        // send_op(CANCEL, 220, 900);
+        // send_op(CANCEL, 120, 1400);
+        // send_op(CANCEL, 190, 100);
+        // send_op(ADD, 110, 500);
+        // send_op(ADD, 110, 400);
         
         @(posedge i_clk) i_valid = 0;
 

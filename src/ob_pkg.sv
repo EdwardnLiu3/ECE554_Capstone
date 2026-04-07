@@ -1,7 +1,7 @@
 package ob_pkg;
 
-    parameter int ORDERID_LEN = 3;
-    parameter int PRICE_LEN = 11;
+    parameter int ORDERID_LEN = 8;
+    parameter int PRICE_LEN = 12;
     parameter int QUANTITY_LEN = 11;
     parameter int TOT_QUATITY_LEN = 22;
     parameter int NUM_LEVELS = 16384;
@@ -14,6 +14,10 @@ package ob_pkg;
     parameter CANCEL = 2'b01;
     parameter EXECUTE = 2'b10;
     parameter DELETE = 2'b11;
+
+    //side
+    parameter BID = 1'b0;
+    parameter ASK = 1'b1;
     
 
     typedef struct packed {

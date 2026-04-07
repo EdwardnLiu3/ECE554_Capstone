@@ -32,11 +32,11 @@ logic [OPB_DEPTH-1:0]valid_table;
 ob_packet_t packet_in;
 
 // action status
-logic add, cancel, execute, delete;
-assign add = (i_action == ADD);
-assign cancel = (i_action == CANCEL);
-assign execute = (i_action == EXECUTE);
-assign delete = (i_action == DELETE);
+logic is_add, is_cancel, is_execute, is_delete;
+assign is_add = (i_action == ADD);
+assign is_cancel = (i_action == CANCEL);
+assign is_execute = (i_action == EXECUTE);
+assign is_delete = (i_action == DELETE);
 
 // updated packet if it is the given orderid is canceled or executed
 ob_packet_t                 packet_out, packet_delete;
@@ -71,8 +71,10 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         o_action <= p_action;
         o_valid <= p_valid;
         o_quantity <= p_quantity;
-        if(p_action == add) begin
+        if(p_action == ADD) begin
             o_price <= p_price;
+        end else if(p_action == DELETE) begin
+            o_price <= packet_delete.price;
         end else begin
             o_price <= packet_out.price;
         end
@@ -91,7 +93,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         p_add <= 0;
     end else begin
         p_add <= 0;
-        if(add && i_valid) begin
+        if(is_add && i_valid) begin
             p_add <= 1;
             packet_in <= '{price:i_price, quantity:i_quantity};
         end
@@ -107,12 +109,16 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         quantity_to_remove <= '0;
     end else begin
         p_exec_cancel <= 0;
-        if((cancel || execute) && i_valid && valid_table[i_order_id]) begin
-            packet_out <= OPB[i_order_id];
+        if((is_cancel || is_execute) && i_valid) begin
+            if(p_add && (p_order_id == i_order_id)) begin
+                packet_out <= packet_in;
+            end else begin
+                packet_out <= OPB[i_order_id];
+            end
             p_exec_cancel <= 1;
         end
         if (p_exec_cancel) begin
-            if((cancel || execute) && (p_order_id == i_order_id)) begin
+            if((is_cancel || is_execute) && (p_order_id == i_order_id)) begin
                 quantity_to_remove <= quantity_to_remove + p_quantity;
             end else begin
                 if (packet_out.quantity <= (quantity_to_remove + p_quantity)) begin
@@ -131,27 +137,31 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         p_delete <= 0;
     end else begin
         p_delete <= 0;
-        if(delete && i_valid && valid_table[i_order_id]) begin
+        if(is_delete && i_valid) begin
             p_delete <= 1;
-            packet_delete <= OPB[i_order_id];
+            if(p_add && (p_order_id == i_order_id)) begin
+                packet_delete <= packet_in;
+            end else begin
+                packet_delete <= OPB[i_order_id];
+            end
         end
     end
 end
 
-// valid table
-always_ff @(posedge i_clk, negedge i_rst_n) begin
-    if(!i_rst_n)
-        valid_table <= '0;
-    else begin
-        if(p_delete) begin
-            valid_table[p_order_id] <= 0;
-        end else if(p_exec_cancel && (packet_out.quantity <= (quantity_to_remove + p_quantity))) begin
-            valid_table[p_order_id] <= 0;
-        end else if(p_add) begin
-            valid_table[p_order_id] <= 1;
-        end
-    end
-end
+// // valid table
+// always_ff @(posedge i_clk, negedge i_rst_n) begin
+//     if(!i_rst_n)
+//         valid_table <= '0;
+//     else begin
+//         if(p_delete) begin
+//             valid_table[p_order_id] <= 0;
+//         end else if(p_exec_cancel && (packet_out.quantity <= (quantity_to_remove + p_quantity))) begin
+//             valid_table[p_order_id] <= 0;
+//         end else if(p_add) begin
+//             valid_table[p_order_id] <= 1;
+//         end
+//     end
+// end
 
 
 
