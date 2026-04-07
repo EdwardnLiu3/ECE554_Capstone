@@ -1,4 +1,4 @@
-module pe_msb128(
+module pe_lsb128(
     input logic [127:0] i_data,
     output logic        o_found,
     output logic [6:0]  o_idx
