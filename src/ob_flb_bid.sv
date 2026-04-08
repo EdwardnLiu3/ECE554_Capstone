@@ -163,7 +163,9 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
 end
 
 always_ff @(posedge i_clk, negedge i_rst_n) begin
-    if(valid4) begin
+    if(!i_rst_n) begin
+        new_qty5 <= '0;
+    end else if(valid4) begin
         FLB[index4] <= new_qty4;
         new_qty5 <= new_qty4;
     end
@@ -181,10 +183,6 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
     end
 end
 
-//TODO: above are correct and tested 
-//TODO: think splittig the flb into 2 different module (bid&ask) above can stay the same
-// make this one bid
-
 // CACHE
 always_ff @(posedge i_clk, negedge i_rst_n) begin
     if(!i_rst_n) begin
@@ -198,8 +196,9 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         cache_valid_table <= '0;
     end else if(cache_hit4) begin
         if(new_qty4 == 0) begin
-            for(int i = hit_pos4; i < FLB_CACHE_LEVEL-1; i++) begin
-                cache[i] <= cache[i+1];
+            for(int i = 0; i < FLB_CACHE_LEVEL-1; i++) begin
+                if(i >= hit_pos4)
+                    cache[i] <= cache[i+1];
             end 
             cache[FLB_CACHE_LEVEL-1].valid <= 1'b0;
             cache[FLB_CACHE_LEVEL-1].quantity <= '0;
@@ -212,8 +211,9 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
             cache[hit_pos4].quantity <= new_qty4;
         end
     end else if(add_2_cache) begin
-        for(int i = FLB_CACHE_LEVEL-1; i > add_pos4; i--) begin
-            cache[i] <= cache[i-1];
+        for(int i = FLB_CACHE_LEVEL-1; i > 0; i--) begin
+            if(i > add_pos4)
+                cache[i] <= cache[i-1];
         end
         cache[add_pos4].valid <= 1'b1;
         cache[add_pos4].index <= index4;

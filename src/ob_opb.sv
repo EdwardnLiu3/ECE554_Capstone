@@ -24,9 +24,6 @@ module ob_opb(
 // OPB: use orderid as index and store the price and quantity of the given 
 // (* ram_style = "block" *) ob_packet_t OPB [0:OPB_DEPTH-1];
 ob_packet_t OPB [0:OPB_DEPTH-1];
-// this table track tif each entry is valid (purpose: not reset bram when rst_n)
-logic [OPB_DEPTH-1:0]valid_table;
-
 
 // packet being fed from prev cycle (only used when it is an add order)
 ob_packet_t packet_in;
@@ -41,6 +38,8 @@ assign is_delete = (i_action == DELETE);
 // updated packet if it is the given orderid is canceled or executed
 ob_packet_t                 packet_out, packet_delete;
 logic [QUANTITY_LEN-1:0]    quantity_to_remove;
+logic                       delete_special_case; // this is when previous execute and delete are the same orderid
+logic [QUANTITY_LEN-1:0]    delete_special_case_quant; // store the delete special case quant
 
 //pipeline vars
 logic [QUANTITY_LEN-1:0]    p_quantity;
@@ -79,7 +78,11 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
             o_price <= packet_out.price;
         end
         if(p_action == DELETE) begin
-            o_quantity <= packet_delete.quantity;
+            if(delete_special_case) begin
+                o_quantity <= delete_special_case_quant;
+            end else begin
+                o_quantity <= packet_delete.quantity;
+            end
         end else begin
             o_quantity <= p_quantity;
         end
@@ -87,83 +90,61 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
 end
 
 
-// add order
-always_ff @(posedge i_clk, negedge i_rst_n) begin
+// first cycle
+always_ff@(posedge i_clk, negedge i_rst_n) begin
     if(!i_rst_n) begin
         p_add <= 0;
+        p_exec_cancel <= 0;
+        delete_special_case <= 0;
     end else begin
         p_add <= 0;
+        p_exec_cancel <= 0;
+        delete_special_case <= 0;
         if(is_add && i_valid) begin
             p_add <= 1;
             packet_in <= '{price:i_price, quantity:i_quantity};
-        end
-        if(p_add)
-            OPB[p_order_id] <= packet_in;
-    end
-end
-
-// cancel and execute order
-always_ff @(posedge i_clk, negedge i_rst_n) begin
-    if(!i_rst_n) begin
-        p_exec_cancel <= 0;
-        quantity_to_remove <= '0;
-    end else begin
-        p_exec_cancel <= 0;
-        if((is_cancel || is_execute) && i_valid) begin
+        end else if((is_cancel || is_execute) && i_valid) begin
             if(p_add && (p_order_id == i_order_id)) begin
                 packet_out <= packet_in;
             end else begin
                 packet_out <= OPB[i_order_id];
             end
             p_exec_cancel <= 1;
-        end
-        if (p_exec_cancel) begin
-            if((is_cancel || is_execute) && (p_order_id == i_order_id)) begin
-                quantity_to_remove <= quantity_to_remove + p_quantity;
-            end else begin
-                if (packet_out.quantity <= (quantity_to_remove + p_quantity)) begin
-                    OPB[p_order_id].quantity <= '0;
-                end else begin
-                    OPB[p_order_id].quantity <= packet_out.quantity - quantity_to_remove - p_quantity;
-                end
-            end
-        end
-    end
-end
-
-// delete order (and valid table)
-always_ff @(posedge i_clk, negedge i_rst_n) begin
-    if(!i_rst_n) begin
-        p_delete <= 0;
-    end else begin
-        p_delete <= 0;
-        if(is_delete && i_valid) begin
-            p_delete <= 1;
+        end else if(is_delete && i_valid) begin
             if(p_add && (p_order_id == i_order_id)) begin
                 packet_delete <= packet_in;
             end else begin
                 packet_delete <= OPB[i_order_id];
             end
+            if((p_exec_cancel) && (p_order_id == i_order_id)) begin
+                delete_special_case <= 1'b1;
+            end 
         end
     end
 end
 
-// // valid table
-// always_ff @(posedge i_clk, negedge i_rst_n) begin
-//     if(!i_rst_n)
-//         valid_table <= '0;
-//     else begin
-//         if(p_delete) begin
-//             valid_table[p_order_id] <= 0;
-//         end else if(p_exec_cancel && (packet_out.quantity <= (quantity_to_remove + p_quantity))) begin
-//             valid_table[p_order_id] <= 0;
-//         end else if(p_add) begin
-//             valid_table[p_order_id] <= 1;
-//         end
-//     end
-// end
-
-
-
+// second cycle
+always_ff @(posedge i_clk, negedge i_rst_n) begin
+    if(!i_rst_n) begin
+        quantity_to_remove <= '0;
+    end else begin
+        if(p_add) begin
+            OPB[p_order_id] <= packet_in;
+        end else if(p_exec_cancel) begin
+            if((is_cancel || is_execute) && (p_order_id == i_order_id) && (i_valid)) begin
+                quantity_to_remove <= quantity_to_remove + p_quantity;
+            end else begin
+                quantity_to_remove <= '0;
+                delete_special_case_quant <= '0;
+                if (packet_out.quantity <= (quantity_to_remove + p_quantity)) begin
+                    OPB[p_order_id].quantity <= '0;
+                end else begin
+                    OPB[p_order_id].quantity <= packet_out.quantity - quantity_to_remove - p_quantity;
+                    delete_special_case_quant <= packet_out.quantity - quantity_to_remove - p_quantity;
+                end
+            end
+        end
+    end
+end
 
 endmodule
