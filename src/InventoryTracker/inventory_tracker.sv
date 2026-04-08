@@ -1,6 +1,7 @@
-// simple inventory track for each single stock, this module will get information from execution tracker: when on of our quotes fills, 
-//we get a pulse with the side, price, and quantity of the fill. We will keep a running total of our inventory position and day cash P/L for this stock. 
-// This gets used by both risk management and trading logic. Inventory tracking will also be done in software, we will need to verify same results. 
+// Simple inventory tracker for one stock.
+// When one of our quotes fills, execution tracker sends a one-cycle pulse
+// with side, price, and quantity. We keep running inventory position and
+// day cash P/L for use by risk management and trading logic (maybe)
 module inventory_tracker #(
     parameter int PRICE_LEN = 32,
     parameter int QUANTITY_LEN = 16,
@@ -10,89 +11,46 @@ module inventory_tracker #(
 ) (
     input  logic                            i_clk,
     input  logic                            i_rst_n,
-
-    // One-cycle pulse from the execution tracker when one of our quotes fills.
+    // Fill from execution tracker
     input  logic                            i_exec_valid,
-    input  logic                            i_exec_side,      // 0 = bid/buy fill, 1 = ask/sell fill
-    input  logic [PRICE_LEN-1:0]            i_exec_price,     // cents per share
-    input  logic [QUANTITY_LEN-1:0]         i_exec_quantity,  // shares filled
-
-    // Current inventory and day cash P/L for this stock.
+    input  logic                            i_exec_side,      // 0 = buy fill, 1 = sell fill
+    input  logic [PRICE_LEN-1:0]            i_exec_price,
+    input  logic [QUANTITY_LEN-1:0]         i_exec_quantity,
+    // Current position and day cash Profit/loss
     output logic signed [POSITION_LEN-1:0]  o_position,
     output logic signed [PNL_LEN-1:0]       o_day_pnl
 );
 
-// Cash P/L convention:
-//   buy fill  -> spend cash, so P/L decreases by price * quantity
-//   sell fill -> receive cash, so P/L increases by price * quantity
-// This is meant to be simple and since for hft we worry about profits from quick trading back and forth, 
-// we are only tracking cash P?L right now as this is simpler and more relevant for our use case. 
-// If we want to do realized and unrealized P/L tracking we can add that later, but it will require more complexity around tracking the cost basis of inventory and marking to market.
+logic signed [POSITION_LEN-1:0] position_reg;
+logic signed [PNL_LEN-1:0]      day_pnl_reg;
+logic signed [POSITION_LEN:0]   qty_signed;
+logic signed [PNL_LEN-1:0]      exec_notional_pnl;
 
-logic signed [POSITION_LEN-1:0] position_reg, position_next;
-logic signed [PNL_LEN-1:0] day_pnl_reg, day_pnl_next;
-logic [PRICE_LEN+QUANTITY_LEN-1:0] exec_notional;
+// notional meaning we care about the cash value of the fill, not just the shares. For example, a buy fill of 100 shares at $10 has a notional of $1000, which is what we care about for P/L calculations.
+// Quantity and fill notional widened to signed values for the math
+assign qty_signed = $signed({1'b0, i_exec_quantity});
+assign exec_notional_pnl = $signed(i_exec_price * i_exec_quantity);
 
-// Helper function to convert quantity to position change, handling potential width differences.
-function automatic logic signed [POSITION_LEN-1:0] qty_to_position(
-    input logic [QUANTITY_LEN-1:0] qty
-);
-    logic [POSITION_LEN-1:0] tmp;
-    begin
-        tmp = '0;
-        for (int i = 0; i < POSITION_LEN && i < QUANTITY_LEN; i++) begin
-            tmp[i] = qty[i];
-        end
-        qty_to_position = $signed(tmp);
-    end
-endfunction
-
-// Helper function to convert notional value to P/L, handling potential width differences.
-function automatic logic signed [PNL_LEN-1:0] notional_to_pnl(
-    input logic [PRICE_LEN+QUANTITY_LEN-1:0] notional
-);
-    logic [PNL_LEN-1:0] tmp;
-    begin
-        tmp = '0;
-        for (int i = 0; i < PNL_LEN && i < (PRICE_LEN+QUANTITY_LEN); i++) begin
-            tmp[i] = notional[i];
-        end
-        notional_to_pnl = $signed(tmp);
-    end
-endfunction
-
-// Combinational logic to calculate next position and P/L based on current state and incoming execution.
-always_comb begin
-    position_next = position_reg;
-    day_pnl_next = day_pnl_reg;
-    exec_notional = i_exec_price * i_exec_quantity;
-
-    if (i_exec_valid) begin
-        if (!i_exec_side) begin
-            // Buy fill: inventory increases and cash P/L decreases.
-            position_next = position_reg + qty_to_position(i_exec_quantity);
-            day_pnl_next = day_pnl_reg - notional_to_pnl(exec_notional);
-        end else begin
-            // Sell fill: inventory decreases and cash P/L increases.
-            position_next = position_reg - qty_to_position(i_exec_quantity);
-            day_pnl_next = day_pnl_reg + notional_to_pnl(exec_notional);
-        end
-    end
-end
-
-// Just a reset handling flop
 always_ff @(posedge i_clk or negedge i_rst_n) begin
     if (!i_rst_n) begin
         position_reg <= STARTING_POSITION;
-        day_pnl_reg <= '0;
-    end else begin
-        position_reg <= position_next;
-        day_pnl_reg <= day_pnl_next;
+        day_pnl_reg  <= '0;
+    end
+    else if (i_exec_valid) begin
+        if (!i_exec_side) begin
+            // Buy fill: add shares, spend cash.
+            position_reg <= position_reg + qty_signed[POSITION_LEN-1:0];
+            day_pnl_reg  <= day_pnl_reg - exec_notional_pnl;
+        end
+        else begin
+            // Sell fill: remove shares, receive cash.
+            position_reg <= position_reg - qty_signed[POSITION_LEN-1:0];
+            day_pnl_reg  <= day_pnl_reg + exec_notional_pnl;
+        end
     end
 end
 
-// outputs are just the current state of our position and P/L registers
 assign o_position = position_reg;
-assign o_day_pnl = day_pnl_reg;
+assign o_day_pnl  = day_pnl_reg;
 
 endmodule
