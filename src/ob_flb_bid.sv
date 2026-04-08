@@ -106,7 +106,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         price2 <= price1;
         price3 <= price2;
         price4 <= price3;
-        price5 <= price4;
+        price5 <= price4 / 100;
     end
 end
 
@@ -197,7 +197,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
     end else if(cache_hit4) begin
         if(new_qty4 == 0) begin
             for(int i = 0; i < FLB_CACHE_LEVEL-1; i++) begin
-                if(i >= hit_pos4)
+                if(i >= hit_pos4) 
                     cache[i] <= cache[i+1];
             end 
             cache[FLB_CACHE_LEVEL-1].valid <= 1'b0;

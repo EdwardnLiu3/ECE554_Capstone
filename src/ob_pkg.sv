@@ -1,11 +1,11 @@
 package ob_pkg;
 
-    parameter int ORDERID_LEN = 8;
-    parameter int PRICE_LEN = 12;
-    parameter int QUANTITY_LEN = 11;
-    parameter int TOT_QUATITY_LEN = 22;
+    parameter int ORDERID_LEN = 3;
+    parameter int PRICE_LEN = 10;
+    parameter int QUANTITY_LEN = 7;
+    parameter int TOT_QUATITY_LEN = 16;
     parameter int NUM_LEVELS = 16384;
-    parameter int FLB_CACHE_LEVEL = 10;
+    parameter int FLB_CACHE_LEVEL = 5;
     parameter int CACHE_POS = $clog2(FLB_CACHE_LEVEL);
     parameter int V_TABLE_IDX = $clog2(NUM_LEVELS);
 

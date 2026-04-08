@@ -22,8 +22,8 @@ module ob_opb(
 ); 
 
 // OPB: use orderid as index and store the price and quantity of the given 
-(* ram_style = "block" *) ob_packet_t OPB [0:OPB_DEPTH-1];
-// ob_packet_t OPB [0:OPB_DEPTH-1];
+// (* ram_style = "block" *) ob_packet_t OPB [0:OPB_DEPTH-1];
+ob_packet_t OPB [0:OPB_DEPTH-1];
 
 // packet being fed from prev cycle (only used when it is an add order)
 ob_packet_t packet_in;

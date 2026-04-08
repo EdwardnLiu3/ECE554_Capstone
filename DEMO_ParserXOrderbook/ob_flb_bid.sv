@@ -106,7 +106,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         price2 <= price1;
         price3 <= price2;
         price4 <= price3;
-        price5 <= price4;
+        price5 <= price4 / 100;
     end
 end
 

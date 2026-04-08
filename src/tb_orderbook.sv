@@ -78,25 +78,15 @@ module tb_orderbook();
         repeat(5) @(posedge i_clk);
         i_rst_n = 1;
 
-
-        send_op(BID, 1, ADD, 1000, 100); 
-        send_op(BID, 2, ADD, 1000, 90);
-        send_op(BID, 3, ADD, 900, 120);
-        send_op(BID, 3, CANCEL, 0, 100);
-        send_op(BID, 4, ADD, 1100, 900);
-        // send_op(ASK, 1, ADD, 2100, 100);
-        // send_op(ASK, 2, ADD, 2200, 90);
-        // send_op(ASK, 3, ADD, 2100, 1000);
-        send_op(BID, 4, EXECUTE, 0, 900);
-        send_op(BID, 1, DELETE, 0, 0);
-        // send_op(ASK, 1, EXECUTE, 0, 20);
-        // send_op(ASK, 1, EXECUTE, 0, 50);
-        // send_op(ASK, 1, DELETE, 0, 0);
-        // send_op(ASK, 3, CANCEL, 0, 100);
-        // send_op(ASK, 3, CANCEL, 0, 300);
-        // send_op(ASK, 3, CANCEL, 0, 400);
-        // send_op(ASK, 3, DELETE, 0, 10);
-
+        send_op(BID, 0, ADD, 100, 2); 
+        send_op(BID, 4, ADD, 800, 4); 
+        send_op(BID, 5, ADD, 800, 4);
+        send_op(BID, 6, ADD, 700, 3);
+        send_op(BID, 6, EXECUTE, 0, 1);
+        send_op(BID, 6, EXECUTE, 0, 1);
+        send_op(BID, 6, EXECUTE, 0, 1);
+        send_op(BID, 4, DELETE, 0, 0); 
+        send_op(BID, 5, DELETE, 0, 0);
         @(posedge i_clk) i_valid = 0;
         repeat(30) @(posedge i_clk);
         $stop;

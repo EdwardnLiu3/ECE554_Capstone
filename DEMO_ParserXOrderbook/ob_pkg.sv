@@ -1,7 +1,7 @@
 package ob_pkg;
 
     parameter int ORDERID_LEN = 3;
-    parameter int PRICE_LEN = 5;
+    parameter int PRICE_LEN = 10;
     parameter int QUANTITY_LEN = 7;
     parameter int TOT_QUATITY_LEN = 16;
     parameter int NUM_LEVELS = 16384;
