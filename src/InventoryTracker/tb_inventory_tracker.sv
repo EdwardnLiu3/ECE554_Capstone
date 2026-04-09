@@ -18,15 +18,12 @@ module tb_inventory_tracker;
     logic signed [POSITION_LEN-1:0] position;
     logic signed [PNL_LEN-1:0] day_pnl;
 
-    integer pass_count;
-    integer fail_count;
-
     inventory_tracker #(
         .PRICE_LEN(PRICE_LEN),
         .QUANTITY_LEN(QUANTITY_LEN),
         .POSITION_LEN(POSITION_LEN),
         .PNL_LEN(PNL_LEN),
-        .STARTING_POSITION(16'sd100)
+        .STARTING_POSITION(16'sd0)
     ) idut (
         .i_clk(clk),
         .i_rst_n(rst_n),
@@ -51,12 +48,10 @@ module tb_inventory_tracker;
     endtask
 
     initial begin
-        pass_count = 0;
-        fail_count = 0;
         rst_n = 1'b1;
         clear_exec();
 
-        // Test 1: Reset should load starting position and clear day pnl.
+        // test 1
         $display("Test 1: reset behavior");
         @(negedge clk);
         rst_n = 1'b0;
@@ -65,24 +60,11 @@ module tb_inventory_tracker;
         rst_n = 1'b1;
         @(posedge clk);
         #1;
-        if (position == 16'sd100) begin
-            $display("PASS: reset loads starting position");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: reset loads starting position");
-            fail_count = fail_count + 1;
-        end
-        if (day_pnl == 64'sd0) begin
-            $display("PASS: reset clears day pnl");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: reset clears day pnl");
-            fail_count = fail_count + 1;
-        end
+        if (position !== 16'sd0) $fatal(1, "Test 1 failed: reset should load starting position");
+        if (day_pnl !== 64'sd0)  $fatal(1, "Test 1 failed: reset should clear day pnl");
+        $display("PASS");
 
-        // Test 2: Buy 10 shares at 500 cents.
-        // Position should go from 100 to 110.
-        // Cash pnl should go from 0 to -5000.
+        //test2
         $display("Test 2: buy fill updates position and pnl");
         @(negedge clk);
         exec_valid    = 1'b1;
@@ -91,26 +73,13 @@ module tb_inventory_tracker;
         exec_quantity = 16'd10;
         @(posedge clk);
         #1;
-        if (position == 16'sd110) begin
-            $display("PASS: buy fill updates position");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: buy fill updates position");
-            fail_count = fail_count + 1;
-        end
-        if (day_pnl == -64'sd5000) begin
-            $display("PASS: buy fill updates pnl");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: buy fill updates pnl");
-            fail_count = fail_count + 1;
-        end
+        if (position !== 16'sd10)     $fatal(1, "Test 2 failed: buy fill should update position");
+        if (day_pnl !== -64'sd5000)   $fatal(1, "Test 2 failed: buy fill should update pnl");
+        $display("PASS");
         @(negedge clk);
         clear_exec();
 
-        // Test 3: Sell 20 shares at 600 cents.
-        // Position should go from 110 to 90.
-        // Cash pnl should go from -5000 to 7000.
+        // Test 3
         $display("Test 3: sell fill updates position and pnl");
         @(negedge clk);
         exec_valid    = 1'b1;
@@ -119,45 +88,22 @@ module tb_inventory_tracker;
         exec_quantity = 16'd20;
         @(posedge clk);
         #1;
-        if (position == 16'sd90) begin
-            $display("PASS: sell fill updates position");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: sell fill updates position");
-            fail_count = fail_count + 1;
-        end
-        if (day_pnl == 64'sd7000) begin
-            $display("PASS: sell fill updates pnl");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: sell fill updates pnl");
-            fail_count = fail_count + 1;
-        end
+
+        if (position !== -16'sd10)    $fatal(1, "Test 3 failed: sell fill should update position");
+        if (day_pnl !== 64'sd7000)    $fatal(1, "Test 3 failed: sell fill should update pnl");
+        $display("PASS");
         @(negedge clk);
         clear_exec();
 
-        // Test 4: No fill for a couple cycles should not change state.
+        // Test 4
         $display("Test 4: idle cycles do not change state");
         repeat (2) @(posedge clk);
         #1;
-        if (position == 16'sd90) begin
-            $display("PASS: idle cycles keep position the same");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: idle cycles keep position the same");
-            fail_count = fail_count + 1;
-        end
-        if (day_pnl == 64'sd7000) begin
-            $display("PASS: idle cycles keep pnl the same");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: idle cycles keep pnl the same");
-            fail_count = fail_count + 1;
-        end
+        if (position !== -16'sd10)    $fatal(1, "Test 4 failed: idle cycles should keep position the same");
+        if (day_pnl !== 64'sd7000)    $fatal(1, "Test 4 failed: idle cycles should keep pnl the same");
+        $display("PASS");
 
-        // Test 5: Sell 100 shares at 700 cents.
-        // This should move us short from 90 to -10.
-        // Cash pnl should increase from 7000 to 77000.
+        // Test 5
         $display("Test 5: sell fill can move inventory short");
         @(negedge clk);
         exec_valid    = 1'b1;
@@ -166,26 +112,13 @@ module tb_inventory_tracker;
         exec_quantity = 16'd100;
         @(posedge clk);
         #1;
-        if (position == -16'sd10) begin
-            $display("PASS: sell fill moves position short");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: sell fill moves position short");
-            fail_count = fail_count + 1;
-        end
-        if (day_pnl == 64'sd77000) begin
-            $display("PASS: sell fill into short updates pnl");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: sell fill into short updates pnl");
-            fail_count = fail_count + 1;
-        end
+        if (position !== -16'sd110)   $fatal(1, "Test 5 failed: sell fill should move position short");
+        if (day_pnl !== 64'sd77000)   $fatal(1, "Test 5 failed: sell fill into short should update pnl");
+        $display("PASS");
         @(negedge clk);
         clear_exec();
 
-        // Test 6: Buy 5 shares at 650 cents while short.
-        // Position should go from -10 to -5.
-        // Cash pnl should go from 77000 to 73750.
+        // Test 6
         $display("Test 6: buy fill while short updates correctly");
         @(negedge clk);
         exec_valid    = 1'b1;
@@ -194,25 +127,12 @@ module tb_inventory_tracker;
         exec_quantity = 16'd5;
         @(posedge clk);
         #1;
-        if (position == -16'sd5) begin
-            $display("PASS: buy while short updates position");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: buy while short updates position");
-            fail_count = fail_count + 1;
-        end
-        if (day_pnl == 64'sd73750) begin
-            $display("PASS: buy while short updates pnl");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: buy while short updates pnl");
-            fail_count = fail_count + 1;
-        end
+        if (position !== -16'sd105)   $fatal(1, "Test 6 failed: buy while short should update position");
+        if (day_pnl !== 64'sd73750)   $fatal(1, "Test 6 failed: buy while short should update pnl");
+        $display("PASS");
         @(negedge clk);
         clear_exec();
-
-        // Test 7: Reset again after activity.
-        // Should return to starting position and zero pnl.
+        //test 7
         $display("Test 7: reset after activity restores initial state");
         @(negedge clk);
         rst_n = 1'b0;
@@ -221,31 +141,12 @@ module tb_inventory_tracker;
         rst_n = 1'b1;
         @(posedge clk);
         #1;
-        if (position == 16'sd100) begin
-            $display("PASS: second reset restores starting position");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: second reset restores starting position");
-            fail_count = fail_count + 1;
-        end
-        if (day_pnl == 64'sd0) begin
-            $display("PASS: second reset clears day pnl");
-            pass_count = pass_count + 1;
-        end else begin
-            $display("FAIL: second reset clears day pnl");
-            fail_count = fail_count + 1;
-        end
-
+        if (position !== 16'sd0) $fatal(1, "Test 7 failed: second reset should restore starting position");
+        if (day_pnl !== 64'sd0)  $fatal(1, "Test 7 failed: second reset should clear day pnl");
+        $display("PASS");
 
         $display("");
-        $display("Inventory tracker test summary");
-        $display("  PASS = %0d", pass_count);
-        $display("  FAIL = %0d", fail_count);
-        if (fail_count == 0) begin
-            $display("All inventory tracker checks passed.");
-        end else begin
-            $fatal(1, "Inventory tracker testbench failed with %0d failing checks.", fail_count);
-        end
+        $display("YAHOO ALL TESTS PASSED");
         $finish;
     end
 

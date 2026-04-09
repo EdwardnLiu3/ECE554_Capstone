@@ -7,7 +7,7 @@ module inventory_tracker #(
     parameter int QUANTITY_LEN = 16,
     parameter int POSITION_LEN = 16,
     parameter int PNL_LEN = 64,
-    parameter logic signed [POSITION_LEN-1:0] STARTING_POSITION = 16'sd100
+    parameter logic signed [POSITION_LEN-1:0] STARTING_POSITION = 16'sd0
 ) (
     input  logic                            i_clk,
     input  logic                            i_rst_n,
@@ -49,7 +49,6 @@ always_ff @(posedge i_clk or negedge i_rst_n) begin
         end
     end
 end
-
 assign o_position = position_reg;
 assign o_day_pnl  = day_pnl_reg;
 
