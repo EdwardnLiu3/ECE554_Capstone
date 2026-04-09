@@ -22,13 +22,14 @@ module volatility_ewma (
     //Scale up since its a decimal
     logic [49:0] new_sq_scaled;
     assign new_sq_scaled = {delta_sq, 16'h0000}; //should be in Q32.16
-    logic [65:0] term_new_full;
-    assign term_new_full = lambda * new_sq_scaled;
-
-    logic [16:0] one_minus_lambda; //should be 1 in Q1.16
-    logic [64:0] term_old_full;
+    logic [16:0] one_minus_lambda; //Q1.16
     assign one_minus_lambda = 17'h10000 - {1'b0, lambda};
-    assign term_old_full   = one_minus_lambda * sigma_reg;
+
+    logic [65:0] term_new_full;
+    assign term_new_full = one_minus_lambda * new_sq_scaled;
+
+    logic [64:0] term_old_full;
+    assign term_old_full = lambda * sigma_reg;
     
     logic [47:0] term_new_shifted;
     logic [47:0] term_old_shifted;
