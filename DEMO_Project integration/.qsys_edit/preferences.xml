@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences>
+ <debug showDebugMenu="0" />
+ <systemtable filter="All Interfaces">
+  <columns>
+   <connections preferredWidth="223" />
+   <irq preferredWidth="63" />
+  </columns>
+ </systemtable>
+ <library expandedCategories="Project/Custom IP,Library,Project" />
+ <window width="1214" height="943" x="1129" y="184" />
+</preferences>
