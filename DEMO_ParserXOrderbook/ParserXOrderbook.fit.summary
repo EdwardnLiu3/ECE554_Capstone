@@ -1,17 +1,17 @@
-Fitter Status : Successful - Wed Apr  8 14:35:47 2026
+Fitter Status : Successful - Sun Apr 12 19:04:20 2026
 Quartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 Revision Name : ParserXOrderbook
 Top-level Entity Name : ParserXOrderbook
 Family : Cyclone V
 Device : 5CSEMA5F31C6
 Timing Models : Final
-Logic utilization (in ALMs) : 439 / 32,070 ( 1 % )
-Total registers : 588
+Logic utilization (in ALMs) : 26,436 / 32,070 ( 82 % )
+Total registers : 55229
 Total pins : 70 / 457 ( 15 % )
 Total virtual pins : 0
-Total block memory bits : 260 / 4,065,280 ( < 1 % )
+Total block memory bits : 12,428 / 4,065,280 ( < 1 % )
 Total RAM Blocks : 3 / 397 ( < 1 % )
-Total DSP Blocks : 1 / 87 ( 1 % )
+Total DSP Blocks : 0 / 87 ( 0 % )
 Total HSSI RX PCSs : 0
 Total HSSI PMA RX Deserializers : 0
 Total HSSI TX PCSs : 0

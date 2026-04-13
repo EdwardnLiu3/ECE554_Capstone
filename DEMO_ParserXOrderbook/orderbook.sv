@@ -23,17 +23,18 @@ module orderbook(
     output [1:0]                    o_action,
     output [PRICE_LEN-1:0]          o_price,
     output [QUANTITY_LEN-1:0]       o_quantity,
-    output                          o_valid
+    output                          o_valid,
+    output                          o_side
 );
 
-logic bid_side, ask_side;
-logic [1:0] p_action_bid, p_action_ask, o_action_ask, o_action_bid;
-logic [PRICE_LEN-1 : 0] p_price_bid, p_price_ask, o_price_ask, o_price_bid;
-logic [QUANTITY_LEN-1:0] p_quantity_bid, p_quantity_ask, o_quant_ask, o_quant_bid;
-logic p_valid_bid, p_valid_ask, o_valid_ask, o_valid_bid;
+logic bid_side, ask_side, p_side;
+logic [1:0] p_action, p_action_ask, o_action_ask, o_action_bid;
+logic [PRICE_LEN-1 : 0] p_price, p_price_ask, o_price_ask, o_price_bid;
+logic [QUANTITY_LEN-1:0] p_quantity, p_quantity_ask, o_quant_ask, o_quant_bid;
+logic p_valid, o_valid_ask, o_valid_bid;
 
-assign bid_side = i_side == 0;
-assign ask_side = i_side == 1;
+assign bid_side = p_side == 0;
+assign ask_side = p_side == 1;
 
 // this module track the price and quantity of every existing orderid
 ob_opb bid_opb(
@@ -42,36 +43,25 @@ ob_opb bid_opb(
     .i_order_id(i_order_id),
     .i_quantity(i_quantity),
     .i_action(i_action),
-    .i_valid(i_valid && bid_side),
+    .i_valid(i_valid),
     .i_price(i_price),
-    .o_action(p_action_bid),
-    .o_price(p_price_bid),
-    .o_valid(p_valid_bid),
-    .o_quantity(p_quantity_bid)
+    .i_side(i_side),
+    .o_action(p_action),
+    .o_price(p_price),
+    .o_valid(p_valid),
+    .o_quantity(p_quantity),
+    .o_side(p_side)
 ); 
 
-ob_opb ask_opb(
-    .i_clk(i_clk),
-    .i_rst_n(i_rst_n),
-    .i_order_id(i_order_id),
-    .i_quantity(i_quantity),
-    .i_action(i_action),
-    .i_valid(i_valid && ask_side),
-    .i_price(i_price),
-    .o_action(p_action_ask),
-    .o_price(p_price_ask),
-    .o_valid(p_valid_ask),
-    .o_quantity(p_quantity_ask)
-); 
 
 // this module track the quantity of each price
 ob_flb_bid bid_flb(
     .i_clk(i_clk),
     .i_rst_n(i_rst_n),
-    .i_price(p_price_bid),
-    .i_quantity(p_quantity_bid),
-    .i_action(p_action_bid),
-    .i_valid(p_valid_bid),
+    .i_price(p_price),
+    .i_quantity(p_quantity),
+    .i_action(p_action),
+    .i_valid(p_valid && bid_side),
     .o_valid(o_valid_bid),
     .o_action(o_action_bid),
     .o_current_price(o_price_bid),
@@ -84,10 +74,10 @@ ob_flb_bid bid_flb(
 ob_flb_ask ask_flb(
     .i_clk(i_clk),
     .i_rst_n(i_rst_n),
-    .i_quantity(p_quantity_ask),
-    .i_action(p_action_ask),
-    .i_valid(p_valid_ask),
-    .i_price(p_price_ask),
+    .i_quantity(p_quantity),
+    .i_action(p_action),
+    .i_valid(p_valid && ask_side),
+    .i_price(p_price),
     .o_valid(o_valid_ask),
     .o_action(o_action_ask),
     .o_current_price(o_price_ask),
@@ -101,5 +91,6 @@ assign o_valid = o_valid_ask || o_valid_bid;
 assign o_action = o_valid_ask ? o_action_ask : o_action_bid;
 assign o_price = o_valid_ask ? o_price_ask : o_price_bid;
 assign o_quantity = o_valid_ask ? o_quant_ask : o_quant_bid;
+assign o_side = o_valid_ask;
 
 endmodule

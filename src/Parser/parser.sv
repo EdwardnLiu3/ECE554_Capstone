@@ -43,7 +43,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         stock_id_ff <= '0;       
     end
     else if(i_payload[7:0] == 8'b01000001) begin //add
-        order_id_ff <= i_payload[151:88];
+        order_id_ff <= i_payload[97:88];
         quantity_ff <= i_payload[191:160];
         side_ff <= i_payload[159:152] == 8'b01000010 ? 1'b0 : 1'b1;
         price_ff <= i_payload[287:256];
@@ -52,7 +52,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         stock_id_ff <= i_payload[23:8];
     end
     else if(i_payload[7:0] == 8'b01011000) begin //cancel
-        order_id_ff <= i_payload[151:88];
+        order_id_ff <= i_payload[97:88];
         quantity_ff <= i_payload[183:152];
         side_ff <= '0;
         price_ff <= '0;
@@ -61,7 +61,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         stock_id_ff <= i_payload[23:8];
     end
     else if(i_payload[7:0] == 8'b01000100) begin //delete
-        order_id_ff <= i_payload[151:88];
+        order_id_ff <= i_payload[97:88];
         quantity_ff <= '0;
         side_ff <= '0;
         price_ff <= '0;
@@ -70,7 +70,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         stock_id_ff <= i_payload[23:8];
     end
     else if(i_payload[7:0] ==  8'b01000101) begin //execute
-        order_id_ff <= i_payload[151:88];
+        order_id_ff <= i_payload[97:88];
         quantity_ff <= i_payload[183:152];
         side_ff <= '0;
         price_ff <= '0;

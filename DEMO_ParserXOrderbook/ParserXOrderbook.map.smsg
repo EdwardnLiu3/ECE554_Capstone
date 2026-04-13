@@ -1,0 +1,1 @@
+Info (10281): Verilog HDL Declaration information at fetch.sv(7): object "done" differs only in case from object "DONE" in the same scope File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/fetch.sv Line: 7

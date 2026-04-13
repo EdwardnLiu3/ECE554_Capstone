@@ -14,11 +14,13 @@ module ob_opb(
     input logic [QUANTITY_LEN-1:0] i_quantity,
     input logic [1:0] i_action,
     input logic i_valid,
+    input logic i_side,
     input logic [PRICE_LEN-1:0] i_price,
     output logic [1:0]o_action,
     output logic [PRICE_LEN-1:0] o_price,
     output logic o_valid,
-    output logic [QUANTITY_LEN-1:0] o_quantity // add: quantity added, others: quantity removed
+    output logic [QUANTITY_LEN-1:0] o_quantity, // add: quantity added, others: quantity removed
+    output logic o_side
 ); 
 
 // OPB: use orderid as index and store the price and quantity of the given 
@@ -48,6 +50,7 @@ logic                       p_add, p_exec_cancel, p_delete;
 logic [PRICE_LEN-1:0]       p_price;
 logic [1:0]                 p_action;
 logic                       p_valid;
+logic                       p_side;
 
 // pipeline orderid / quantity / price / action / valid
 always_ff @(posedge i_clk, negedge i_rst_n) begin
@@ -61,21 +64,26 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         o_price <= '0;
         o_valid <= 0;
         o_quantity <= '0;
+        o_side <= 0;
     end else begin
         p_quantity <= i_quantity;
         p_order_id <= i_order_id;
         p_price <= i_price;
         p_action <= i_action;
         p_valid <= i_valid;
+        p_side <= i_side;
         o_action <= p_action;
         o_valid <= p_valid;
         o_quantity <= p_quantity;
         if(p_action == ADD) begin
             o_price <= p_price;
+            o_side <= p_side;
         end else if(p_action == DELETE) begin
             o_price <= packet_delete.price;
+            o_side <= packet_delete.side;
         end else begin
             o_price <= packet_out.price;
+            o_side <= packet_out.side;
         end
         if(p_action == DELETE) begin
             if(delete_special_case) begin
@@ -102,7 +110,7 @@ always_ff@(posedge i_clk, negedge i_rst_n) begin
         delete_special_case <= 0;
         if(is_add && i_valid) begin
             p_add <= 1;
-            packet_in <= '{price:i_price, quantity:i_quantity};
+            packet_in <= '{price:i_price, quantity:i_quantity, side:i_side};
         end else if((is_cancel || is_execute) && i_valid) begin
             if(p_add && (p_order_id == i_order_id)) begin
                 packet_out <= packet_in;

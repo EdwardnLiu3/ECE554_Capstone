@@ -38,7 +38,8 @@ module tb_orderbook();
         .o_action(o_action),
         .o_price(o_price),
         .o_quantity(o_quantity),
-        .o_valid(o_valid)
+        .o_valid(o_valid),
+        .o_side()
     );
 
     // Clock
@@ -79,11 +80,17 @@ module tb_orderbook();
         i_rst_n = 1;
 
         send_op(BID, 0, ADD, 100, 2); 
+        send_op(ASK, 2, ADD, 1100, 2);
         send_op(BID, 4, ADD, 800, 4); 
         send_op(BID, 5, ADD, 800, 4);
+        send_op(ASK, 3, ADD, 1300, 1);
+        send_op(ASK, 1, ADD, 700, 3);
         send_op(BID, 6, ADD, 700, 3);
         send_op(BID, 6, EXECUTE, 0, 1);
         send_op(BID, 6, EXECUTE, 0, 1);
+        send_op(ASK, 2, EXECUTE, 0, 1);
+        send_op(ASK, 1, DELETE, 0, 0);
+        send_op(ASK, 2, DELETE, 0, 0);
         send_op(BID, 6, EXECUTE, 0, 1);
         send_op(BID, 4, DELETE, 0, 0); 
         send_op(BID, 5, DELETE, 0, 0);
