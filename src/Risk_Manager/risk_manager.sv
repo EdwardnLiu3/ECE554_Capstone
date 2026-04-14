@@ -12,6 +12,9 @@ module risk_manager (
     // Comes from inventory so we now how much stock we have and how much money we lost or made on day. 
     input  logic signed [15:0] i_inventory_position,
     input  logic signed [63:0] i_day_pnl,
+    // Comes from execution tracker so we know how much stock is already sitting in the market on each side.
+    input  logic [15:0]        i_live_bid_qty,
+    input  logic [15:0]        i_live_ask_qty,
     // From trading logic, the ask or bid quote that we want to attempt to send to exhange. 
     input  logic               i_quote_valid,
     input  logic               i_quote_side,       // 0 = bid, 1 = ask
@@ -35,11 +38,11 @@ module risk_manager (
 // exceed our current inventory position of the stock. Also will be others to change but that is optimization problem i guess
 
 // Most of these can be changed if need but set to basic values for now. 
-localparam signed [15:0] MAX_LONG_POSITION      = 16'sd100;
-localparam signed [15:0] MAX_SHORT_POSITION     = 16'sd100;
-localparam        [15:0] MAX_QUOTE_QTY          = 16'd50;
+localparam signed [15:0] MAX_LONG_POSITION      = 16'sd200;
+localparam signed [15:0] MAX_SHORT_POSITION     = 16'sd200;
+localparam        [15:0] MAX_QUOTE_QTY          = 16'd100;
 localparam        [31:0] MAX_PRICE_DELTA        = 32'd10;
-localparam signed [63:0]  MAX_DAILY_LOSS        = 64'sd500;
+localparam signed [63:0]  MAX_DAILY_LOSS        = 64'sd500000;
 localparam [48:0] MAX_NOTIONAL_EXPOSURE         = 49'd10000;
 localparam int RISK_POS_LEN   = 17;  // one bit wider than 16-bit position/qty
 localparam int NOTIONAL_LEN   = 49;  // 32-bit price * 17-bit position
@@ -66,6 +69,8 @@ logic signed [RISK_POS_LEN-1:0] qty_ext;
 logic signed [RISK_POS_LEN-1:0] long_pos_n;
 logic signed [RISK_POS_LEN-1:0] short_pos_n;
 logic signed [RISK_POS_LEN-1:0] inv_ext;
+logic signed [RISK_POS_LEN-1:0] live_bid_qty_ext;
+logic signed [RISK_POS_LEN-1:0] live_ask_qty_ext;
 logic signed [RISK_POS_LEN-1:0] long_lim_ext;
 logic [31:0] px_diff;
 logic [RISK_POS_LEN-1:0] long_abs;
@@ -93,16 +98,19 @@ always_comb begin
     inv_ext       = $signed({i_inventory_position[15], i_inventory_position});
     long_lim_ext  = $signed({MAX_LONG_POSITION[15], MAX_LONG_POSITION});
     short_lim_ext = $signed({MAX_SHORT_POSITION[15], MAX_SHORT_POSITION});
+    live_bid_qty_ext = $signed({1'b0, i_live_bid_qty});
+    live_ask_qty_ext = $signed({1'b0, i_live_ask_qty});
     qty_ext       = $signed({1'b0, i_quote_quantity});
-    // Since we only have 1 quote, we just need to check inventory and this quote size, will need to do more if we change this
-    long_pos_n  = inv_ext;
-    short_pos_n = inv_ext;
+    // We now care about our current inventory plus all stock we already have
+    // resting in the market on each side, plus this new quote we want to add.
+    long_pos_n  = inv_ext + live_bid_qty_ext;
+    short_pos_n = inv_ext - live_ask_qty_ext;
 
     if (i_quote_valid) begin
         if (!i_quote_side)
-            long_pos_n = inv_ext + qty_ext;
+            long_pos_n = inv_ext + live_bid_qty_ext + qty_ext;
         else
-            short_pos_n = inv_ext - qty_ext;
+            short_pos_n = inv_ext - live_ask_qty_ext - qty_ext;
     end
     // gets absolute distance from quote and midpoint for price band check
     if (i_quote_price >= i_reference_price)
