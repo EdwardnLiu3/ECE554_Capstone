@@ -214,27 +214,29 @@ int main(int argc, char **argv) {
                                     // 3. Strobe Valid signal (address 9)
                                     *(h2p_lw_parser_addr + 9) = 1;
                                     
-                                    // 4. Read outputs (address 10-14)
+                                    // 4. Read parser outputs (address 10-14)
                                     unsigned long out_order_id_lo = *(h2p_lw_parser_addr + 10);
-                                    unsigned long out_order_id_hi = *(h2p_lw_parser_addr + 11);
                                     unsigned long out_qty   = *(h2p_lw_parser_addr + 12);
                                     unsigned long out_price = *(h2p_lw_parser_addr + 13);
                                     unsigned long out_flags = *(h2p_lw_parser_addr + 14);
-                                    
-                                    // Hardware latches standard Big-Endian bytes directly into Little-Endian vectors. 
-                                    // Reversing them for display:
-                                    unsigned long long hw_order_id = ((unsigned long long)out_order_id_hi << 32) | out_order_id_lo;
-                                    hw_order_id = __builtin_bswap64(hw_order_id);
-                                    out_qty   = __builtin_bswap32(out_qty);
-                                    out_price = __builtin_bswap32(out_price);
-                                    
+
+                                    // Read orderbook outputs (address 15-21)
+                                    unsigned long ob_bid_price     = *(h2p_lw_parser_addr + 15);
+                                    unsigned long ob_bid_quant_lo  = *(h2p_lw_parser_addr + 16);
+                                    unsigned long ob_bid_quant_hi  = *(h2p_lw_parser_addr + 17);
+                                    unsigned long ob_ask_price     = *(h2p_lw_parser_addr + 18);
+                                    unsigned long ob_ask_quant_lo  = *(h2p_lw_parser_addr + 19);
+                                    unsigned long ob_ask_quant_hi  = *(h2p_lw_parser_addr + 20);
+                                    unsigned long ob_valid_flags   = *(h2p_lw_parser_addr + 21);
+
+                                    // Parser now outputs native-endian values (byte-swapped in hardware).
                                     int is_valid = (out_flags >> 19) & 1;
                                     int side     = (out_flags >> 18) & 1;
                                     int action   = (out_flags >> 16) & 3;
-                                    
+
                                     printf("[HW PARSER OUTPUT] Valid? %s (Pulse Died)\n", is_valid ? "YES" : "NO");
-                                    
-                                    printf("   -> Order ID : %llu\n", hw_order_id);
+
+                                    printf("   -> Order ID : %lu\n", out_order_id_lo);
                                     printf("   -> Action   : ");
                                     switch(action) {
                                         case 0: printf("ADD\n"); break;
@@ -245,6 +247,25 @@ int main(int argc, char **argv) {
                                     printf("   -> Side     : %s\n", side ? "SELL" : "BUY");
                                     printf("   -> Quantity : %lu shares\n", out_qty);
                                     printf("   -> Price    : $%.4f\n", out_price / 10000.0);
+
+                                    // Print orderbook best bid/ask state
+                                    int ob_bid_valid = ob_valid_flags & 1;
+                                    int ob_ask_valid = (ob_valid_flags >> 1) & 1;
+                                    unsigned long long ob_bid_quant = ((unsigned long long)ob_bid_quant_hi << 32) | ob_bid_quant_lo;
+                                    unsigned long long ob_ask_quant = ((unsigned long long)ob_ask_quant_hi << 32) | ob_ask_quant_lo;
+
+                                    printf("[ORDERBOOK STATE]\n");
+                                    if (ob_bid_valid) {
+                                        // ob_bid_price = cache index = raw_price/100; raw_price in units of 0.0001 dollars
+                                        printf("   -> Best BID : price=$%.2f  qty=%llu\n", ob_bid_price / 100.0, ob_bid_quant);
+                                    } else {
+                                        printf("   -> Best BID : (empty)\n");
+                                    }
+                                    if (ob_ask_valid) {
+                                        printf("   -> Best ASK : price=$%.2f  qty=%llu\n", ob_ask_price / 100.0, ob_ask_quant);
+                                    } else {
+                                        printf("   -> Best ASK : (empty)\n");
+                                    }
                                 }
 
                                 // We still send the raw data to Python client just to clear queue 

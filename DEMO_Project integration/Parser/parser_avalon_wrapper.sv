@@ -1,7 +1,8 @@
+import ob_pkg::*;
 module parser_avalon_wrapper (
     input clk,
     input reset_n,
-    
+
     // Avalon-MM Slave Interface
     input  [5:0]  avs_address,
     input         avs_read,
@@ -14,9 +15,9 @@ module parser_avalon_wrapper (
     // Internal Registers for Parser Input
     logic [287:0] i_payload;
     logic         i_valid;
-    
+
     // Parser Outputs
-    logic [63:0] o_order_id;
+    logic [ORDERID_LEN-1:0] o_order_id;  // 10 bits (ob_pkg::ORDERID_LEN)
     logic [31:0] o_quantity;
     logic        o_side;
     logic [31:0] o_price;
@@ -24,9 +25,22 @@ module parser_avalon_wrapper (
     logic        o_valid;
     logic [15:0] o_stock_id;
 
-    // Instantiate the original parser
+    // Orderbook Outputs
+    logic [PRICE_LEN-1:0]       ob_bid_best_price;
+    logic [TOT_QUATITY_LEN-1:0] ob_bid_best_quant;
+    logic [PRICE_LEN-1:0]       ob_ask_best_price;
+    logic [TOT_QUATITY_LEN-1:0] ob_ask_best_quant;
+    logic                       ob_bid_best_valid;
+    logic                       ob_ask_best_valid;
+    logic [1:0]                 ob_action;
+    logic [PRICE_LEN-1:0]       ob_price;
+    logic [QUANTITY_LEN-1:0]    ob_quantity;
+    logic                       ob_valid;
+    logic                       ob_side;
+
+    // Instantiate the parser
     parser #(
-        .ORDERID_LEN(64),
+        .ORDERID_LEN(ORDERID_LEN),
         .QUANTITY_LEN(32),
         .PRICE_LEN(32),
         .STOCK_LEN(16)
@@ -42,6 +56,29 @@ module parser_avalon_wrapper (
         .o_action(o_action),
         .o_valid(o_valid),
         .o_stock_id(o_stock_id)
+    );
+
+    // Instantiate the orderbook (parser outputs feed directly into orderbook)
+    orderbook ob_inst (
+        .i_clk(clk),
+        .i_rst_n(reset_n),
+        .i_order_id(o_order_id),
+        .i_side(o_side),
+        .i_price(o_price),
+        .i_quantity(o_quantity),
+        .i_action(o_action),
+        .i_valid(o_valid),
+        .o_bid_best_price(ob_bid_best_price),
+        .o_bid_best_quant(ob_bid_best_quant),
+        .o_ask_best_price(ob_ask_best_price),
+        .o_ask_best_quant(ob_ask_best_quant),
+        .o_bid_best_valid(ob_bid_best_valid),
+        .o_ask_best_valid(ob_ask_best_valid),
+        .o_action(ob_action),
+        .o_price(ob_price),
+        .o_quantity(ob_quantity),
+        .o_valid(ob_valid),
+        .o_side(ob_side)
     );
 
     // No wait states needed
@@ -88,13 +125,22 @@ module parser_avalon_wrapper (
                 6'd6: avs_readdata = i_payload[223:192];
                 6'd7: avs_readdata = i_payload[255:224];
                 6'd8: avs_readdata = i_payload[287:256];
-                
-                // Read parser outputs
-                6'd10: avs_readdata = o_order_id[31:0];
-                6'd11: avs_readdata = o_order_id[63:32];
+
+                // Parser outputs (addr 10-14, unchanged for software compat)
+                6'd10: avs_readdata = {22'd0, o_order_id};  // 10-bit order_id zero-padded
+                6'd11: avs_readdata = 32'd0;                // was order_id[63:32], now unused
                 6'd12: avs_readdata = o_quantity;
                 6'd13: avs_readdata = o_price;
                 6'd14: avs_readdata = {12'd0, o_valid, o_side, o_action, o_stock_id};
+
+                // Orderbook outputs (addr 15-21)
+                6'd15: avs_readdata = ob_bid_best_price;
+                6'd16: avs_readdata = ob_bid_best_quant[31:0];
+                6'd17: avs_readdata = ob_bid_best_quant[63:32];
+                6'd18: avs_readdata = ob_ask_best_price;
+                6'd19: avs_readdata = ob_ask_best_quant[31:0];
+                6'd20: avs_readdata = ob_ask_best_quant[63:32];
+                6'd21: avs_readdata = {30'd0, ob_ask_best_valid, ob_bid_best_valid};
             endcase
         end
     end

@@ -1,5 +1,5 @@
 Flow report for tcp_packet_receiver_redo
-Sun Apr 12 17:12:12 2026
+Tue Apr 14 03:42:03 2026
 Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 
 
@@ -41,18 +41,18 @@ on the Quartus Prime software download page.
 +-----------------------------------------------------------------------------------+
 ; Flow Summary                                                                      ;
 +---------------------------------+-------------------------------------------------+
-; Flow Status                     ; Successful - Sun Apr 12 17:11:24 2026           ;
+; Flow Status                     ; Successful - Tue Apr 14 03:41:04 2026           ;
 ; Quartus Prime Version           ; 25.1std.0 Build 1129 10/21/2025 SC Lite Edition ;
 ; Revision Name                   ; tcp_packet_receiver_redo                        ;
 ; Top-level Entity Name           ; tcp_packet_receiver_redo                        ;
 ; Family                          ; Cyclone V                                       ;
 ; Device                          ; 5CSEMA5F31C6                                    ;
 ; Timing Models                   ; Final                                           ;
-; Logic utilization (in ALMs)     ; 3,090 / 32,070 ( 10 % )                         ;
-; Total registers                 ; 4503                                            ;
+; Logic utilization (in ALMs)     ; 11,371 / 32,070 ( 35 % )                        ;
+; Total registers                 ; 12910                                           ;
 ; Total pins                      ; 368 / 457 ( 81 % )                              ;
 ; Total virtual pins              ; 0                                               ;
-; Total block memory bits         ; 526,336 / 4,065,280 ( 13 % )                    ;
+; Total block memory bits         ; 674,228 / 4,065,280 ( 17 % )                    ;
 ; Total DSP Blocks                ; 0 / 87 ( 0 % )                                  ;
 ; Total HSSI RX PCSs              ; 0                                               ;
 ; Total HSSI PMA RX Deserializers ; 0                                               ;
@@ -68,7 +68,7 @@ on the Quartus Prime software download page.
 +-------------------+--------------------------+
 ; Option            ; Setting                  ;
 +-------------------+--------------------------+
-; Start date & time ; 04/12/2026 16:57:16      ;
+; Start date & time ; 04/14/2026 03:20:48      ;
 ; Main task         ; Compilation              ;
 ; Revision Name     ; tcp_packet_receiver_redo ;
 +-------------------+--------------------------+
@@ -79,7 +79,7 @@ on the Quartus Prime software download page.
 +---------------------------------------+--------------------------------------------------------------------------+---------------+--------------------------------+------------+
 ; Assignment Name                       ; Value                                                                    ; Default Value ; Entity Name                    ; Section Id ;
 +---------------------------------------+--------------------------------------------------------------------------+---------------+--------------------------------+------------+
-; COMPILER_SIGNATURE_ID                 ; 59850978926649.177603103023416                                           ; --            ; --                             ; --         ;
+; COMPILER_SIGNATURE_ID                 ; 171978328238326.177615484303092                                          ; --            ; --                             ; --         ;
 ; ECO_REGENERATE_REPORT                 ; On                                                                       ; Off           ; --                             ; --         ;
 ; HPS_ISW_FILE                          ; soc_system/synthesis/submodules/sequencer/alt_types.pre.h                ; --            ; soc_system_hps_0_hps_io_border ; --         ;
 ; HPS_ISW_FILE                          ; soc_system/synthesis/submodules/sequencer/emif.pre.xml                   ; --            ; soc_system_hps_0_hps_io_border ; --         ;
@@ -137,11 +137,11 @@ on the Quartus Prime software download page.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:01:28     ; 1.0                     ; 5461 MB             ; 00:01:42                           ;
-; Fitter               ; 00:08:53     ; 1.1                     ; 8849 MB             ; 00:51:43                           ;
-; Assembler            ; 00:00:17     ; 1.0                     ; 5344 MB             ; 00:00:15                           ;
-; Timing Analyzer      ; 00:00:46     ; 1.7                     ; 6002 MB             ; 00:01:05                           ;
-; Total                ; 00:11:24     ; --                      ; --                  ; 00:54:45                           ;
+; Analysis & Synthesis ; 00:02:53     ; 1.0                     ; 5597 MB             ; 00:03:25                           ;
+; Fitter               ; 00:13:49     ; 1.2                     ; 9051 MB             ; 01:23:36                           ;
+; Assembler            ; 00:00:29     ; 1.0                     ; 5456 MB             ; 00:00:23                           ;
+; Timing Analyzer      ; 00:00:57     ; 3.0                     ; 6255 MB             ; 00:02:16                           ;
+; Total                ; 00:18:08     ; --                      ; --                  ; 01:29:40                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
