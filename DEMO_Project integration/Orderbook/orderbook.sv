@@ -5,7 +5,9 @@
 //
 ////////////////////////////////////////////////////
 import ob_pkg::*;
-module orderbook(
+module orderbook #(
+    parameter int BASE_PRICE = 2200000  // ITCH units (price * 10000); e.g. 2200000 = $220.00
+)(
     input                           i_clk,
     input                           i_rst_n,
     input [ORDERID_LEN-1:0]         i_order_id,
@@ -55,7 +57,7 @@ ob_opb bid_opb(
 
 
 // this module track the quantity of each price
-ob_flb_bid bid_flb(
+ob_flb_bid #(.BASE_PRICE(BASE_PRICE)) bid_flb(
     .i_clk(i_clk),
     .i_rst_n(i_rst_n),
     .i_price(p_price),
@@ -71,7 +73,7 @@ ob_flb_bid bid_flb(
     .o_best_valid(o_bid_best_valid)
 );
 
-ob_flb_ask ask_flb(
+ob_flb_ask #(.BASE_PRICE(BASE_PRICE)) ask_flb(
     .i_clk(i_clk),
     .i_rst_n(i_rst_n),
     .i_quantity(p_quantity),
