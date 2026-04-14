@@ -60,6 +60,7 @@ logic [31:0]               parser_price;
 logic [1:0]                parser_action;
 logic                      parser_valid;
 logic [STOCK_LEN-1:0]      parser_stock_id;
+logic [47:0]               parser_timestamp;
 // Order book outputs
 logic [PRICE_LEN-1:0]      ob_best_bid_price;
 logic [PRICE_LEN-1:0]      ob_best_ask_price;
@@ -130,7 +131,8 @@ parser parser_inst (
     .o_price    (parser_price),
     .o_action   (parser_action),
     .o_valid    (parser_valid),
-    .o_stock_id (parser_stock_id)
+    .o_stock_id (parser_stock_id),
+    .o_timestamp(parser_timestamp)
 );
 
 // Parser I think gives wider fields than the book uses, so slice order_id to package width here
@@ -163,7 +165,7 @@ tl_top tl_inst (
     .i_rst_n      (i_rst_n),
     .i_best_bid   (ob_best_bid_price),
     .i_best_ask   (ob_best_ask_price),
-    .i_order_time (i_order_time),
+    .i_order_time (parser_timestamp),
     .i_price_valid(price_valid_for_tl),
     .i_trade_valid(trade_valid_for_tl),
     .i_trade_qty  (trade_qty_for_tl),
