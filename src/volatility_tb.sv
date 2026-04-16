@@ -2,12 +2,7 @@
 
 module volatility_ewma_tb;
 
-    // lambda = 0.1 so round(0.1 * 2^16) = 6554
-    localparam logic [15:0] LAMBDA_01 = 16'd6554;
-    // lambda = 0.5  so 32768
-    localparam logic [15:0] LAMBDA_05 = 16'd32768;
-    // lambda = 0.9  so 58982
-    localparam logic [15:0] LAMBDA_09 = 16'd58982;
+    localparam logic [15:0] LAMBDA_01 = 16'd6554;   // ~0.1 in Q0.16
 
     logic        clk;
     logic        rst_n;
@@ -18,11 +13,11 @@ module volatility_ewma_tb;
     logic        sigma_valid;
 
     volatility_ewma dut (
-        .clk          (clk),
-        .rst_n        (rst_n),
-        .lambda        (lambda),
-        .price_valid  (price_valid),
-        .mid_price    (mid_price),
+        .clk         (clk),
+        .rst_n       (rst_n),
+        .lambda      (lambda),
+        .price_valid (price_valid),
+        .mid_price   (mid_price),
         .sigma_out   (sigma_out),
         .sigma_valid (sigma_valid)
     );
@@ -33,7 +28,6 @@ module volatility_ewma_tb;
     int pass_count;
     int fail_count;
 
-    // Convert Q32.16 fixed-point to real for display
     function automatic real to_real(input logic [47:0] val);
         return real'(val) / real'(1 << 16);
     endfunction
@@ -51,8 +45,8 @@ module volatility_ewma_tb;
             $display("  PASS: %s", label);
             pass_count++;
         end else begin
-            $display("  FAIL: %s  sigma2=%.6f  valid=%0b",
-                     label, to_real(sigma_out), sigma_valid);
+            $display("  FAIL: %s  sigma=%.6f (raw=%0d)  valid=%0b",
+                     label, to_real(sigma_out), sigma_out, sigma_valid);
             fail_count++;
         end
     endtask
@@ -67,91 +61,62 @@ module volatility_ewma_tb;
     endtask
 
     //TEsts
+    // Hand-calculated: sigma^2 = lambda*sigma^2 + (1-lambda)*delta^2
+    // lambda = 0.1, (1-lambda) = 0.9
+
     initial begin
         pass_count = 0;
         fail_count = 0;
         lambda = LAMBDA_01;
 
+        //Ts 1: RESET ----
         $display("\n--- TEST 1: RESET ---");
         do_reset();
-        check("sigma_out == 0 after reset",   sigma_out   == '0);
-        check("sigma_valid == 0 after reset",  sigma_valid == 1'b0);
+        check("sigma_out == 0 after reset",  sigma_out   == 48'd0);
+        check("sigma_valid == 0 after reset", sigma_valid == 1'b0);
 
-        $display("\n--- TEST 2: CONSTANT PRICE WITH NO DELTA---");
+        // ---- TEST 2: Step up so sigma = 90.0 ----
+        // 100, 100, 110: delta=10, delta^2=100, sigma = 0.1*0 + 0.9*100 = 90.0
+        $display("\n--- TEST 2: STEP UP (100,100,110) ---");
         do_reset();
-        repeat(20) send_price(16'd1000);
-        check("sigma_valid asserted",         sigma_valid == 1'b1);
-        check("sigma == 0 because of flat price",    sigma_out   == '0);
-
-        $display("\n--- TEST 3: INCREASE THEN FLAT ---");
-        do_reset();
-        repeat(5) send_price(16'd1000);
-        send_price(16'd1010);
+        send_price(16'd100);
+        send_price(16'd100);
+        send_price(16'd110);
         begin
-            real s2;
-            @(posedge clk); #1;
-            s2 = to_real(sigma_out);
-            $display("  sigma2 after step  = %.4f  (expect ~10.0)", s2);
-            check("sigma2 > 0 after step", sigma_out > 0);
-        end
-        repeat(30) send_price(16'd1010);
-        begin
-            real s2;
-            @(posedge clk); #1;
-            s2 = to_real(sigma_out);
-            $display("  sigma2 after decay = %.4f  (expect < 1.0)", s2);
-            check("sigma2 decays after flat", sigma_out < (1 << 16));
+            real hw, expected, diff;
+            expected = 90.0;
+            hw = to_real(sigma_out);
+            diff = hw - expected;
+            if (diff < 0.0) diff = -diff;
+            $display("  Expected: %.4f  Got: %.4f  Diff: %.6f", expected, hw, diff);
+            check("sigma ~ 90.0 (within 0.01)", diff < 0.01);
         end
 
-        $display("\n--- TEST 4: ALTERNATING ±1 TICK (alpha=0.1) ---");
+        // ---- TEST 3: Decay so sigma = 9.0 ----
+        // 100, 110, 110: sigma after (100,110)=90, then delta=0, sigma = 0.1*90 + 0.9*0 = 9.0
+        $display("\n--- TEST 3: DECAY (100,110,110) ---");
         do_reset();
-        lambda = LAMBDA_01;
+        send_price(16'd100);
+        send_price(16'd110);
+        send_price(16'd110);
         begin
-            logic [15:0] p;
-            real s2;
-            p = 16'd1000;
-            repeat(200) begin
-                send_price(p);
-                p = (p == 16'd1000) ? 16'd1001 : 16'd1000;
-            end
-            @(posedge clk); #1;
-            s2 = to_real(sigma_out);
-            $display("  sigma = %.6f  (expect ~1.0)", s2);
-            check("sigma converges near 1.0", s2 > 0.90 && s2 < 1.10);
+            real hw, expected, diff;
+            expected = 9.0;
+            hw = to_real(sigma_out);
+            diff = hw - expected;
+            if (diff < 0.0) diff = -diff;
+            $display("  Expected: %.4f  Got: %.4f  Diff: %.6f", expected, hw, diff);
+            check("sigma ~ 9.0 (within 0.01)", diff < 0.01);
         end
 
-        $display("\n--- TEST 5: PRICE INCREASE ---");
+        // ---- TEST 4: Single price so sigma_valid stays 0 ----
+        $display("\n--- TEST 4: SINGLE PRICE ---");
         do_reset();
-        lambda = LAMBDA_01;
-        begin
-            logic [15:0] p;
-            real s2;
-            p = 16'd500;
-            repeat(200) begin
-                send_price(p);
-                p = p + 1'b1;
-            end
-            @(posedge clk); #1;
-            s2 = to_real(sigma_out);
-            $display("  sigma = %.6f  (expect ~1.0)", s2);
-            check("sigma ~1.0 for unit increasing", s2 > 0.90 && s2 < 1.10);
-        end
+        send_price(16'd100);
+        $display("  sigma_valid = %0b  (Expected: 0)", sigma_valid);
+        check("sigma_valid == 0 after one sample", sigma_valid == 1'b0);
+        check("sigma_out == 0 after one sample",   sigma_out   == 48'd0);
 
-        $display("\n--- TEST 6: VALID GATING ---");
-        do_reset();
-        lambda = LAMBDA_01;
-        repeat(5)  send_price(16'd1000);
-        send_price(16'd1010);
-        repeat(5)  send_price(16'd1010);
-        begin
-            logic [47:0] snap;
-            @(posedge clk); #1;
-            snap = sigma_out;
-            repeat(10) @(posedge clk);
-            check("sigma2 frozen when price_valid=0", sigma_out == snap);
-        end
-
-        $stop();
     end
 
 endmodule

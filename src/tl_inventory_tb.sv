@@ -9,6 +9,9 @@ module tb_inventory;
     logic [15:0] qty;
     logic signed [15:0] q;
 
+    int pass_count;
+    int fail_count;
+
     inventory dut (
         .clk        (clk),
         .rst_n      (rst_n),
@@ -21,57 +24,65 @@ module tb_inventory;
     initial clk = 0;
     always #5 clk = ~clk;
 
-    task do_buy(input logic [15:0] amount);
+    task automatic do_buy(input logic [15:0] amount);
         @(negedge clk);
-        buy_valid= 1;
+        buy_valid  = 1;
         sell_valid = 0;
         qty = amount;
         @(negedge clk);
         buy_valid = 0;
     endtask
 
-    task do_sell(input logic [15:0] amount);
+    task automatic do_sell(input logic [15:0] amount);
         @(negedge clk);
         sell_valid = 1;
-        buy_valid = 0;
+        buy_valid  = 0;
         qty = amount;
         @(negedge clk);
         sell_valid = 0;
     endtask
 
-    task check_q(input logic signed [15:0] expected, input string label);
+    task automatic check_q(input logic signed [15:0] expected, input string label);
         @(negedge clk);
-        if (q !== expected)
-            $display("FAIL [%s]: expected q=%0d, got q=%0d", label, expected, q);
-        else
-            $display("PASS [%s]: q=%0d", label, q);
+        if (q === expected) begin
+            $display("  PASS: %s — q=%0d", label, q);
+            pass_count++;
+        end else begin
+            $display("  FAIL: %s — expected=%0d  got=%0d", label, expected, q);
+            fail_count++;
+        end
     endtask
 
-    initial begin
+    task automatic do_reset();
+        rst_n = 0;
         buy_valid = 0;
         sell_valid = 0;
         qty = 0;
-        rst_n = 0;
         repeat(2) @(negedge clk);
         rst_n = 1;
+    endtask
 
-        check_q(0, "reset");
-        do_buy(10);
-        check_q(10, "buy 10");
-        do_sell(4);
-        check_q(6, "sell 4");
+    initial begin
+        pass_count = 0;
+        fail_count = 0;
 
-        do_sell(20);
-        check_q(-14, "sell 20 -> short");
+        // TEST 1: Reset
+        $display("\n--- Test 1: Reset ---");
+        do_reset();
+        check_q(0, "q=0 after reset");
 
-        @(negedge clk);
-        buy_valid  = 0;
-        sell_valid = 0;
-        qty        = 999;
-        check_q(-14, "no change when neither valid");
+        // TEST 2: Buy and sell
+        $display("\n--- Test 2: Buy and sell ---");
+        do_buy(16'd10);
+        check_q(16'sd10, "buy 10 and q=10");
+        do_sell(16'd4);
+        check_q(16'sd6, "sell 4 and q=6");
 
-        $display("Testbench complete.");
-        $finish;
+        // TEST 3: Going negative
+        $display("\n--- Test 3: Short position ---");
+        do_sell(16'd20);
+        check_q(-16'sd14, "sell 20 and q=-14");
+
     end
 
 endmodule

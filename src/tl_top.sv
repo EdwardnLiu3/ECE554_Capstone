@@ -8,12 +8,11 @@ module tl_top
     input  logic [47:0]          i_order_time,
     input  logic                 i_price_valid,
     input  logic                 i_trade_valid,
-    input  logic [15:0]          i_trade_qty,
     input  logic                 i_trade_side,   // 0 = buy, 1 = sell
 
     output logic [PRICE_LEN-1:0] o_bid_price,
     output logic [PRICE_LEN-1:0] o_ask_price,
-    output logic [1:0]           o_order_type,   // 01=bid only, 10=ask only, 11=both
+    // output logic                 o_order_type,// AS always quotes both sides
     output logic                 o_valid
 );
 
@@ -21,7 +20,7 @@ module tl_top
     localparam [15:0] GAMMA_Q88   = 16'h001A;   // Q8.8   = 0.1016 (26/256)
     localparam [15:0] K_Q88       = 16'h0180;   // Q8.8   = 1.5    (384/256)
     localparam [15:0] EWMA_LAMBDA = 16'hFAE1;   // Q0.16  = 0.9800 (64225/65536)
-    localparam [31:0] MARKET_DUR_DIV = 32'd357_055;   // 23,400,000,000,000 ns >> 16
+    localparam [31:0] MARKET_DUR_DIV = 32'd357_055_664;   // (close - open) in ns >> 16 = 23,400,000,000,000 / 65,536
 
     logic [PRICE_LEN-1:0] mid_price;
     assign mid_price = (i_best_bid + i_best_ask) >> 1;
@@ -55,7 +54,7 @@ module tl_top
         .rst_n      (i_rst_n),
         .buy_valid  (i_trade_valid & ~i_trade_side),
         .sell_valid (i_trade_valid &  i_trade_side),
-        .qty        (i_trade_qty),
+        .qty        (16'd1),
         .q          (q)
     );
 
@@ -184,7 +183,6 @@ module tl_top
         if (!i_rst_n) begin
             o_bid_price  <= '0;
             o_ask_price  <= '0;
-            o_order_type <= 2'b11;
             o_valid      <= 1'b0;
         end else begin
             reservation  = $signed({1'b0, s3_mid}) - $signed(inv_skew_full[32:16]);
@@ -192,12 +190,13 @@ module tl_top
             o_bid_price  <= reservation[PRICE_LEN-1:0] - {8'b0, spread_subcent};
             o_ask_price  <= reservation[PRICE_LEN-1:0] + {8'b0, spread_subcent};
 
-            if ($signed(reservation) > $signed({1'b0, s3_mid}))
-                o_order_type <= 2'b01;
-            else if ($signed(reservation) < $signed({1'b0, s3_mid}))
-                o_order_type <= 2'b10;
-            else
-                o_order_type <= 2'b11;
+            // AS always quotes both sides — buy/sell decision is made by the market
+            // if ($signed(reservation) > $signed({1'b0, s3_mid}))
+            //     o_order_type <= 2'b01;
+            // else if ($signed(reservation) < $signed({1'b0, s3_mid}))
+            //     o_order_type <= 2'b10;
+            // else
+            //     o_order_type <= 2'b11;
         end
     end
 

@@ -30,7 +30,7 @@ module one_stock_top #(
     output logic                            o_best_ask_valid,
     output logic [PRICE_LEN-1:0]            o_trading_bid_price,
     output logic [PRICE_LEN-1:0]            o_trading_ask_price,
-    output logic [1:0]                      o_trading_order_type,
+    // output logic                            o_trading_order_type,
     output logic                            o_trading_valid,
     output logic                            o_bid_reject_valid,
     output logic [3:0]                      o_bid_reject_reason,
@@ -76,7 +76,7 @@ logic                      ob_event_side;
 // Trading logic outputs
 logic [PRICE_LEN-1:0]      tl_bid_price;
 logic [PRICE_LEN-1:0]      tl_ask_price;
-logic [1:0]                tl_order_type;
+// logic                      tl_order_type;
 logic                      tl_valid;
 // Split bid/ask quote requests into separate risk-managers
 logic                      bid_quote_req_valid;
@@ -84,7 +84,6 @@ logic                      ask_quote_req_valid;
 logic [PRICE_LEN-1:0]      reference_price;
 logic                      price_valid_for_tl;
 logic                      trade_valid_for_tl;
-logic [15:0]               trade_qty_for_tl;
 logic                      trade_side_for_tl;
 // Risk manager outputs
 logic                      bid_quote_valid;
@@ -109,15 +108,14 @@ logic [ORDER_ID_LEN-1:0]   exec_oldest_ask_order_id;
 logic [QUANTITY_LEN-1:0]   risk_bid_qty_in;
 logic [QUANTITY_LEN-1:0]   risk_ask_qty_in;
 
-assign bid_quote_req_valid = tl_valid && tl_order_type[0];
-assign ask_quote_req_valid = tl_valid && tl_order_type[1];
+assign bid_quote_req_valid = tl_valid;   // AS always quotes both sides
+assign ask_quote_req_valid = tl_valid;
 assign reference_price     = (ob_best_bid_price + ob_best_ask_price) >> 1;
 // For now, risk uses best bid/ask quantity from the orderbook since our trading logic does not currently output quantity
 assign risk_bid_qty_in     = ob_best_bid_quantity[QUANTITY_LEN-1:0];
 assign risk_ask_qty_in     = ob_best_ask_quantity[QUANTITY_LEN-1:0];
 assign price_valid_for_tl = parser_valid && ob_best_bid_valid && ob_best_ask_valid;
 assign trade_valid_for_tl = o_exec_valid;
-assign trade_qty_for_tl   = o_exec_quantity;
 assign trade_side_for_tl  = o_exec_side;
 
 parser parser_inst (
@@ -168,11 +166,9 @@ tl_top tl_inst (
     .i_order_time (parser_timestamp),
     .i_price_valid(price_valid_for_tl),
     .i_trade_valid(trade_valid_for_tl),
-    .i_trade_qty  (trade_qty_for_tl),
     .i_trade_side (trade_side_for_tl),
     .o_bid_price  (tl_bid_price),
     .o_ask_price  (tl_ask_price),
-    .o_order_type (tl_order_type),
     .o_valid      (tl_valid)
 );
 
@@ -296,7 +292,7 @@ assign o_best_bid_valid   = ob_best_bid_valid;
 assign o_best_ask_valid   = ob_best_ask_valid;
 assign o_trading_bid_price = tl_bid_price;
 assign o_trading_ask_price = tl_ask_price;
-assign o_trading_order_type = tl_order_type;
+// assign o_trading_order_type = tl_order_type;   // removed
 assign o_trading_valid    = tl_valid;
 
 endmodule
