@@ -1,4 +1,4 @@
-module pe_msb128(
+module pe_msb32(
     input logic [31:0] i_data,
     output logic        o_found,
     output logic [4:0]  o_idx

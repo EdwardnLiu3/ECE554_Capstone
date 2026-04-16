@@ -1,5 +1,5 @@
 import ob_pkg::*;
-module flb_refill_engine_ask(
+module flb_refill_engine_ask_1024(
     input logic                           i_clk,
     input logic                           i_rst_n,
     input logic [NUM_LEVELS-1:0]          i_valid_table,
@@ -80,7 +80,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         epoch3 <= '0;
     end else begin
         found_inner3 <= found_inner2;
-        idx <= {group_idx2, inner_idx2};
+        idx <= {22'b0, group_idx2[4:0], inner_idx2[4:0]};
         epoch3 <= epoch2;
     end
 end
