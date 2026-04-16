@@ -53,104 +53,107 @@ parameter HEX_14 = 7'b0000110;	// fourteen
 parameter HEX_15 = 7'b0001110;	// fifteen
 parameter OFF   = 7'b1111111;		// all off
 
-logic [1:0] action, quantity;
-logic [ORDERID_LEN-1:0] order_id;
-logic [PRICE_LEN-1:0] price;
+logic [1:0] i_action, quantity;
 logic rst_n, valid_i, valid_d, valid;
 logic [PRICE_LEN-1:0] i_price, o_bid_best_price;
 logic [QUANTITY_LEN-1 :0] i_quantity;
 logic [TOT_QUATITY_LEN-1:0] o_bid_best_quant;
-logic [287:0] pay_load_mem [0:12];
-logic i_valid, side;
-logic [3:0] index;
-logic [287:0] payload;
+logic new_input_i, new_input_d, new_input;
+logic i_side, side1, side2, side3, side4, side5;
+logic [PRICE_LEN-1:0]price1, price2, price3, price4, price5;
+logic [QUANTITY_LEN-1 :0] quant1, quant2, quant3, quant4, quant5;
+logic [1:0] action1, action2, action3, action4, action5;
+logic [ORDERID_LEN-1:0] i_order_id, order_id1, order_id2, order_id3, order_id4, order_id5;
 
-// price, 0, side, quant, id, action
 
-// ACTION, ID, PRICE, QUANT
-// ADD, 0, 4, 2
-assign pay_load_mem[0] = {32'd400, 64'd0, 32'd2, 8'b01000010, 54'd0, 10'd0, 80'd0, 8'b01000001};
-// ADD, 1, 5, 4
-assign pay_load_mem[1] = {32'd500, 64'd0, 32'd4, 8'b01000010, 54'd0, 10'd1, 80'd0, 8'b01000001};
-// ADD, 2, 4, 3
-assign pay_load_mem[2] = {32'd400, 64'd0, 32'd3, 8'b01000010, 54'd0, 10'd2, 80'd0, 8'b01000001};
-// ADD, 3, 7, 1
-assign pay_load_mem[3] = {32'd700, 64'd0, 32'd1, 8'b01000010, 54'd0, 10'd3, 80'd0, 8'b01000001};
-// DEL, 3
-assign pay_load_mem[4] = {32'd0, 64'd0, 32'd0, 8'b01000010, 54'd0, 10'd3, 80'd0, 8'b01000100};
-// CAN, 1, 0, 2
-assign pay_load_mem[5] = {104'd0, 32'd2, 54'd0, 10'd1, 80'd0, 8'b01011000};
-// DEL, 1
-assign pay_load_mem[6] = {32'd0, 64'd0, 32'd0, 8'b01000010, 54'd0, 10'd1, 80'd0, 8'b01000100};
-// ADD, 4, 8, 4
-assign pay_load_mem[7] = {32'd800, 64'd0, 32'd4, 8'b01000010, 54'd0, 10'd4, 80'd0, 8'b01000001};
-// ADD, 5, 8, 4
-assign pay_load_mem[8] = {32'd800, 64'd0, 32'd4, 8'b01000010, 54'd0, 10'd5, 80'd0, 8'b01000001};
-// ADD 6, 7, 3
-assign pay_load_mem[9] = {32'd700, 64'd0, 32'd3, 8'b01000010, 54'd0, 10'd6, 80'd0, 8'b01000001};
-// EXE 6, 0, 1
-assign pay_load_mem[10] = {104'd0, 32'd1, 54'd0, 10'd6, 80'd0, 8'b01000101};
-// DEL, 4
-assign pay_load_mem[11] = {32'd800, 64'd0, 32'd1, 8'b01000010, 54'd0, 10'd4, 80'd0, 8'b01000100};
-// DEL, 5
-assign pay_load_mem[12] = {32'd800, 64'd0, 32'd5, 8'b01000010, 54'd0, 10'd5, 80'd0, 8'b01000100};
 
-assign index = SW[3:0];
 assign rst_n = KEY[0];
 assign valid_i = KEY[1];
+assign new_input_i = KEY[2];
 assign valid = valid_i && (!valid_d);
-
-always_comb begin
-	case(index)
-		default: payload = '0;
-		4'd0: payload = pay_load_mem[0];
-		4'd1: payload = pay_load_mem[1];
-		4'd2: payload = pay_load_mem[2];
-		4'd3: payload = pay_load_mem[3];
-		4'd4: payload = pay_load_mem[4];
-		4'd5: payload = pay_load_mem[5];
-		4'd6: payload = pay_load_mem[6];
-		4'd7: payload = pay_load_mem[7];
-		4'd8: payload = pay_load_mem[8];
-		4'd9: payload = pay_load_mem[9];
-		4'd10: payload = pay_load_mem[10];
-		4'd11: payload = pay_load_mem[11];
-		4'd12: payload = pay_load_mem[12];
-	endcase
-end
-
+assign new_input = new_input_i && (!new_input_d);
 
 always_ff @(posedge CLOCK_50, negedge rst_n) begin
 	if(!rst_n) begin
+		new_input_d <= 0;
 		valid_d <= 0;
 	end else begin
+		new_input_d <= new_input_i;
 		valid_d <= valid_i;
 	end
 end
 
-parser ps(
-    .i_clk(CLOCK_50),
-    .i_rst_n(rst_n),
-    .i_payload(payload),
-    .i_valid(valid),
-    .o_order_id(order_id),
-    .o_quantity(i_quantity),
-    .o_side(side),
-    .o_price(i_price),
-    .o_action(action),
-    .o_valid(i_valid),
-    .o_stock_id()
-);
+always_ff @(posedge CLOCK_50, negedge rst_n) begin
+	if(!rst_n) begin
+		i_order_id <= '0;
+		i_price <= '0;
+		i_quantity <= '0;
+		i_action <= '0;
+		i_side <= 0;
+		price1 <= 16'd400;
+		price2 <= 16'd500;
+		price3 <= 16'd400;
+		price4 <= 16'd0;
+		price5 <= 16'd600;
+		quant1 <= 12'd10;
+		quant2 <= 12'd40;
+		quant3 <= 12'd5;
+		quant4 <= 12'd0;
+		quant5 <= 12'd100;
+		side1 <= 0;
+		side2 <= 0;
+		side3 <= 0;
+		side4 <= 0;
+		side5 <= 0;
+		action1 <= 2'b00;
+		action2 <= 2'b00;
+		action3 <= 2'b01;
+		action4 <= 2'b11;
+		action5 <= 2'b00;
+		order_id1 <= 16'd1;
+		order_id2 <= 16'd2;
+		order_id3 <= 16'd1;
+		order_id4 <= 16'd2;
+		order_id5 <= 16'd3;
+	end else if(new_input)begin
+		i_order_id <= order_id1;
+		order_id1 <= order_id2;
+		order_id2 <= order_id3;
+		order_id3 <= order_id4;
+		order_id4 <= order_id5;
+		i_price <= price1;
+		price1 <= price2;
+		price2 <= price3;
+		price3 <= price4;
+		price4 <= price5;
+		i_quantity <= quant1;
+		quant1 <= quant2;
+		quant2 <= quant3;
+		quant3 <= quant4;
+		quant4 <= quant5;
+		i_action <= action1;
+		action1 <= action2;
+		action2 <= action3;
+		action3 <= action4;
+		action4 <= action5;
+		i_side <= side1;
+		side1 <= side2;
+		side2 <= side3;
+		side3 <= side4;
+		side4 <= side5;
+	end
+end
+
 
 orderbook ob(
 	.i_clk(CLOCK_50),
 	.i_rst_n(rst_n),
-	.i_order_id(order_id),
-	.i_side(side),
+	.i_order_id(i_order_id),
+	.i_side(i_side),
 	.i_price(i_price),
 	.i_quantity(i_quantity),
-	.i_action(action),
-	.i_valid(i_valid),
+	.i_action(i_action),
+	.i_valid(valid),
 	.o_bid_best_price(o_bid_best_price),
 	.o_bid_best_quant(o_bid_best_quant),
 	.o_ask_best_price(),
@@ -240,7 +243,7 @@ end
 
 always_comb begin
 	if(o_bid_best_valid) begin
-		case(o_bid_best_quant[15:12])
+		case(o_bid_best_price[3:0])
 			4'd0: HEX3 = HEX_0;
 			4'd1: HEX3 = HEX_1;
 			4'd2: HEX3 = HEX_2;
@@ -265,23 +268,53 @@ end
 
 always_comb begin
 	if(o_bid_best_valid) begin
-		case(o_bid_best_price)
-			5'd0: HEX5 = HEX_0;
-			5'd1: HEX5 = HEX_1;
-			5'd2: HEX5 = HEX_2;
-			5'd3: HEX5 = HEX_3;
-			5'd4: HEX5 = HEX_4;
-			5'd5: HEX5 = HEX_5;
-			5'd6: HEX5 = HEX_6;
-			5'd7: HEX5 = HEX_7;
-			5'd8: HEX5 = HEX_8;
-			default: HEX5 = HEX_10;
+		case(o_bid_best_price[7:4])
+			4'd0: HEX4 = HEX_0;
+			4'd1: HEX4 = HEX_1;
+			4'd2: HEX4 = HEX_2;
+			4'd3: HEX4 = HEX_3;
+			4'd4: HEX4 = HEX_4;
+			4'd5: HEX4 = HEX_5;
+			4'd6: HEX4 = HEX_6;
+			4'd7: HEX4 = HEX_7;
+			4'd8: HEX4 = HEX_8;
+			4'd9: HEX4 = HEX_9;
+			4'd10: HEX4 = HEX_10;
+			4'd11: HEX4 = HEX_11;
+			4'd12: HEX4 = HEX_12;
+			4'd13: HEX4 = HEX_13;
+			4'd14: HEX4 = HEX_14;
+			4'd15: HEX4 = HEX_15;
+		endcase
+	end else begin
+		HEX4 = HEX_0;
+	end
+end
+always_comb begin
+	if(o_bid_best_valid) begin
+		case(o_bid_best_price[11:8])
+			4'd0: HEX5 = HEX_0;
+			4'd1: HEX5 = HEX_1;
+			4'd2: HEX5 = HEX_2;
+			4'd3: HEX5 = HEX_3;
+			4'd4: HEX5 = HEX_4;
+			4'd5: HEX5 = HEX_5;
+			4'd6: HEX5 = HEX_6;
+			4'd7: HEX5 = HEX_7;
+			4'd8: HEX5 = HEX_8;
+			4'd9: HEX5 = HEX_9;
+			4'd10: HEX5 = HEX_10;
+			4'd11: HEX5 = HEX_11;
+			4'd12: HEX5 = HEX_12;
+			4'd13: HEX5 = HEX_13;
+			4'd14: HEX5 = HEX_14;
+			4'd15: HEX5 = HEX_15;
 		endcase
 	end else begin
 		HEX5 = HEX_0;
 	end
 end
 
-assign HEX4 = HEX_0;
+
 
 endmodule

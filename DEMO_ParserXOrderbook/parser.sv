@@ -1,5 +1,5 @@
-module parser 
-#(parameter ORDERID_LEN  = 10, parameter QUANTITY_LEN = 32, parameter PRICE_LEN    = 32, parameter STOCK_LEN    = 16)
+module parser
+#(parameter ORDERID_LEN  = 16, parameter QUANTITY_LEN = 12, parameter PRICE_LEN    = 16, parameter STOCK_LEN    = 16)
 (
     input                               i_clk,
     input                               i_rst_n,
@@ -43,17 +43,17 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         stock_id_ff <= '0;       
     end
     else if(i_payload[7:0] == 8'b01000001) begin //add
-        order_id_ff <= i_payload[97:88];
-        quantity_ff <= i_payload[191:160];
+        order_id_ff <= i_payload[151:144]; // byte 18: LSB of 8-byte big-endian order ref number
+        quantity_ff <= i_payload[171:160]; // byte-swap bytes 20-23
         side_ff <= i_payload[159:152] == 8'b01000010 ? 1'b0 : 1'b1;
-        price_ff <= i_payload[287:256];
+        price_ff <= {i_payload[263:256], i_payload[271:264], i_payload[279:272], i_payload[287:280]}; // byte-swap bytes 32-35
         action_ff <= 2'b00;
         valid_ff <= i_valid;
         stock_id_ff <= i_payload[23:8];
     end
     else if(i_payload[7:0] == 8'b01011000) begin //cancel
-        order_id_ff <= i_payload[97:88];
-        quantity_ff <= i_payload[183:152];
+        order_id_ff <= i_payload[151:144]; // byte 18: LSB of 8-byte big-endian order ref number
+        quantity_ff <= {i_payload[159:152], i_payload[167:160], i_payload[175:168], i_payload[183:176]}; // byte-swap bytes 19-22
         side_ff <= '0;
         price_ff <= '0;
         action_ff <= 2'b01;
@@ -61,7 +61,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         stock_id_ff <= i_payload[23:8];
     end
     else if(i_payload[7:0] == 8'b01000100) begin //delete
-        order_id_ff <= i_payload[97:88];
+        order_id_ff <= i_payload[151:144]; // byte 18: LSB of 8-byte big-endian order ref number
         quantity_ff <= '0;
         side_ff <= '0;
         price_ff <= '0;
@@ -70,8 +70,8 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         stock_id_ff <= i_payload[23:8];
     end
     else if(i_payload[7:0] ==  8'b01000101) begin //execute
-        order_id_ff <= i_payload[97:88];
-        quantity_ff <= i_payload[183:152];
+        order_id_ff <= i_payload[151:144]; // byte 18: LSB of 8-byte big-endian order ref number
+        quantity_ff <= {i_payload[159:152], i_payload[167:160], i_payload[175:168], i_payload[183:176]}; // byte-swap bytes 19-22
         side_ff <= '0;
         price_ff <= '0;
         action_ff <= 2'b10;

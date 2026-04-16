@@ -35,7 +35,8 @@ pe_msb128 findIndex(
 //find which group have the msb
 always_comb begin
     mask_data0 = i_valid_table & (~i_cache_valid_table);
-    for(int i = 0; i < 128; i++) begin
+    grouped_data0 = '0;
+    for(int i = 0; i < NUM_LEVELS/128; i++) begin
         grouped_data0[i] = |mask_data0[i*128+:128];
     end
 end
