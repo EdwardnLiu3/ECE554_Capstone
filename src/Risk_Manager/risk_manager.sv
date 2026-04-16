@@ -37,13 +37,13 @@ module risk_manager (
 // changes to this and more checks for risk manager to verify, espcially that our quotes in market & new quote will not 
 // exceed our current inventory position of the stock. Also will be others to change but that is optimization problem i guess
 
-// Most of these can be changed if need but set to basic values for now. 
-localparam signed [15:0] MAX_LONG_POSITION      = 16'sd200;
-localparam signed [15:0] MAX_SHORT_POSITION     = 16'sd200;
-localparam        [15:0] MAX_QUOTE_QTY          = 16'd100;
-localparam        [31:0] MAX_PRICE_DELTA        = 32'd10;
-localparam signed [63:0]  MAX_DAILY_LOSS        = 64'sd500000;
-localparam [48:0] MAX_NOTIONAL_EXPOSURE         = 49'd10000;
+// Most of these can be changed if need but set to more lenient demo values for now.
+localparam signed [15:0] MAX_LONG_POSITION      = 16'sd1000;
+localparam signed [15:0] MAX_SHORT_POSITION     = 16'sd1000;
+localparam        [15:0] MAX_QUOTE_QTY          = 16'd500;
+localparam        [31:0] MAX_PRICE_DELTA        = 32'd100;
+localparam signed [63:0]  MAX_DAILY_LOSS        = 64'sd5000000;
+localparam [48:0] MAX_NOTIONAL_EXPOSURE         = 49'd10000000;
 localparam int RISK_POS_LEN   = 17;  // one bit wider than 16-bit position/qty
 localparam int NOTIONAL_LEN   = 49;  // 32-bit price * 17-bit position
 // Reject reason codes for debug stuff
