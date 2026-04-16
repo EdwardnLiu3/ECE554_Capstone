@@ -131,7 +131,11 @@ int main(int argc, char **argv) {
         }
         
         printf("[INFO] Client connected!\n");
-        
+
+        // Reset parser and orderbook state for the new session
+        *(h2p_lw_parser_addr + 22) = 1;  // pulse soft_rst_n low for 1 cycle
+        printf("[INFO] Hardware state reset for new session.\n");
+
         // Set socket to non-blocking so we can read from it while also polling buttons
         int flags = fcntl(new_socket, F_GETFL, 0);
         fcntl(new_socket, F_SETFL, flags | O_NONBLOCK);
@@ -214,6 +218,9 @@ int main(int argc, char **argv) {
                                     // 3. Strobe Valid signal (address 9)
                                     *(h2p_lw_parser_addr + 9) = 1;
                                     
+                                    // Give FPGA pipeline time to finish (8+ clock cycles)
+                                    usleep(1);
+                                    
                                     // 4. Read parser outputs (address 10-14)
                                     unsigned long out_order_id_lo = *(h2p_lw_parser_addr + 10);
                                     unsigned long out_qty   = *(h2p_lw_parser_addr + 12);
@@ -266,6 +273,35 @@ int main(int argc, char **argv) {
                                     } else {
                                         printf("   -> Best ASK : (empty)\n");
                                     }
+
+                                    // ---- RAW ORDERBOOK INPUT DEBUG ----
+                                    // Read what the parser actually sent into the orderbook
+                                    // Give one extra cycle for signals to settle
+                                    usleep(1);
+                                    unsigned long ob_in_order_id = *(h2p_lw_parser_addr + 23);
+                                    unsigned long ob_in_price    = *(h2p_lw_parser_addr + 24);
+                                    unsigned long ob_in_qty      = *(h2p_lw_parser_addr + 25);
+                                    unsigned long ob_in_flags    = *(h2p_lw_parser_addr + 26);
+                                    unsigned long ob_in_action   = *(h2p_lw_parser_addr + 27) & 0x3;
+
+                                    int ob_in_valid  = (ob_in_flags >> 2) & 1;
+                                    int ob_in_side   = (ob_in_flags >> 1) & 1;
+
+                                    printf("[RAW OB INPUTS (what orderbook received)]\n");
+                                    printf("   -> OB Order ID : %lu\n", ob_in_order_id);
+                                    printf("   -> OB Action   : ");
+                                    switch(ob_in_action) {
+                                        case 0: printf("ADD\n"); break;
+                                        case 1: printf("CANCEL\n"); break;
+                                        case 2: printf("EXECUTE\n"); break;
+                                        case 3: printf("DELETE\n"); break;
+                                    }
+                                    printf("   -> OB Side     : %s\n", ob_in_side ? "SELL" : "BUY");
+                                    printf("   -> OB Quantity : %lu shares\n", ob_in_qty);
+                                    printf("   -> OB Price    : $%.4f  (raw=%lu)\n", ob_in_price / 10000.0, ob_in_price);
+                                    printf("   -> OB Valid    : %s\n", ob_in_valid ? "YES" : "NO (latched after pulse)");
+                                    // ------------------------------------
+
                                 }
 
                                 // We still send the raw data to Python client just to clear queue 

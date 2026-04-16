@@ -27,7 +27,7 @@ logic [QUANTITY_LEN-1:0]    quantity1, quantity2, quantity3, quantity4, quantity
 logic [PRICE_LEN-1:0]       price1, price2, price3, price4, price5;
 
 // FLB update
-(* ram_style = "block" *) logic [QUANTITY_LEN-1:0]  FLB [0:NUM_LEVELS-1];
+logic [QUANTITY_LEN-1:0]  FLB [0:NUM_LEVELS-1];
 logic [QUANTITY_LEN-1:0]                            old_qty3, new_qty4, new_qty5;
 
 // cache

@@ -15,6 +15,8 @@ module parser_avalon_wrapper (
     // Internal Registers for Parser Input
     logic [287:0] i_payload;
     logic         i_valid;
+    logic         soft_rst_n;   // software-controlled reset (active low, 1-cycle pulse)
+    logic         combined_rst_n;
 
     // Parser Outputs
     logic [ORDERID_LEN-1:0] o_order_id;  // 10 bits (ob_pkg::ORDERID_LEN)
@@ -46,7 +48,7 @@ module parser_avalon_wrapper (
         .STOCK_LEN(16)
     ) parser_inst (
         .i_clk(clk),
-        .i_rst_n(reset_n),
+        .i_rst_n(combined_rst_n),
         .i_payload(i_payload),
         .i_valid(i_valid),
         .o_order_id(o_order_id),
@@ -61,7 +63,7 @@ module parser_avalon_wrapper (
     // Instantiate the orderbook (parser outputs feed directly into orderbook)
     orderbook ob_inst (
         .i_clk(clk),
-        .i_rst_n(reset_n),
+        .i_rst_n(combined_rst_n),
         .i_order_id(o_order_id),
         .i_side(o_side),
         .i_price(o_price),
@@ -83,15 +85,18 @@ module parser_avalon_wrapper (
 
     // No wait states needed
     assign avs_waitrequest = 1'b0;
+    assign combined_rst_n = reset_n & soft_rst_n;
 
     // Write Logic
     always_ff @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
-            i_payload <= '0;
-            i_valid   <= 1'b0;
+            i_payload   <= '0;
+            i_valid     <= 1'b0;
+            soft_rst_n  <= 1'b1;
         end else begin
-            // Default i_valid to low (pulse generator)
-            i_valid <= 1'b0;
+            // Default: deassert pulses each cycle
+            i_valid    <= 1'b0;
+            soft_rst_n <= 1'b1;
 
             if (avs_write) begin
                 case (avs_address)
@@ -105,6 +110,7 @@ module parser_avalon_wrapper (
                     6'd7: i_payload[255:224]  <= avs_writedata;
                     6'd8: i_payload[287:256]  <= avs_writedata;
                     6'd9: i_valid             <= 1'b1; // Pulse valid high
+                    6'd22: soft_rst_n         <= 1'b0; // Pulse soft reset low
                 endcase
             end
         end
