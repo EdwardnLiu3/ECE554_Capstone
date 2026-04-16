@@ -130,7 +130,7 @@ module tl_top
         end
     end
 
-    logic [31:0]        gamma_sigma;        // Q16.16  stage 1
+    logic [31:0]        gamma_sigma;       // Q16.16  stage 1
     logic [31:0]        gamma_sigma_time;   // Q16.16  stage 2
     logic signed [47:0] inv_skew_full;      //         stage 3
     logic signed [16:0] reservation;        //         stage 4
@@ -177,8 +177,8 @@ module tl_top
     end
 
     // Stage 4: reservation = mid - inv_skew
-    logic [7:0] spread_subcent;
-    assign spread_subcent = spread_price[15:8];   // Q8.8 integer part
+    logic [7:0] spread_cents;
+    assign spread_cents = (spread_price * 8'd100) >> 8;   // Q8.8 integer part
 
     always_ff @(posedge i_clk) begin
         if (!i_rst_n) begin
@@ -188,8 +188,8 @@ module tl_top
         end else begin
             reservation  = $signed({1'b0, s3_mid}) - $signed(inv_skew_full[32:16]);
             o_valid      <= s3_valid;
-            o_bid_price  <= reservation[PRICE_LEN-1:0] - {8'b0, spread_subcent};
-            o_ask_price  <= reservation[PRICE_LEN-1:0] + {8'b0, spread_subcent};
+            o_bid_price  <= reservation[PRICE_LEN-1:0] - spread_cents;
+            o_ask_price  <= reservation[PRICE_LEN-1:0] + spread_cents;
 
             // AS always quotes both sides — buy/sell decision is made by the market
             // if ($signed(reservation) > $signed({1'b0, s3_mid}))
