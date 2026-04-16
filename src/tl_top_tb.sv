@@ -22,6 +22,7 @@ module tl_top_tb;
     logic                 i_price_valid;
     logic                 i_trade_valid;
     logic                 i_trade_side;
+    logic [15:0]          i_trade_qty;
     logic [PRICE_LEN-1:0] o_bid_price, o_ask_price;
     logic                 o_valid;
 
@@ -37,6 +38,7 @@ module tl_top_tb;
         .i_price_valid(i_price_valid),
         .i_trade_valid(i_trade_valid),
         .i_trade_side (i_trade_side),
+        .i_trade_qty  (i_trade_qty),
         .o_bid_price  (o_bid_price),
         .o_ask_price  (o_ask_price),
         .o_valid      (o_valid)
@@ -78,20 +80,20 @@ module tl_top_tb;
         end
     endtask
 
-    task automatic send_trade(input int n, input side);
-        repeat(n) begin
-            @(posedge i_clk);
-            i_trade_side  <= side;
-            i_trade_valid <= 1;
-            @(posedge i_clk);
-            i_trade_valid <= 0;
-        end
+    task automatic send_trade(input [15:0] qty, input side);
+        @(posedge i_clk);
+        i_trade_side  <= side;
+        i_trade_qty   <= qty;
+        i_trade_valid <= 1;
+        @(posedge i_clk);
+        i_trade_valid <= 0;
     endtask
 
     task automatic do_reset();
         i_rst_n       = 0;
         i_price_valid = 0;
         i_trade_valid = 0;
+        i_trade_qty   = 16'd0;
         i_best_bid    = '0;
         i_best_ask    = '0;
         i_order_time  = '0;
