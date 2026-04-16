@@ -9,6 +9,7 @@ module tl_top
     input  logic                 i_price_valid,
     input  logic                 i_trade_valid,
     input  logic                 i_trade_side,   // 0 = buy, 1 = sell
+    input  logic [15:0]          i_trade_qty,
 
     output logic [PRICE_LEN-1:0] o_bid_price,
     output logic [PRICE_LEN-1:0] o_ask_price,
@@ -54,7 +55,7 @@ module tl_top
         .rst_n      (i_rst_n),
         .buy_valid  (i_trade_valid & ~i_trade_side),
         .sell_valid (i_trade_valid &  i_trade_side),
-        .qty        (16'd1),
+        .qty        (i_trade_qty),
         .q          (q)
     );
 

@@ -167,6 +167,7 @@ tl_top tl_inst (
     .i_price_valid(price_valid_for_tl),
     .i_trade_valid(trade_valid_for_tl),
     .i_trade_side (trade_side_for_tl),
+    .i_trade_qty  (o_exec_quantity),
     .o_bid_price  (tl_bid_price),
     .o_ask_price  (tl_ask_price),
     .o_valid      (tl_valid)
