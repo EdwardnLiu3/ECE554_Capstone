@@ -165,7 +165,7 @@ module soc_system (
 	wire          hps_0_h2f_lw_axi_master_rvalid;                            // mm_interconnect_0:hps_0_h2f_lw_axi_master_rvalid -> hps_0:h2f_lw_RVALID
 	wire          mm_interconnect_0_onchip_memory2_0_s1_chipselect;          // mm_interconnect_0:onchip_memory2_0_s1_chipselect -> onchip_memory2_0:chipselect
 	wire   [63:0] mm_interconnect_0_onchip_memory2_0_s1_readdata;            // onchip_memory2_0:readdata -> mm_interconnect_0:onchip_memory2_0_s1_readdata
-	wire   [12:0] mm_interconnect_0_onchip_memory2_0_s1_address;             // mm_interconnect_0:onchip_memory2_0_s1_address -> onchip_memory2_0:address
+	wire    [4:0] mm_interconnect_0_onchip_memory2_0_s1_address;             // mm_interconnect_0:onchip_memory2_0_s1_address -> onchip_memory2_0:address
 	wire    [7:0] mm_interconnect_0_onchip_memory2_0_s1_byteenable;          // mm_interconnect_0:onchip_memory2_0_s1_byteenable -> onchip_memory2_0:byteenable
 	wire          mm_interconnect_0_onchip_memory2_0_s1_write;               // mm_interconnect_0:onchip_memory2_0_s1_write -> onchip_memory2_0:write
 	wire   [63:0] mm_interconnect_0_onchip_memory2_0_s1_writedata;           // mm_interconnect_0:onchip_memory2_0_s1_writedata -> onchip_memory2_0:writedata

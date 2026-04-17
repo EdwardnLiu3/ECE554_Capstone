@@ -147,6 +147,13 @@ module parser_avalon_wrapper (
                 6'd19: avs_readdata = ob_ask_best_quant[31:0];
                 6'd20: avs_readdata = ob_ask_best_quant[63:32];
                 6'd21: avs_readdata = {30'd0, ob_ask_best_valid, ob_bid_best_valid};
+
+                // Orderbook pipeline inputs/outputs for debug (addr 23-27)
+                6'd23: avs_readdata = {22'd0, o_order_id};   // OB input: order_id (same as parser output)
+                6'd24: avs_readdata = o_price;               // OB input: price
+                6'd25: avs_readdata = o_quantity;            // OB input: quantity
+                6'd26: avs_readdata = {29'd0, o_valid, o_side, o_action[0]}; // OB input: valid/side/action
+                6'd27: avs_readdata = {30'd0, o_action};     // OB input: action full 2 bits
             endcase
         end
     end

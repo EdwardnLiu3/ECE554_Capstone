@@ -1,5 +1,6 @@
 
 module soc_system (
+	button_pio_external_connection_export,
 	clk_clk,
 	hps_0_h2f_reset_reset_n,
 	hps_0_hps_io_hps_io_emac1_inst_TX_CLK,
@@ -75,9 +76,9 @@ module soc_system (
 	memory_mem_dm,
 	memory_oct_rzqin,
 	reset_reset_n,
-	seg7_if_conduit_end_export,
-	button_pio_external_connection_export);	
+	seg7_if_conduit_end_export);	
 
+	input	[3:0]	button_pio_external_connection_export;
 	input		clk_clk;
 	output		hps_0_h2f_reset_reset_n;
 	output		hps_0_hps_io_hps_io_emac1_inst_TX_CLK;
@@ -154,5 +155,4 @@ module soc_system (
 	input		memory_oct_rzqin;
 	input		reset_reset_n;
 	output	[47:0]	seg7_if_conduit_end_export;
-	input	[3:0]	button_pio_external_connection_export;
 endmodule
