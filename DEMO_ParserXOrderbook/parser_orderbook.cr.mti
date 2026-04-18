@@ -1,18 +1,18 @@
-C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb128.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb128.sv
+C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling package tb_ob_opb_sv_unit
+-- Importing package ob_pkg
+-- Compiling module tb_ob_opb
+
+Top level modules:
+	tb_ob_opb
+
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb128.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb128.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module pe_lsb128
 
 Top level modules:
 	pe_lsb128
-
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling package ob_opb_sv_unit
--- Importing package ob_pkg
--- Compiling module ob_opb
-
-Top level modules:
-	ob_opb
 
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb128.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb128.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -87,6 +87,15 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	orderbook
 
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_flb.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_flb.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling package tb_ob_flb_sv_unit
+-- Importing package ob_pkg
+-- Compiling module tb_ob_flb
+
+Top level modules:
+	tb_ob_flb
+
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling package tb_ParserXOrderbook_sv_unit
@@ -105,15 +114,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	Orderbook_int
 
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_flb_bid.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_flb_bid.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling package ob_flb_bid_sv_unit
--- Importing package ob_pkg
--- Compiling module ob_flb_bid
-
-Top level modules:
-	ob_flb_bid
-
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_flb_ask.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_flb_ask.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling package ob_flb_ask_sv_unit
@@ -129,6 +129,24 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 
 Top level modules:
 	pe_lsb32
+
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_flb_bid.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_flb_bid.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling package ob_flb_bid_sv_unit
+-- Importing package ob_pkg
+-- Compiling module ob_flb_bid
+
+Top level modules:
+	ob_flb_bid
+
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_orderbook.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_orderbook.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling package tb_orderbook_sv_unit
+-- Importing package ob_pkg
+-- Compiling module tb_orderbook
+
+Top level modules:
+	tb_orderbook
 
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ParserXOrderbook.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ParserXOrderbook.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020

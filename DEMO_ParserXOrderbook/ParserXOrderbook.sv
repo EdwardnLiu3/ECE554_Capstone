@@ -90,11 +90,11 @@ always_ff @(posedge CLOCK_50, negedge rst_n) begin
 		i_quantity <= '0;
 		i_action <= '0;
 		i_side <= 0;
-		price1 <= 16'd400;
-		price2 <= 16'd500;
-		price3 <= 16'd400;
+		price1 <= 16'd4;
+		price2 <= 16'd5;
+		price3 <= 16'd4;
 		price4 <= 16'd0;
-		price5 <= 16'd600;
+		price5 <= 16'd6;
 		quant1 <= 12'd10;
 		quant2 <= 12'd40;
 		quant3 <= 12'd5;
