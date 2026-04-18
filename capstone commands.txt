@@ -1,0 +1,34 @@
+ifconfig eth0 192.168.1.101 netmask 255.255.255.0
+
+scp tcp_packet_receiver_redo.rbf root@192.168.1.101:/home/root/
+./hps_config_fpga tcp_packet_receiver_redo.rbf
+
+WSL:
+
+# Open WSL, navigate to the project folder
+cd "/mnt/c/Users/edwar/OneDrive/Documents/Coding/ECE 554/ECE554_Capstone/DEMO_Project integration"
+
+# Clean old build then compile
+make clean && make
+
+
+cd /mnt/c/Users/edwar/OneDrive/Documents/Coding/"ECE 554"/DE1-SoC_v.5.1.1_HWrevF_SystemCD/Tools/SystemBuilder/CodeGenerated/DE1_SOC/tcp_packet_receiver_redo
+
+scp tcp_receiver root@192.168.1.101:/home/root/
+./tcp_receiver
+
+py send_itch_client.py --csv "./ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/AMZN_2012-06-21_34200000_57600000_message_1.csv" --orders 25 --speed 5.0
+
+
+
+OLD:
+passwd
+nano /etc/ssh/sshd_config
+PermitRootLogin yes
+service ssh restart
+
+scp "c:\Users\edwar\OneDrive\Documents\Coding\ECE 554\DE1-SoC_v.5.1.1_HWrevF_SystemCD\Tools\SystemBuilder\CodeGenerated\DE1_SOC\tcp_packet_receiver\hps_tcp_receiver.py" root@192.168.1.101:/root/
+
+scp "c:\Users\edwar\OneDrive\Documents\Coding\ECE 554\DE1-SoC_v.5.1.1_HWrevF_SystemCD\Tools\SystemBuilder\CodeGenerated\DE1_SOC\tcp_packet_receiver\soc_system.rbf" root@192.168.1.101:/root/
+
+scp "c:\Users\edwar\OneDrive\Documents\Coding\ECE 554\DE1-SoC_v.5.1.1_HWrevF_SystemCD\Tools\SystemBuilder\CodeGenerated\DE1_SOC\tcp_packet_receiver\tcp_packet_receiver.rbf" root@192.168.1.101:/root/
