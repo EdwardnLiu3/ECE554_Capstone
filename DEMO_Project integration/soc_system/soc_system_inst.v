@@ -1,4 +1,5 @@
 	soc_system u0 (
+		.button_pio_external_connection_export (<connected-to-button_pio_external_connection_export>), // button_pio_external_connection.export
 		.clk_clk                               (<connected-to-clk_clk>),                               //                            clk.clk
 		.hps_0_h2f_reset_reset_n               (<connected-to-hps_0_h2f_reset_reset_n>),               //                hps_0_h2f_reset.reset_n
 		.hps_0_hps_io_hps_io_emac1_inst_TX_CLK (<connected-to-hps_0_hps_io_hps_io_emac1_inst_TX_CLK>), //                   hps_0_hps_io.hps_io_emac1_inst_TX_CLK
@@ -74,7 +75,6 @@
 		.memory_mem_dm                         (<connected-to-memory_mem_dm>),                         //                               .mem_dm
 		.memory_oct_rzqin                      (<connected-to-memory_oct_rzqin>),                      //                               .oct_rzqin
 		.reset_reset_n                         (<connected-to-reset_reset_n>),                         //                          reset.reset_n
-		.seg7_if_conduit_end_export            (<connected-to-seg7_if_conduit_end_export>),            //            seg7_if_conduit_end.export
-		.button_pio_external_connection_export (<connected-to-button_pio_external_connection_export>)  // button_pio_external_connection.export
+		.seg7_if_conduit_end_export            (<connected-to-seg7_if_conduit_end_export>)             //            seg7_if_conduit_end.export
 	);
 

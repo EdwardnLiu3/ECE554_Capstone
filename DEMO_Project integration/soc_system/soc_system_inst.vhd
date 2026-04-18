@@ -1,5 +1,6 @@
 	component soc_system is
 		port (
+			button_pio_external_connection_export : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- export
 			clk_clk                               : in    std_logic                     := 'X';             -- clk
 			hps_0_h2f_reset_reset_n               : out   std_logic;                                        -- reset_n
 			hps_0_hps_io_hps_io_emac1_inst_TX_CLK : out   std_logic;                                        -- hps_io_emac1_inst_TX_CLK
@@ -75,13 +76,13 @@
 			memory_mem_dm                         : out   std_logic_vector(3 downto 0);                     -- mem_dm
 			memory_oct_rzqin                      : in    std_logic                     := 'X';             -- oct_rzqin
 			reset_reset_n                         : in    std_logic                     := 'X';             -- reset_n
-			seg7_if_conduit_end_export            : out   std_logic_vector(47 downto 0);                    -- export
-			button_pio_external_connection_export : in    std_logic_vector(3 downto 0)  := (others => 'X')  -- export
+			seg7_if_conduit_end_export            : out   std_logic_vector(47 downto 0)                     -- export
 		);
 	end component soc_system;
 
 	u0 : component soc_system
 		port map (
+			button_pio_external_connection_export => CONNECTED_TO_button_pio_external_connection_export, -- button_pio_external_connection.export
 			clk_clk                               => CONNECTED_TO_clk_clk,                               --                            clk.clk
 			hps_0_h2f_reset_reset_n               => CONNECTED_TO_hps_0_h2f_reset_reset_n,               --                hps_0_h2f_reset.reset_n
 			hps_0_hps_io_hps_io_emac1_inst_TX_CLK => CONNECTED_TO_hps_0_hps_io_hps_io_emac1_inst_TX_CLK, --                   hps_0_hps_io.hps_io_emac1_inst_TX_CLK
@@ -157,7 +158,6 @@
 			memory_mem_dm                         => CONNECTED_TO_memory_mem_dm,                         --                               .mem_dm
 			memory_oct_rzqin                      => CONNECTED_TO_memory_oct_rzqin,                      --                               .oct_rzqin
 			reset_reset_n                         => CONNECTED_TO_reset_reset_n,                         --                          reset.reset_n
-			seg7_if_conduit_end_export            => CONNECTED_TO_seg7_if_conduit_end_export,            --            seg7_if_conduit_end.export
-			button_pio_external_connection_export => CONNECTED_TO_button_pio_external_connection_export  -- button_pio_external_connection.export
+			seg7_if_conduit_end_export            => CONNECTED_TO_seg7_if_conduit_end_export             --            seg7_if_conduit_end.export
 		);
 

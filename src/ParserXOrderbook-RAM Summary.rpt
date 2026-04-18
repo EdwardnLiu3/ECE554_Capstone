@@ -1,0 +1,45 @@
+RAM Summary report for ParserXOrderbook
+Thu Apr 16 18:22:00 2026
+Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Fitter RAM Summary
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2025  Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus Prime License Agreement,
+the Altera IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Altera and sold by Altera or its authorized distributors.  Please
+refer to the Altera Software License Subscription Agreements 
+on the Quartus Prime software download page.
+
+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Fitter RAM Summary                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ;
++---------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------------+------------------------+-------------------------+------------------------+-------------------------+--------+-----------------------------+-----------------------------+-----------------------------+-----------------------------+---------------------+-------------+-------+------+----------------+----------------------+-----------------+-----------------+----------+------------------------+---------------------------------------------+
+; Name                                                                                                                            ; Type ; Mode             ; Clock Mode   ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Port A Input Registers ; Port A Output Registers ; Port B Input Registers ; Port B Output Registers ; Size   ; Implementation Port A Depth ; Implementation Port A Width ; Implementation Port B Depth ; Implementation Port B Width ; Implementation Bits ; M10K blocks ; MLABs ; MIF  ; Location       ; Mixed Width RDW Mode ; Port A RDW Mode ; Port B RDW Mode ; ECC Mode ; ECC Pipeline Registers ; Fits in MLABs                               ;
++---------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------------+------------------------+-------------------------+------------------------+-------------------------+--------+-----------------------------+-----------------------------+-----------------------------+-----------------------------+---------------------+-------------+-------+------+----------------+----------------------+-----------------+-----------------+----------+------------------------+---------------------------------------------+
+; orderbook:ob|ob_flb_bid:bid_flb|altshift_taps:valid1_rtl_0|shift_taps_1dv:auto_generated|altsyncram_lfc1:altsyncram4|ALTSYNCRAM ; AUTO ; Simple Dual Port ; Single Clock ; 4            ; 35           ; 4            ; 35           ; yes                    ; no                      ; yes                    ; yes                     ; 140    ; 4                           ; 35                          ; 4                           ; 35                          ; 140                 ; 1           ; 0     ; None ; M10K_X14_Y5_N0 ; Don't care           ; New data        ; New data        ; Off      ; No                     ; Yes                                         ;
+; orderbook:ob|ob_flb_bid:bid_flb|altsyncram:FLB_rtl_0|altsyncram_0gn1:auto_generated|ALTSYNCRAM                                  ; AUTO ; Simple Dual Port ; Single Clock ; 16384        ; 32           ; 16384        ; 32           ; yes                    ; no                      ; yes                    ; no                      ; 524288 ; 256                         ; 32                          ; 256                         ; 32                          ; 8192                ; 1           ; 0     ; None ; M10K_X5_Y9_N0  ; Old data             ; New data        ; New data        ; Off      ; No                     ; No - Unsupported Mixed Feed Through Setting ;
+; orderbook:ob|ob_flb_bid:bid_flb|altsyncram:FLB_rtl_1|altsyncram_0gn1:auto_generated|ALTSYNCRAM                                  ; AUTO ; Simple Dual Port ; Single Clock ; 16384        ; 32           ; 16384        ; 32           ; yes                    ; no                      ; yes                    ; no                      ; 524288 ; 256                         ; 16                          ; 256                         ; 16                          ; 4096                ; 1           ; 0     ; None ; M10K_X14_Y8_N0 ; Old data             ; New data        ; New data        ; Off      ; No                     ; No - Unsupported Mixed Feed Through Setting ;
++---------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------------+------------------------+-------------------------+------------------------+-------------------------+--------+-----------------------------+-----------------------------+-----------------------------+-----------------------------+---------------------+-------------+-------+------+----------------+----------------------+-----------------+-----------------+----------+------------------------+---------------------------------------------+
+Note: Fitter may spread logical memories into multiple blocks to improve timing. The actual required RAM blocks can be found in the Fitter Resource Usage section.
+
+

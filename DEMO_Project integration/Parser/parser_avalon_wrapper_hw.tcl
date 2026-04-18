@@ -27,6 +27,19 @@ set_fileset_property QUARTUS_SYNTH ENABLE_FILE_OVERWRITE_MODE false
 add_fileset_file parser_avalon_wrapper.sv SYSTEM_VERILOG PATH parser_avalon_wrapper.sv TOP_LEVEL_FILE
 add_fileset_file parser.sv SYSTEM_VERILOG PATH parser.sv
 
+# Orderbook dependencies
+add_fileset_file ob_pkg.sv SYSTEM_VERILOG PATH ../Orderbook/ob_pkg.sv
+add_fileset_file ob_opb.sv SYSTEM_VERILOG PATH ../Orderbook/ob_opb.sv
+add_fileset_file ob_flb_bid.sv SYSTEM_VERILOG PATH ../Orderbook/ob_flb_bid.sv
+add_fileset_file ob_flb_ask.sv SYSTEM_VERILOG PATH ../Orderbook/ob_flb_ask.sv
+add_fileset_file orderbook.sv SYSTEM_VERILOG PATH ../Orderbook/orderbook.sv
+add_fileset_file flb_refill_engine_bid_1024.sv SYSTEM_VERILOG PATH ../Orderbook/flb_refill_engine_bid_1024.sv
+add_fileset_file flb_refill_engine_ask_1024.sv SYSTEM_VERILOG PATH ../Orderbook/flb_refill_engine_ask_1024.sv
+add_fileset_file pe_msb32.sv SYSTEM_VERILOG PATH ../Orderbook/pe_msb32.sv
+add_fileset_file pe_lsb32.sv SYSTEM_VERILOG PATH ../Orderbook/pe_lsb32.sv
+add_fileset_file pe_msb128.sv SYSTEM_VERILOG PATH ../Orderbook/pe_msb128.sv
+add_fileset_file pe_lsb128.sv SYSTEM_VERILOG PATH ../Orderbook/pe_lsb128.sv
+
 # 
 # parameters
 # 

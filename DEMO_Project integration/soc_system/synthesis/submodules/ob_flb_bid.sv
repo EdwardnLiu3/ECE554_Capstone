@@ -1,4 +1,4 @@
-import ob_pkg::*;
+import ob_pkg::*; 
 module ob_flb_bid #(parameter int BASE_PRICE = 0)(
     input logic                         i_clk,
     input logic                         i_rst_n,
@@ -27,7 +27,7 @@ logic [QUANTITY_LEN-1:0]    quantity1, quantity2, quantity3, quantity4, quantity
 logic [PRICE_LEN-1:0]       price1, price2, price3, price4, price5;
 
 // FLB update
-(* ram_style = "block" *) logic [QUANTITY_LEN-1:0]  FLB [0:NUM_LEVELS-1];
+logic [QUANTITY_LEN-1:0]  FLB [0:NUM_LEVELS-1];
 logic [QUANTITY_LEN-1:0]                            old_qty3, new_qty4, new_qty5;
 
 // cache
@@ -68,8 +68,8 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         action4 <= '0;
         action5 <= '0;
     end else begin
-        action1 <= i_action;
-        action2 <= action1;
+        action1 <= i_action; 
+        action2 <= action1; 
         action3 <= action2;
         action4 <= action3;
         action5 <= action4;
@@ -111,6 +111,10 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
 end
 
 // INDEX SETUP
+// Cycle: Action
+// 1: set the price diff
+// 2: set the index
+// NOTE: cycle 1 and 2 is for setup, so starting 3 is where everything start
 always_ff @(posedge i_clk, negedge i_rst_n) begin
     if(!i_rst_n) begin
         price_diff <= '0;
@@ -119,8 +123,8 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         index4 <= '0;
         index5 <= '0;
     end else begin
-        price_diff <= i_price - BASE_PRICE;
-        index2 <= price_diff / 100;
+        price_diff <= i_price - BASE_PRICE;  
+        index2 <= price_diff / 100; 
         index3 <= index2;
         index4 <= index3;
         index5 <= index4;
@@ -128,6 +132,8 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
 end
 
 // FLB SETUP - PRICE
+// cycle: action
+// 3: get the old_qty from the FLB
 always_ff @(posedge i_clk, negedge i_rst_n) begin
     if(!i_rst_n) begin
         old_qty3 <= '0;
@@ -135,22 +141,22 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
     end else begin
         if(valid_table[index2])
             old_qty3 <= FLB[index2];
-        else
+        else 
             old_qty3 <= '0;
         if(valid4 && (index4 == index3))begin
             if(action3 == ADD)
                 new_qty4 <= new_qty4 + quantity3;
-            else
+            else 
                 new_qty4 <= new_qty4 - quantity3;
         end else if(valid5 && (index5 == index3)) begin
             if(action3 == ADD)
                 new_qty4 <= new_qty5 + quantity3;
-            else
+            else 
                 new_qty4 <= new_qty5 - quantity3;
         end else begin
             if(action3 == ADD)
                 new_qty4 <= old_qty3 + quantity3;
-            else
+            else 
                 new_qty4 <= old_qty3 - quantity3;
         end
     end
@@ -191,9 +197,9 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
     end else if(cache_hit4) begin
         if(new_qty4 == 0) begin
             for(int i = 0; i < FLB_CACHE_LEVEL-1; i++) begin
-                if(i >= hit_pos4)
+                if(i >= hit_pos4) 
                     cache[i] <= cache[i+1];
-            end
+            end 
             cache[FLB_CACHE_LEVEL-1].valid <= 1'b0;
             cache[FLB_CACHE_LEVEL-1].quantity <= '0;
             cache[FLB_CACHE_LEVEL-1].index <= '0;
@@ -225,7 +231,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
             epoch5 <= epoch5 + 1'b1;
             cache_valid_table[r_engine_index] <= 1'b1;
             to_insert5 <= to_insert5 + 1'b1;
-    end
+    end 
 end
 
 assign cache_full = to_insert5 == FLB_CACHE_LEVEL;
@@ -234,7 +240,7 @@ assign cache_full = to_insert5 == FLB_CACHE_LEVEL;
 always_comb begin
     cache_hit4 = 0;
     hit_pos4 = '0;
-    add_2_cache = valid4 &&
+    add_2_cache = valid4 && 
                   (action4 == ADD) &&
                   ((to_insert5 == 0)||(index4 > cache[to_insert5-1].index));
     add_pos4 = FLB_CACHE_LEVEL-1;
@@ -250,7 +256,7 @@ always_comb begin
     end
 end
 
-flb_refill_engine_bid refill_engine(
+flb_refill_engine_bid_1024 refill_engine(
     .i_clk(i_clk),
     .i_rst_n(i_rst_n),
     .i_valid_table(valid_table),

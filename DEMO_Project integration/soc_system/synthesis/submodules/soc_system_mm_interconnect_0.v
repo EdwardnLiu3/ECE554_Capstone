@@ -111,7 +111,7 @@ module soc_system_mm_interconnect_0 (
 		input  wire [31:0]  led_pio_s1_readdata,                                              //                                                           .readdata
 		output wire [31:0]  led_pio_s1_writedata,                                             //                                                           .writedata
 		output wire         led_pio_s1_chipselect,                                            //                                                           .chipselect
-		output wire [12:0]  onchip_memory2_0_s1_address,                                      //                                        onchip_memory2_0_s1.address
+		output wire [4:0]   onchip_memory2_0_s1_address,                                      //                                        onchip_memory2_0_s1.address
 		output wire         onchip_memory2_0_s1_write,                                        //                                                           .write
 		input  wire [63:0]  onchip_memory2_0_s1_readdata,                                     //                                                           .readdata
 		output wire [63:0]  onchip_memory2_0_s1_writedata,                                    //                                                           .writedata
@@ -1028,7 +1028,7 @@ module soc_system_mm_interconnect_0 (
 	);
 
 	altera_merlin_slave_translator #(
-		.AV_ADDRESS_W                   (13),
+		.AV_ADDRESS_W                   (5),
 		.AV_DATA_W                      (64),
 		.UAV_DATA_W                     (64),
 		.AV_BURSTCOUNT_W                (1),
