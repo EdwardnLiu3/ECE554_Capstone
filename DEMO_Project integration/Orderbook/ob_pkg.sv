@@ -1,9 +1,9 @@
 package ob_pkg;
 
-    parameter int ORDERID_LEN = 8;
-    parameter int PRICE_LEN = 32;
-    parameter int QUANTITY_LEN = 32;
-    parameter int TOT_QUATITY_LEN = 64;
+    parameter int ORDERID_LEN = 16;
+    parameter int PRICE_LEN = 16;
+    parameter int QUANTITY_LEN = 12;
+    parameter int TOT_QUATITY_LEN = 16;
     parameter int NUM_LEVELS = 1024;
     parameter int FLB_CACHE_LEVEL = 5;
     parameter int CACHE_POS = $clog2(FLB_CACHE_LEVEL);
@@ -29,7 +29,7 @@ package ob_pkg;
     typedef struct packed {
         logic valid;
         logic [$clog2(NUM_LEVELS)-1:0] index;
-        logic [QUANTITY_LEN-1:0] quantity;
+        logic [TOT_QUATITY_LEN-1:0] quantity;
     } flb_cache_packet_t;
 
     localparam int OPB_DEPTH = (1 << ORDERID_LEN);

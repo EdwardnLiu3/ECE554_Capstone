@@ -1,13 +1,11 @@
 ////////////////////////////////////////////////////
-//
+// 
 // This module get the information from parsing
 // module and output the current state of the stock
 //
 ////////////////////////////////////////////////////
 import ob_pkg::*;
-module orderbook #(
-    parameter int BASE_PRICE = 2200000  // ITCH units (price * 10000); e.g. 2200000 = $220.00
-)(
+module orderbook #(parameter int BASE_PRICE = 0)(
     input                           i_clk,
     input                           i_rst_n,
     input [ORDERID_LEN-1:0]         i_order_id,
@@ -53,7 +51,7 @@ ob_opb bid_opb(
     .o_valid(p_valid),
     .o_quantity(p_quantity),
     .o_side(p_side)
-);
+); 
 
 
 // this module track the quantity of each price
