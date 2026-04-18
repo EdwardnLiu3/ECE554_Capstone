@@ -24,6 +24,7 @@ module tl_top_tb;
     logic                 i_trade_side;
     logic [15:0]          i_trade_qty;
     logic [PRICE_LEN-1:0] o_bid_price, o_ask_price;
+    logic [15:0]          o_bid_qty, o_ask_qty;
     logic                 o_valid;
 
     integer pass_count;
@@ -41,6 +42,8 @@ module tl_top_tb;
         .i_trade_qty  (i_trade_qty),
         .o_bid_price  (o_bid_price),
         .o_ask_price  (o_ask_price),
+        .o_bid_qty    (o_bid_qty),
+        .o_ask_qty    (o_ask_qty),
         .o_valid      (o_valid)
     );
 
@@ -285,6 +288,90 @@ module tl_top_tb;
 
             $display("  inv_skew low-vol=%0d  high-vol=%0d  sigma_lo=%0d  sigma_hi=%0d",skew_lo, skew_hi, sigma_lo, sigma_hi);
             check(skew_hi > skew_lo, "higher volatility produces larger inventory skew");
+        end
+
+        // q=0: bid and ask quantities should be equal (both Q_BASE)
+        $display("\n--- Test 11: q=0 symmetric quantities ---");
+        begin
+            do_reset();
+            warmup_volatility(16'd22396, 16'd22400, 16'd22400, 16'd22404, MID_DAY, 50);
+            send_and_capture(BID, ASK, MID_DAY, bid_out, ask_out);
+
+            $display("  q=%0d  bid_qty=%0d  ask_qty=%0d", dut.q, o_bid_qty, o_ask_qty);
+            check(o_bid_qty == o_ask_qty, "bid_qty == ask_qty when q=0");
+            check(o_bid_qty == dut.Q_BASE, $sformatf("bid_qty == Q_BASE (%0d)", dut.Q_BASE));
+        end
+
+        // q>0 (long): bid_qty should shrink, ask_qty should grow
+        $display("\n--- Test 12: Long inventory skews quantity toward selling ---");
+        begin
+            logic [15:0] bid_qty_q0, ask_qty_q0;
+            bid_qty_q0 = o_bid_qty;
+            ask_qty_q0 = o_ask_qty;
+
+            send_trade(50, 1'b0);   // buy 50 so q=+50
+            send_and_capture(BID, ASK, MID_DAY, bid_out, ask_out);
+
+            $display("  q=%0d  bid_qty=%0d (was %0d)  ask_qty=%0d (was %0d)",
+                     dut.q, o_bid_qty, bid_qty_q0, o_ask_qty, ask_qty_q0);
+            check(o_bid_qty < bid_qty_q0, "bid_qty shrinks when long");
+            check(o_ask_qty > ask_qty_q0, "ask_qty grows when long");
+        end
+
+        // q<0 (short): bid_qty should grow, ask_qty should shrink
+        $display("\n--- Test 13: Short inventory skews quantity toward buying ---");
+        begin
+            send_trade(100, 1'b1);  // sell 150 so q=-50
+            send_and_capture(BID, ASK, MID_DAY, bid_out, ask_out);
+
+            $display("  q=%0d  bid_qty=%0d  ask_qty=%0d", dut.q, o_bid_qty, o_ask_qty);
+            check(o_bid_qty > o_ask_qty, "bid_qty > ask_qty when short");
+        end
+
+        // Quantities clamp to [0, Q_LIMIT] and never go negative or exceed max
+        $display("\n--- Test 14: Quantity clamp bounds ---");
+        begin
+            $display("  q=%0d  bid_qty=%0d  ask_qty=%0d  Q_LIMIT=%0d",
+                     dut.q, o_bid_qty, o_ask_qty, dut.Q_LIMIT);
+            check(o_bid_qty <= dut.Q_LIMIT, "bid_qty <= Q_LIMIT");
+            check(o_ask_qty <= dut.Q_LIMIT, "ask_qty <= Q_LIMIT");
+        end
+
+        // Quantity skew increases with larger |q|
+        $display("\n--- Test 15: Quantity skew monotonic with |q| ---");
+        begin
+            logic [15:0] ask_q10, ask_q50;
+            logic [15:0] bid_q10, bid_q50;
+
+            // Sell side: ask_qty grows as long inventory increases
+            do_reset();
+            warmup_volatility(16'd22396, 16'd22400, 16'd22400, 16'd22404, MID_DAY, 50);
+
+            send_trade(10, 1'b0);   // q=+10
+            send_and_capture(BID, ASK, MID_DAY, bid_out, ask_out);
+            ask_q10 = o_ask_qty;
+
+            send_trade(40, 1'b0);   // q=+50
+            send_and_capture(BID, ASK, MID_DAY, bid_out, ask_out);
+            ask_q50 = o_ask_qty;
+
+            $display("  ask_qty q=10:%0d  q=50:%0d", ask_q10, ask_q50);
+            check(ask_q50 >= ask_q10, "ask_qty grows with larger long inventory");
+
+            // Buy side: bid_qty grows as short inventory increases
+            do_reset();
+            warmup_volatility(16'd22396, 16'd22400, 16'd22400, 16'd22404, MID_DAY, 50);
+
+            send_trade(10, 1'b1);   // q=-10
+            send_and_capture(BID, ASK, MID_DAY, bid_out, ask_out);
+            bid_q10 = o_bid_qty;
+
+            send_trade(40, 1'b1);   // q=-50
+            send_and_capture(BID, ASK, MID_DAY, bid_out, ask_out);
+            bid_q50 = o_bid_qty;
+
+            $display("  bid_qty q=-10:%0d  q=-50:%0d", bid_q10, bid_q50);
+            check(bid_q50 >= bid_q10, "bid_qty grows with larger short inventory");
         end
 
         // SUMMARY
