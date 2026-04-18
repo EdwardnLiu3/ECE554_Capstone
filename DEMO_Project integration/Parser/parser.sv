@@ -1,5 +1,5 @@
 module parser
-#(parameter ORDERID_LEN  = 10, parameter QUANTITY_LEN = 32, parameter PRICE_LEN    = 32, parameter STOCK_LEN    = 16)
+#(parameter ORDERID_LEN  = 16, parameter QUANTITY_LEN = 12, parameter PRICE_LEN    = 16, parameter STOCK_LEN    = 16)
 (
     input                               i_clk,
     input                               i_rst_n,
@@ -44,7 +44,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
     end
     else if(i_payload[7:0] == 8'b01000001) begin //add
         order_id_ff <= i_payload[151:144]; // byte 18: LSB of 8-byte big-endian order ref number
-        quantity_ff <= {i_payload[167:160], i_payload[175:168], i_payload[183:176], i_payload[191:184]}; // byte-swap bytes 20-23
+        quantity_ff <= i_payload[171:160]; // bytes 20-21 little-endian: [167:160]=LSB, [171:168]=high nibble
         side_ff <= i_payload[159:152] == 8'b01000010 ? 1'b0 : 1'b1;
         price_ff <= {i_payload[263:256], i_payload[271:264], i_payload[279:272], i_payload[287:280]}; // byte-swap bytes 32-35
         action_ff <= 2'b00;
