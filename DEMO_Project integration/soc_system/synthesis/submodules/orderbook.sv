@@ -6,7 +6,7 @@
 ////////////////////////////////////////////////////
 import ob_pkg::*;
 module orderbook #(
-    parameter int BASE_PRICE = 2200000  // ITCH units (price * 10000); e.g. 2200000 = $220.00
+    parameter int BASE_PRICE = 22000  // price * 100 units; e.g. 22000 = $220.00
 )(
     input                           i_clk,
     input                           i_rst_n,

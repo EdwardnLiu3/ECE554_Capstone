@@ -1,5 +1,5 @@
 Flow report for tcp_packet_receiver_redo
-Sat Apr 18 14:00:03 2026
+Sat Apr 18 19:19:28 2026
 Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 
 
@@ -41,15 +41,15 @@ on the Quartus Prime software download page.
 +-----------------------------------------------------------------------------------+
 ; Flow Summary                                                                      ;
 +---------------------------------+-------------------------------------------------+
-; Flow Status                     ; Successful - Sat Apr 18 13:58:53 2026           ;
+; Flow Status                     ; Successful - Sat Apr 18 19:18:16 2026           ;
 ; Quartus Prime Version           ; 25.1std.0 Build 1129 10/21/2025 SC Lite Edition ;
 ; Revision Name                   ; tcp_packet_receiver_redo                        ;
 ; Top-level Entity Name           ; tcp_packet_receiver_redo                        ;
 ; Family                          ; Cyclone V                                       ;
 ; Device                          ; 5CSEMA5F31C6                                    ;
 ; Timing Models                   ; Final                                           ;
-; Logic utilization (in ALMs)     ; 18,703 / 32,070 ( 58 % )                        ;
-; Total registers                 ; 29553                                           ;
+; Logic utilization (in ALMs)     ; 18,729 / 32,070 ( 58 % )                        ;
+; Total registers                 ; 29551                                           ;
 ; Total pins                      ; 368 / 457 ( 81 % )                              ;
 ; Total virtual pins              ; 0                                               ;
 ; Total block memory bits         ; 135,348 / 4,065,280 ( 3 % )                     ;
@@ -68,7 +68,7 @@ on the Quartus Prime software download page.
 +-------------------+--------------------------+
 ; Option            ; Setting                  ;
 +-------------------+--------------------------+
-; Start date & time ; 04/18/2026 13:26:01      ;
+; Start date & time ; 04/18/2026 18:44:26      ;
 ; Main task         ; Compilation              ;
 ; Revision Name     ; tcp_packet_receiver_redo ;
 +-------------------+--------------------------+
@@ -79,7 +79,7 @@ on the Quartus Prime software download page.
 +---------------------------------------+--------------------------------------------------------------------------+---------------+--------------------------------+------------+
 ; Assignment Name                       ; Value                                                                    ; Default Value ; Entity Name                    ; Section Id ;
 +---------------------------------------+--------------------------------------------------------------------------+---------------+--------------------------------+------------+
-; COMPILER_SIGNATURE_ID                 ; 171978328238326.177653675627232                                          ; --            ; --                             ; --         ;
+; COMPILER_SIGNATURE_ID                 ; 59850978926649.177655586133232                                           ; --            ; --                             ; --         ;
 ; ECO_REGENERATE_REPORT                 ; On                                                                       ; Off           ; --                             ; --         ;
 ; HPS_ISW_FILE                          ; soc_system/synthesis/submodules/sequencer/alt_types.pre.h                ; --            ; soc_system_hps_0_hps_io_border ; --         ;
 ; HPS_ISW_FILE                          ; soc_system/synthesis/submodules/sequencer/emif.pre.xml                   ; --            ; soc_system_hps_0_hps_io_border ; --         ;
@@ -137,11 +137,11 @@ on the Quartus Prime software download page.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:02:36     ; 1.0                     ; 5597 MB             ; 00:02:57                           ;
-; Fitter               ; 00:26:02     ; 1.2                     ; 9269 MB             ; 02:10:56                           ;
-; Assembler            ; 00:00:34     ; 1.0                     ; 5593 MB             ; 00:00:31                           ;
-; Timing Analyzer      ; 00:01:08     ; 3.5                     ; 6524 MB             ; 00:03:04                           ;
-; Total                ; 00:30:20     ; --                      ; --                  ; 02:17:28                           ;
+; Analysis & Synthesis ; 00:02:27     ; 1.0                     ; 5603 MB             ; 00:02:51                           ;
+; Fitter               ; 00:27:10     ; 1.2                     ; 9272 MB             ; 02:23:58                           ;
+; Assembler            ; 00:00:32     ; 1.0                     ; 5593 MB             ; 00:00:30                           ;
+; Timing Analyzer      ; 00:01:09     ; 3.4                     ; 6524 MB             ; 00:03:05                           ;
+; Total                ; 00:31:18     ; --                      ; --                  ; 02:30:24                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

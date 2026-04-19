@@ -253,7 +253,7 @@ int main(int argc, char **argv) {
                                     }
                                     printf("   -> Side     : %s\n", side ? "SELL" : "BUY");
                                     printf("   -> Quantity : %lu shares\n", out_qty);
-                                    printf("   -> Price    : $%.4f\n", out_price / 10000.0);
+                                    printf("   -> Price    : $%.2f\n", out_price / 100.0);
 
                                     // Print orderbook best bid/ask state
                                     int ob_bid_valid = ob_valid_flags & 1;
@@ -263,13 +263,13 @@ int main(int argc, char **argv) {
 
                                     printf("[ORDERBOOK STATE]\n");
                                     if (ob_bid_valid) {
-                                        // ob_bid_price = cache index = raw_price/100; raw_price in units of 0.0001 dollars
-                                        printf("   -> Best BID : price=$%.2f  qty=%llu\n", ob_bid_price / 100.0, ob_bid_quant);
+                                        // ob_bid_price = cache_index + BASE_PRICE/100; represents dollars directly
+                                        printf("   -> Best BID : price=$%.2f  qty=%llu\n", (double)ob_bid_price, ob_bid_quant);
                                     } else {
                                         printf("   -> Best BID : (empty)\n");
                                     }
                                     if (ob_ask_valid) {
-                                        printf("   -> Best ASK : price=$%.2f  qty=%llu\n", ob_ask_price / 100.0, ob_ask_quant);
+                                        printf("   -> Best ASK : price=$%.2f  qty=%llu\n", (double)ob_ask_price, ob_ask_quant);
                                     } else {
                                         printf("   -> Best ASK : (empty)\n");
                                     }
@@ -298,7 +298,7 @@ int main(int argc, char **argv) {
                                     }
                                     printf("   -> OB Side     : %s\n", ob_in_side ? "SELL" : "BUY");
                                     printf("   -> OB Quantity : %lu shares\n", ob_in_qty);
-                                    printf("   -> OB Price    : $%.4f  (raw=%lu)\n", ob_in_price / 10000.0, ob_in_price);
+                                    printf("   -> OB Price    : $%.2f  (raw=%lu)\n", ob_in_price / 100.0, ob_in_price);
                                     printf("   -> OB Valid    : %s\n", ob_in_valid ? "YES" : "NO (latched after pulse)");
                                     // ------------------------------------
 

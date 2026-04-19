@@ -60,9 +60,9 @@ def encode_add_order(ts: float, order_id: int, side: int,
       6  Timestamp          uint48 (ns)
       8  Order Ref Number   uint64
       1  Buy/Sell           char  'B'=buy, 'S'=sell
-      4  Shares             uint32 (little-endian so parser reads i_payload[171:160])
+      4  Shares             uint32
       8  Stock              alpha8
-      4  Price              uint32 big-endian (dollars, LOBSTER value / 10000)
+      4  Price              uint32 (price * 10000 already in LOBSTER)
     """
     buy_sell = b'B' if side == 1 else b'S'
     body = (
@@ -71,7 +71,7 @@ def encode_add_order(ts: float, order_id: int, side: int,
         + _pack_timestamp(ts)
         + struct.pack(">Q", order_id)
         + buy_sell
-        + struct.pack("<I", shares)
+        + struct.pack(">I", shares)
         + _pack_stock(ticker)
         + struct.pack(">I", price)
     )
@@ -245,7 +245,7 @@ def translate_row(row: list[str], ticker: str, match_counter: list[int],
       1: type      (int, 1-7)
       2: order_id  (int)
       3: size      (int, shares)
-      4: price     (int, dollar * 10000 — divided by 10000 before encoding)
+      4: price     (int, dollar * 10000)
       5: direction (int, 1=buy, -1=sell)
 
     order_id_map: hashtable mapping raw LOBSTER order IDs to sequential
@@ -260,11 +260,8 @@ def translate_row(row: list[str], ticker: str, match_counter: list[int],
     msg_type   = int(row[1])
     raw_oid    = int(row[2])
     size       = int(row[3])
-    price_raw  = int(row[4])
+    price      = int(row[4]) // 100
     direction  = int(row[5])
-    # Divide out LOBSTER's fixed-point scaling (dollars * 10000 -> dollars).
-    # Type 7 uses price field as a halt-state code (-1/0/1), not a real price.
-    price = price_raw if msg_type == 7 else price_raw // 10000
 
     # Resolve order ID through the hashtable
     if msg_type == 1:
