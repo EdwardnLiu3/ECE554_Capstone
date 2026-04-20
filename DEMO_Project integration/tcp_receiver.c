@@ -324,6 +324,19 @@ int main(int argc, char **argv) {
                                     printf("   -> Quantity : %lu shares\n", ob_out_qty);
                                     // ------------------------------------
 
+                                    // ---- TRADING LOGIC OUTPUTS ----
+                                    unsigned long tl_bid_price = *(h2p_lw_parser_addr + 32);
+                                    unsigned long tl_ask_price = *(h2p_lw_parser_addr + 33);
+                                    unsigned long tl_valid     = *(h2p_lw_parser_addr + 34) & 1;
+
+                                    printf("[TRADING LOGIC OUTPUT]\n");
+                                    printf("   -> Valid     : %s\n", tl_valid ? "YES" : "NO");
+                                    printf("   -> Quote BID : $%.2f  (raw=%lu)\n", tl_bid_price / 100.0, tl_bid_price);
+                                    printf("   -> Quote ASK : $%.2f  (raw=%lu)\n", tl_ask_price / 100.0, tl_ask_price);
+                                    if (tl_valid && tl_ask_price > tl_bid_price)
+                                        printf("   -> Spread    : $%.2f\n", (tl_ask_price - tl_bid_price) / 100.0);
+                                    // --------------------------------
+
                                 }
 
                                 // We still send the raw data to Python client just to clear queue 
