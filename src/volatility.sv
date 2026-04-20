@@ -9,8 +9,6 @@ module volatility_ewma (
 );
 
 
-    // localparam logic [47:0] SIGMA_INIT = 48'h0000_0010_0000; // 16.0 in Q32.16 to skip warmup
-
     logic [15:0] prev_price;
     logic prev_valid;
     logic [47:0] sigma_reg;
@@ -45,7 +43,7 @@ module volatility_ewma (
         if (!rst_n) begin
             prev_price   <= '0;
             prev_valid   <= 1'b0;
-            sigma_reg   <= '0; //maybe replace with local param to skip warmup
+            sigma_reg   <= '0;
             sigma_valid <= 1'b0;
         end else if (price_valid) begin
             prev_price <= mid_price;
