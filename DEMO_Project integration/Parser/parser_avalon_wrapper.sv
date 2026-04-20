@@ -48,8 +48,8 @@ module parser_avalon_wrapper (
     // Instantiate the parser
     parser #(
         .ORDERID_LEN(ORDERID_LEN),
-        .QUANTITY_LEN(32),
-        .PRICE_LEN(32),
+        .QUANTITY_LEN(QUANTITY_LEN),
+        .PRICE_LEN(PRICE_LEN),
         .STOCK_LEN(16)
     ) parser_inst (
         .i_clk(clk),
