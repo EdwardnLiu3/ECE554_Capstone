@@ -20,9 +20,9 @@ module parser_avalon_wrapper (
 
     // Parser Outputs
     logic [ORDERID_LEN-1:0] o_order_id;  // 10 bits (ob_pkg::ORDERID_LEN)
-    logic [31:0] o_quantity;
+    logic [QUANTITY_LEN-1:0] o_quantity;
     logic        o_side;
-    logic [31:0] o_price;
+    logic [PRICE_LEN-1:0] o_price;
     logic [1:0]  o_action;
     logic        o_valid;
     logic [15:0] o_stock_id;
@@ -66,7 +66,7 @@ module parser_avalon_wrapper (
     );
 
     // Instantiate the orderbook (parser outputs feed directly into orderbook)
-    orderbook ob_inst (
+    orderbook #(.BASE_VALUE(22000)) ob_inst (
         .i_clk(clk),
         .i_rst_n(combined_rst_n),
         .i_order_id(o_order_id),
