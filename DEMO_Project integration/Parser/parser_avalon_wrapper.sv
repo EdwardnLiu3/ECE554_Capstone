@@ -44,6 +44,8 @@ module parser_avalon_wrapper (
     logic [PRICE_LEN-1:0]       tl_bid_price;
     logic [PRICE_LEN-1:0]       tl_ask_price;
     logic                       tl_o_valid;
+    logic [16:0]                tl_bid_qty;
+    logic [16:0]                tl_ask_qty;
 
     // Instantiate the parser
     parser #(
@@ -182,6 +184,8 @@ module parser_avalon_wrapper (
 
         .o_bid_price(tl_bid_price),
         .o_ask_price(tl_ask_price),
+        .o_bid_qty(tl_bid_qty),
+        .o_ask_qty(tl_ask_qty),
         .o_valid(tl_o_valid)
     )
 
