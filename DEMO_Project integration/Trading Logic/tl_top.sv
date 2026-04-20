@@ -1,6 +1,10 @@
 module tl_top
     import ob_pkg::*;
-(
+#(
+    parameter [15:0] Q_BASE         = 16'd5,    // least quantity willing to trade
+    parameter [15:0] Q_LIMIT        = 16'd50,   // max quantity willing to trade
+    parameter        QTY_SKEW_SHIFT = 1        
+)(
     input  logic                 i_clk,
     input  logic                 i_rst_n,
     input  logic [PRICE_LEN-1:0] i_best_bid,
@@ -13,6 +17,8 @@ module tl_top
 
     output logic [PRICE_LEN-1:0] o_bid_price,
     output logic [PRICE_LEN-1:0] o_ask_price,
+    output logic [15:0]          o_bid_qty,
+    output logic [15:0]          o_ask_qty,
     // output logic                 o_order_type,// AS always quotes both sides
     output logic                 o_valid
 );
@@ -176,14 +182,24 @@ module tl_top
         end
     end
 
-    // Stage 4: reservation = mid - inv_skew
+    // Stage 4: reservation = mid - inv_skew, quantity skew
     logic [7:0] spread_cents;
     assign spread_cents = (spread_price * 8'd100) >> 8;   // Q8.8 integer part
+
+    logic signed [15:0] inv_skew_qty; 
+    logic signed [16:0] bid_qty_raw;
+    logic signed [16:0] ask_qty_raw;
+
+    assign inv_skew_qty = $signed(inv_skew_full[31:16]) >>> QTY_SKEW_SHIFT; //shift if want to change effectiveness since using price skew
+    assign bid_qty_raw  = $signed({1'b0, Q_BASE}) - $signed(inv_skew_qty);
+    assign ask_qty_raw  = $signed({1'b0, Q_BASE}) + $signed(inv_skew_qty);
 
     always_ff @(posedge i_clk) begin
         if (!i_rst_n) begin
             o_bid_price  <= '0;
             o_ask_price  <= '0;
+            o_bid_qty    <= '0;
+            o_ask_qty    <= '0;
             o_valid      <= 1'b0;
         end else begin
             reservation  = $signed({1'b0, s3_mid}) - $signed(inv_skew_full[31:16]);
@@ -191,13 +207,8 @@ module tl_top
             o_bid_price  <= reservation[PRICE_LEN-1:0] - spread_cents;
             o_ask_price  <= reservation[PRICE_LEN-1:0] + spread_cents;
 
-            // AS always quotes both sides — buy/sell decision is made by the market
-            // if ($signed(reservation) > $signed({1'b0, s3_mid}))
-            //     o_order_type <= 2'b01;
-            // else if ($signed(reservation) < $signed({1'b0, s3_mid}))
-            //     o_order_type <= 2'b10;
-            // else
-            //     o_order_type <= 2'b11;
+            o_bid_qty    <= (bid_qty_raw[16]) ? 16'd0 : (bid_qty_raw[15:0] > Q_LIMIT) ? Q_LIMIT : bid_qty_raw[15:0];
+            o_ask_qty    <= (ask_qty_raw[16]) ? 16'd0 : (ask_qty_raw[15:0] > Q_LIMIT) ? Q_LIMIT :ask_qty_raw[15:0];
         end
     end
 
