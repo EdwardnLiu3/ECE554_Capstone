@@ -15,8 +15,10 @@ module tb_inventory_tracker;
     logic exec_side;
     logic [PRICE_LEN-1:0] exec_price;
     logic [QUANTITY_LEN-1:0] exec_quantity;
+    logic [PRICE_LEN-1:0] mark_price;
     logic signed [POSITION_LEN-1:0] position;
     logic signed [PNL_LEN-1:0] day_pnl;
+    logic signed [PNL_LEN-1:0] total_pnl;
 
     inventory_tracker #(
         .PRICE_LEN(PRICE_LEN),
@@ -31,8 +33,10 @@ module tb_inventory_tracker;
         .i_exec_side(exec_side),
         .i_exec_price(exec_price),
         .i_exec_quantity(exec_quantity),
+        .i_mark_price(mark_price),
         .o_position(position),
-        .o_day_pnl(day_pnl)
+        .o_day_pnl(day_pnl),
+        .o_total_pnl(total_pnl)
     );
 
     initial clk = 1'b0;
@@ -49,6 +53,7 @@ module tb_inventory_tracker;
 
     initial begin
         rst_n = 1'b1;
+        mark_price = 32'd500;
         clear_exec();
 
         // test 1
@@ -62,6 +67,7 @@ module tb_inventory_tracker;
         #1;
         if (position !== 16'sd0) $fatal(1, "Test 1 failed: reset should load starting position");
         if (day_pnl !== 64'sd0)  $fatal(1, "Test 1 failed: reset should clear day pnl");
+        if (total_pnl !== 64'sd0) $fatal(1, "Test 1 failed: reset should clear total pnl");
         $display("PASS");
 
         //test2
@@ -71,10 +77,12 @@ module tb_inventory_tracker;
         exec_side     = 1'b0;
         exec_price    = 32'd500;
         exec_quantity = 16'd10;
+        mark_price    = 32'd550;
         @(posedge clk);
         #1;
         if (position !== 16'sd10)     $fatal(1, "Test 2 failed: buy fill should update position");
         if (day_pnl !== -64'sd5000)   $fatal(1, "Test 2 failed: buy fill should update pnl");
+        if (total_pnl !== 64'sd500)   $fatal(1, "Test 2 failed: buy fill should update marked pnl");
         $display("PASS");
         @(negedge clk);
         clear_exec();
@@ -86,11 +94,13 @@ module tb_inventory_tracker;
         exec_side     = 1'b1;
         exec_price    = 32'd600;
         exec_quantity = 16'd20;
+        mark_price    = 32'd550;
         @(posedge clk);
         #1;
 
         if (position !== -16'sd10)    $fatal(1, "Test 3 failed: sell fill should update position");
         if (day_pnl !== 64'sd7000)    $fatal(1, "Test 3 failed: sell fill should update pnl");
+        if (total_pnl !== 64'sd1500)  $fatal(1, "Test 3 failed: sell fill should update marked pnl");
         $display("PASS");
         @(negedge clk);
         clear_exec();
@@ -101,6 +111,7 @@ module tb_inventory_tracker;
         #1;
         if (position !== -16'sd10)    $fatal(1, "Test 4 failed: idle cycles should keep position the same");
         if (day_pnl !== 64'sd7000)    $fatal(1, "Test 4 failed: idle cycles should keep pnl the same");
+        if (total_pnl !== 64'sd1500)  $fatal(1, "Test 4 failed: idle cycles should keep total pnl the same");
         $display("PASS");
 
         // Test 5
@@ -110,10 +121,12 @@ module tb_inventory_tracker;
         exec_side     = 1'b1;
         exec_price    = 32'd700;
         exec_quantity = 16'd100;
+        mark_price    = 32'd650;
         @(posedge clk);
         #1;
         if (position !== -16'sd110)   $fatal(1, "Test 5 failed: sell fill should move position short");
         if (day_pnl !== 64'sd77000)   $fatal(1, "Test 5 failed: sell fill into short should update pnl");
+        if (total_pnl !== 64'sd5500)  $fatal(1, "Test 5 failed: marked pnl should include short inventory");
         $display("PASS");
         @(negedge clk);
         clear_exec();
@@ -125,15 +138,29 @@ module tb_inventory_tracker;
         exec_side     = 1'b0;
         exec_price    = 32'd650;
         exec_quantity = 16'd5;
+        mark_price    = 32'd640;
         @(posedge clk);
         #1;
         if (position !== -16'sd105)   $fatal(1, "Test 6 failed: buy while short should update position");
         if (day_pnl !== 64'sd73750)   $fatal(1, "Test 6 failed: buy while short should update pnl");
+        if (total_pnl !== 64'sd6550)  $fatal(1, "Test 6 failed: marked pnl should update with new mark");
         $display("PASS");
         @(negedge clk);
         clear_exec();
-        //test 7
-        $display("Test 7: reset after activity restores initial state");
+
+        // Test 7
+        $display("Test 7: mark price update changes total pnl without a fill");
+        @(negedge clk);
+        mark_price = 32'd600;
+        @(posedge clk);
+        #1;
+        if (position !== -16'sd105)   $fatal(1, "Test 7 failed: mark-only cycle should not change position");
+        if (day_pnl !== 64'sd73750)   $fatal(1, "Test 7 failed: mark-only cycle should not change day pnl");
+        if (total_pnl !== 64'sd10750) $fatal(1, "Test 7 failed: mark-only cycle should update total pnl");
+        $display("PASS");
+
+        //test 8
+        $display("Test 8: reset after activity restores initial state");
         @(negedge clk);
         rst_n = 1'b0;
         clear_exec();
@@ -141,8 +168,9 @@ module tb_inventory_tracker;
         rst_n = 1'b1;
         @(posedge clk);
         #1;
-        if (position !== 16'sd0) $fatal(1, "Test 7 failed: second reset should restore starting position");
-        if (day_pnl !== 64'sd0)  $fatal(1, "Test 7 failed: second reset should clear day pnl");
+        if (position !== 16'sd0) $fatal(1, "Test 8 failed: second reset should restore starting position");
+        if (day_pnl !== 64'sd0)  $fatal(1, "Test 8 failed: second reset should clear day pnl");
+        if (total_pnl !== 64'sd0) $fatal(1, "Test 8 failed: second reset should clear total pnl");
         $display("PASS");
 
         $display("");

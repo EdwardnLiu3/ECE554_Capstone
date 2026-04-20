@@ -1,4 +1,4 @@
-module one_stock_top #(
+module hft_single_stock_top #(
     parameter int MARKET_PAYLOAD_LEN = 288,
     parameter int OUCH_PAYLOAD_LEN   = 752,
     parameter int SYMBOL_LEN         = 64,
@@ -8,7 +8,8 @@ module one_stock_top #(
     parameter int POSITION_LEN       = 16,
     parameter int PNL_LEN            = 64,
     parameter int STOCK_LEN          = 16,
-    parameter int MARKET_QTY_LEN     = 32
+    parameter int MARKET_QTY_LEN     = 32,
+    parameter int BOOK_BASE_PRICE    = 32'd2_200_000
 ) (
     input  logic                            i_clk,
     input  logic                            i_rst_n,
@@ -30,7 +31,7 @@ module one_stock_top #(
     output logic                            o_best_ask_valid,
     output logic [PRICE_LEN-1:0]            o_trading_bid_price,
     output logic [PRICE_LEN-1:0]            o_trading_ask_price,
-    // output logic                            o_trading_order_type,
+    output logic [1:0]                      o_trading_order_type,
     output logic                            o_trading_valid,
     output logic                            o_bid_reject_valid,
     output logic [3:0]                      o_bid_reject_reason,
@@ -43,10 +44,10 @@ module one_stock_top #(
     output logic [PRICE_LEN-1:0]            o_exec_price,
     output logic [QUANTITY_LEN-1:0]         o_exec_quantity,
     output logic [ORDER_ID_LEN-1:0]         o_exec_order_id,
-    output logic signed [POSITION_LEN-1:0]  o_position,
-    output logic signed [PNL_LEN-1:0]       o_day_pnl,
-    output logic [QUANTITY_LEN-1:0]         o_live_bid_qty,
-    output logic [QUANTITY_LEN-1:0]         o_live_ask_qty
+output logic signed [POSITION_LEN-1:0]  o_position,
+output logic signed [PNL_LEN-1:0]       o_day_pnl,
+output logic [QUANTITY_LEN-1:0]         o_live_bid_qty,
+output logic [QUANTITY_LEN-1:0]         o_live_ask_qty
 );
 
 localparam int OB_ORDERID_LEN  = ob_pkg::ORDERID_LEN;
@@ -70,21 +71,28 @@ logic                      ob_best_bid_valid;
 logic                      ob_best_ask_valid;
 logic [1:0]                ob_event_action;
 logic [PRICE_LEN-1:0]      ob_event_price;
+logic [OB_QUANTITY_LEN-1:0] ob_event_quantity_narrow;
 logic [MARKET_QTY_LEN-1:0] ob_event_quantity;
 logic                      ob_event_valid;
 logic                      ob_event_side;
 // Trading logic outputs
 logic [PRICE_LEN-1:0]      tl_bid_price;
 logic [PRICE_LEN-1:0]      tl_ask_price;
-// logic                      tl_order_type;
+logic [QUANTITY_LEN-1:0]   tl_bid_quantity;
+logic [QUANTITY_LEN-1:0]   tl_ask_quantity;
 logic                      tl_valid;
 // Split bid/ask quote requests into separate risk-managers
 logic                      bid_quote_req_valid;
 logic                      ask_quote_req_valid;
 logic [PRICE_LEN-1:0]      reference_price;
 logic                      price_valid_for_tl;
+logic                      market_exec_valid_for_tracker;
+logic                      market_exec_side_for_tracker;
 logic                      trade_valid_for_tl;
+logic [15:0]               trade_qty_for_tl;
 logic                      trade_side_for_tl;
+logic                      tl_price_ready;
+logic signed [PNL_LEN-1:0] inventory_total_pnl;
 // Risk manager outputs
 logic                      bid_quote_valid;
 logic                      bid_quote_side;
@@ -105,18 +113,18 @@ logic                      exec_replace_bid_ready;
 logic                      exec_replace_ask_ready;
 logic [ORDER_ID_LEN-1:0]   exec_oldest_bid_order_id;
 logic [ORDER_ID_LEN-1:0]   exec_oldest_ask_order_id;
-logic [QUANTITY_LEN-1:0]   risk_bid_qty_in;
-logic [QUANTITY_LEN-1:0]   risk_ask_qty_in;
 
-assign bid_quote_req_valid = tl_valid;   // AS always quotes both sides
-assign ask_quote_req_valid = tl_valid;
+assign tl_price_ready      = (tl_bid_price != '0) && (tl_ask_price != '0);
+assign bid_quote_req_valid = tl_price_ready && (tl_valid || (price_valid_for_tl && !exec_replace_bid_ready));
+assign ask_quote_req_valid = tl_price_ready && (tl_valid || (price_valid_for_tl && !exec_replace_ask_ready));
 assign reference_price     = (ob_best_bid_price + ob_best_ask_price) >> 1;
-// For now, risk uses best bid/ask quantity from the orderbook since our trading logic does not currently output quantity
-assign risk_bid_qty_in     = ob_best_bid_quantity[QUANTITY_LEN-1:0];
-assign risk_ask_qty_in     = ob_best_ask_quantity[QUANTITY_LEN-1:0];
-assign price_valid_for_tl = parser_valid && ob_best_bid_valid && ob_best_ask_valid;
+assign market_exec_valid_for_tracker = ob_event_valid && (ob_event_action == 2'b10);
+assign market_exec_side_for_tracker = ~ob_event_side;
+assign price_valid_for_tl = ob_event_valid && ob_best_bid_valid && ob_best_ask_valid;
 assign trade_valid_for_tl = o_exec_valid;
+assign trade_qty_for_tl   = o_exec_quantity;
 assign trade_side_for_tl  = o_exec_side;
+assign ob_event_quantity  = {{(MARKET_QTY_LEN-OB_QUANTITY_LEN){1'b0}}, ob_event_quantity_narrow};
 
 parser parser_inst (
     .i_clk      (i_clk),
@@ -135,7 +143,9 @@ parser parser_inst (
 
 // Parser I think gives wider fields than the book uses, so slice order_id to package width here
 // need to get the output for execution tracker from here still, might be wrong here tho so can change if needed
-orderbook ob_inst (
+orderbook #(
+    .BASE_PRICE(BOOK_BASE_PRICE)
+) ob_inst (
     .i_clk            (i_clk),
     .i_rst_n          (i_rst_n),
     .i_order_id       (parser_order_id[OB_ORDERID_LEN-1:0]),
@@ -152,7 +162,7 @@ orderbook ob_inst (
     .o_ask_best_valid (ob_best_ask_valid),
     .o_action         (ob_event_action),
     .o_price          (ob_event_price),
-    .o_quantity       (ob_event_quantity),
+    .o_quantity       (ob_event_quantity_narrow),
     .o_valid          (ob_event_valid),
     .o_side           (ob_event_side)
 );
@@ -167,13 +177,17 @@ tl_top tl_inst (
     .i_price_valid(price_valid_for_tl),
     .i_trade_valid(trade_valid_for_tl),
     .i_trade_side (trade_side_for_tl),
-    .i_trade_qty  (o_exec_quantity),
+    .i_trade_qty  (trade_qty_for_tl),
+    .i_base_bid_qty(i_bid_quote_quantity),
+    .i_base_ask_qty(i_ask_quote_quantity),
     .o_bid_price  (tl_bid_price),
     .o_ask_price  (tl_ask_price),
+    .o_bid_quantity(tl_bid_quantity),
+    .o_ask_quantity(tl_ask_quantity),
     .o_valid      (tl_valid)
 );
 
-risk_manager bid_risk_inst (
+risk_managers bid_risk_inst (
     .i_clk                (i_clk),
     .i_rst_n              (i_rst_n),
     .i_trading_enable     (i_trading_enable),
@@ -182,12 +196,13 @@ risk_manager bid_risk_inst (
     .i_pnl_check_enable   (i_pnl_check_enable),
     .i_inventory_position (o_position),
     .i_day_pnl            (o_day_pnl),
-    .i_live_bid_qty       (risk_bid_qty_in),
-    .i_live_ask_qty       (risk_ask_qty_in),
+    .i_total_pnl          (inventory_total_pnl),
+    .i_live_bid_qty       (o_live_bid_qty),
+    .i_live_ask_qty       (o_live_ask_qty),
     .i_quote_valid        (bid_quote_req_valid),
     .i_quote_side         (1'b0),
     .i_quote_price        (tl_bid_price),
-    .i_quote_quantity     (i_bid_quote_quantity),
+    .i_quote_quantity     (tl_bid_quantity),
     .i_reference_price    (reference_price),
     .o_quote_valid        (bid_quote_valid),
     .o_quote_side         (bid_quote_side),
@@ -197,7 +212,7 @@ risk_manager bid_risk_inst (
     .o_reject_reason      (o_bid_reject_reason)
 );
 
-risk_manager ask_risk_inst (
+risk_managers ask_risk_inst (
     .i_clk                (i_clk),
     .i_rst_n              (i_rst_n),
     .i_trading_enable     (i_trading_enable),
@@ -206,12 +221,13 @@ risk_manager ask_risk_inst (
     .i_pnl_check_enable   (i_pnl_check_enable),
     .i_inventory_position (o_position),
     .i_day_pnl            (o_day_pnl),
-    .i_live_bid_qty       (risk_bid_qty_in),
-    .i_live_ask_qty       (risk_ask_qty_in),
+    .i_total_pnl          (inventory_total_pnl),
+    .i_live_bid_qty       (o_live_bid_qty),
+    .i_live_ask_qty       (o_live_ask_qty),
     .i_quote_valid        (ask_quote_req_valid),
     .i_quote_side         (1'b1),
     .i_quote_price        (tl_ask_price),
-    .i_quote_quantity     (i_ask_quote_quantity),
+    .i_quote_quantity     (tl_ask_quantity),
     .i_reference_price    (reference_price),
     .o_quote_valid        (ask_quote_valid),
     .o_quote_side         (ask_quote_side),
@@ -248,7 +264,7 @@ Order_Generator ogen_inst (
 );
 
 // should currently keep track of 10 in the market on each side
-execution_tracker execution_tracker_inst (
+execution_trackers execution_tracker_inst (
     .i_clk               (i_clk),
     .i_rst_n             (i_rst_n),
     .i_order_valid       (o_order_payload_valid),
@@ -258,8 +274,8 @@ execution_tracker execution_tracker_inst (
     .i_order_price_sell  (og_price_sell),
     .i_order_quantity_buy(og_quantity_buy),
     .i_order_quantity_sell(og_quantity_sell),
-    .i_market_exec_valid (trade_valid_for_tl),
-    .i_market_exec_side  (ob_event_side),
+    .i_market_exec_valid (market_exec_valid_for_tracker),
+    .i_market_exec_side  (market_exec_side_for_tracker),
     .i_market_exec_price (ob_event_price),
     .i_market_exec_quantity(ob_event_quantity),
     .o_exec_valid        (o_exec_valid),
@@ -282,8 +298,10 @@ inventory_tracker inventory_tracker_inst (
     .i_exec_side    (o_exec_side),
     .i_exec_price   (o_exec_price),
     .i_exec_quantity(o_exec_quantity),
+    .i_mark_price   (reference_price),
     .o_position     (o_position),
-    .o_day_pnl      (o_day_pnl)
+    .o_day_pnl      (o_day_pnl),
+    .o_total_pnl    (inventory_total_pnl)
 );
 
 assign o_stock_id         = parser_stock_id;
@@ -293,7 +311,7 @@ assign o_best_bid_valid   = ob_best_bid_valid;
 assign o_best_ask_valid   = ob_best_ask_valid;
 assign o_trading_bid_price = tl_bid_price;
 assign o_trading_ask_price = tl_ask_price;
-// assign o_trading_order_type = tl_order_type;   // removed
+assign o_trading_order_type = 2'b11;
 assign o_trading_valid    = tl_valid;
 
 endmodule

@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-// This was working on mine before, have not updated it for any file changes. 
+
 module tb_hft_single_stock_top_lobster;
 
     localparam int MARKET_PAYLOAD_LEN = 288;
@@ -13,7 +13,61 @@ module tb_hft_single_stock_top_lobster;
     localparam int MAX_ROWS_TO_READ   = 40000;
     localparam int MAX_SUPPORTED_SEND = 40000;
     localparam [STOCK_LEN-1:0] STOCK_ID = 16'h0001;
-    localparam [63:0] SYMBOL_AMZN = {"A","M","Z","N"," "," "," "," "};
+    // ------------------------------------------------------------------------
+    // Stock replay presets. Uncomment the set you want, then keep the active
+    // SYMBOL_ACTIVE / BOOK_BASE_PRICE / LOBSTER_MESSAGE_CSV lines below aligned.
+    //
+    // AAPL:
+    // localparam [63:0] SYMBOL_ACTIVE = {"A","A","P","L"," "," "," "," "};
+    // localparam int BOOK_BASE_PRICE = 32'd5_840_000;
+    // localparam string LOBSTER_MESSAGE_CSV =
+    //     "ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/AAPL_2012-06-21_34200000_57600000_message_10.csv";
+    // localparam string LOBSTER_MESSAGE_PRELOADED_CSV =
+    //     "ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/AAPL_2012-06-21_34200000_57600000_message_10_preloaded.csv";
+    
+    // AMZN:
+    // localparam [63:0] SYMBOL_ACTIVE = {"A","M","Z","N"," "," "," "," "};
+    // localparam int BOOK_BASE_PRICE = 32'd2_200_000;
+    // localparam string LOBSTER_MESSAGE_CSV =
+    //     "ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/AMZN_2012-06-21_34200000_57600000_message_10.csv";
+    // localparam string LOBSTER_MESSAGE_PRELOADED_CSV =
+    //     "ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/AMZN_2012-06-21_34200000_57600000_message_10_preloaded.csv";
+    // Note: the AMZN preloaded file in this workspace was built from orderbook_1.csv,
+    // so it only seeds the top level until a matching orderbook_10.csv is available.
+    //
+    // GOOG:
+    // localparam [63:0] SYMBOL_ACTIVE = {"G","O","O","G"," "," "," "," "};
+    // localparam int BOOK_BASE_PRICE = 32'd5_680_000;
+    // localparam string LOBSTER_MESSAGE_CSV =
+    //     "ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/GOOG_2012-06-21_34200000_57600000_message_10.csv";
+    // localparam string LOBSTER_MESSAGE_PRELOADED_CSV =
+    //     "ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/GOOG_2012-06-21_34200000_57600000_message_10_preloaded.csv";
+    //
+    // AMZN-style cleaned hour replay:
+    // localparam [63:0] SYMBOL_ACTIVE = {"A","M","Z","N"," "," "," "," "};
+    // localparam int BOOK_BASE_PRICE = 32'd2_220_000;
+    // localparam string LOBSTER_MESSAGE_CSV =
+    //     "ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/amzn_style_hour_message_clean.csv";
+    // localparam string LOBSTER_MESSAGE_PRELOADED_CSV =
+    //     "ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/amzn_style_hour_message_clean.csv";
+    // Note: the regenerated cleaned AMZN file is now snapped to 100-unit ticks,
+    // so it is a better match for the original orderbook path restored below.
+
+    // AAPL:
+    // localparam [63:0] SYMBOL_ACTIVE = {"A","A","P","L"," "," "," "," "};
+    // localparam int BOOK_BASE_PRICE = 32'd5_800_000;
+    // localparam string LOBSTER_MESSAGE_CSV =
+    //     "ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/aapl_style_hour_message_clean.csv";
+    // localparam string LOBSTER_MESSAGE_PRELOADED_CSV =
+    //     "ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/aapl_style_hour_message_clean.csv";
+
+    // GOOG:
+    localparam [63:0] SYMBOL_ACTIVE = {"G","O","O","G"," "," "," "," "};
+    localparam int BOOK_BASE_PRICE = 32'd5_660_000;
+    localparam string LOBSTER_MESSAGE_CSV =
+        "ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/goog_style_hour_message_clean.csv";
+    localparam string LOBSTER_MESSAGE_PRELOADED_CSV =
+        "ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/goog_style_hour_message_clean.csv";
 
     logic                           clk;
     logic                           rst_n;
@@ -52,6 +106,9 @@ module tb_hft_single_stock_top_lobster;
     logic signed [PNL_LEN-1:0]      day_pnl;
     logic [QUANTITY_LEN-1:0]        live_bid_qty;
     logic [QUANTITY_LEN-1:0]        live_ask_qty;
+    logic [PRICE_LEN-1:0]           tb_mark_price;
+    logic                           tb_mark_price_valid;
+    longint signed                  tb_total_pnl;
 
     integer                         csv_file;
     integer                         trading_csv_file;
@@ -77,7 +134,9 @@ module tb_hft_single_stock_top_lobster;
     integer                         raw_to_mapped_oid [integer];
     integer                         next_mapped_oid;
 
-    hft_single_stock_top dut (
+    hft_single_stock_top #(
+        .BOOK_BASE_PRICE(BOOK_BASE_PRICE)
+    ) dut (
         .i_clk               (clk),
         .i_rst_n             (rst_n),
         .i_market_payload    (market_payload),
@@ -124,13 +183,15 @@ module tb_hft_single_stock_top_lobster;
         input [63:0] order_id_in,
         input bit    is_sell,
         input [31:0] quantity_in,
-        input [31:0] price_in
+        input [31:0] price_in,
+        input [47:0] timestamp_in
     );
         logic [287:0] p;
         p = '0;
         p[7:0]     = 8'h41;
         p[23:8]    = stock_id_in;
         p[151:88]  = order_id_in;
+        p[87:40]   = timestamp_in;
         p[159:152] = is_sell ? 8'h53 : 8'h42;
         p[191:160] = quantity_in;
         p[287:256] = price_in;
@@ -140,40 +201,60 @@ module tb_hft_single_stock_top_lobster;
     function automatic [287:0] build_cancel_payload(
         input [15:0] stock_id_in,
         input [63:0] order_id_in,
-        input [31:0] quantity_in
+        input bit    is_sell,
+        input [31:0] quantity_in,
+        input [31:0] price_in,
+        input [47:0] timestamp_in
     );
         logic [287:0] p;
         p = '0;
         p[7:0]     = 8'h58;
         p[23:8]    = stock_id_in;
         p[151:88]  = order_id_in;
-        p[183:152] = quantity_in;
+        p[87:40]   = timestamp_in;
+        p[159:152] = is_sell ? 8'h53 : 8'h42;
+        p[191:160] = quantity_in;
+        p[287:256] = price_in;
         return p;
     endfunction
 
     function automatic [287:0] build_delete_payload(
         input [15:0] stock_id_in,
-        input [63:0] order_id_in
+        input [63:0] order_id_in,
+        input bit    is_sell,
+        input [31:0] quantity_in,
+        input [31:0] price_in,
+        input [47:0] timestamp_in
     );
         logic [287:0] p;
         p = '0;
         p[7:0]     = 8'h44;
         p[23:8]    = stock_id_in;
         p[151:88]  = order_id_in;
+        p[87:40]   = timestamp_in;
+        p[159:152] = is_sell ? 8'h53 : 8'h42;
+        p[191:160] = quantity_in;
+        p[287:256] = price_in;
         return p;
     endfunction
 
     function automatic [287:0] build_execute_payload(
         input [15:0] stock_id_in,
         input [63:0] order_id_in,
-        input [31:0] quantity_in
+        input bit    is_sell,
+        input [31:0] quantity_in,
+        input [31:0] price_in,
+        input [47:0] timestamp_in
     );
         logic [287:0] p;
         p = '0;
         p[7:0]     = 8'h45;
         p[23:8]    = stock_id_in;
         p[151:88]  = order_id_in;
-        p[183:152] = quantity_in;
+        p[87:40]   = timestamp_in;
+        p[159:152] = is_sell ? 8'h53 : 8'h42;
+        p[191:160] = quantity_in;
+        p[287:256] = price_in;
         return p;
     endfunction
 
@@ -216,6 +297,50 @@ module tb_hft_single_stock_top_lobster;
         end
     endtask
 
+    function automatic longint signed calc_total_pnl(
+        input logic signed [PNL_LEN-1:0] realized_pnl_in,
+        input logic signed [POSITION_LEN-1:0] position_in,
+        input logic [PRICE_LEN-1:0] mark_price_in
+    );
+        longint signed realized_pnl_long;
+        longint signed position_long;
+        longint signed mark_price_long;
+        begin
+            realized_pnl_long = realized_pnl_in;
+            position_long = position_in;
+            mark_price_long = mark_price_in;
+            calc_total_pnl = realized_pnl_long + (position_long * mark_price_long);
+        end
+    endfunction
+
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            tb_mark_price <= '0;
+            tb_mark_price_valid <= 1'b0;
+        end
+        else begin
+            if (best_bid_valid && best_ask_valid) begin
+                tb_mark_price <= (best_bid_price + best_ask_price) >> 1;
+                tb_mark_price_valid <= 1'b1;
+            end
+            else if (best_bid_valid) begin
+                tb_mark_price <= best_bid_price;
+                tb_mark_price_valid <= 1'b1;
+            end
+            else if (best_ask_valid) begin
+                tb_mark_price <= best_ask_price;
+                tb_mark_price_valid <= 1'b1;
+            end
+        end
+    end
+
+    always_comb begin
+        if (tb_mark_price_valid)
+            tb_total_pnl = calc_total_pnl(day_pnl, position, tb_mark_price);
+        else
+            tb_total_pnl = day_pnl;
+    end
+
     always @(posedge clk) begin
         if (order_payload_valid) begin
             quote_payload_count = quote_payload_count + 1;
@@ -252,14 +377,16 @@ module tb_hft_single_stock_top_lobster;
                 ask_fill_count = ask_fill_count + 1;
             else
                 bid_fill_count = bid_fill_count + 1;
-            $display("[%0t] OUR FILL | side=%s order_id=%0d price=%0d qty=%0d | pos=%0d pnl=%0d",
+            $display("[%0t] OUR FILL | side=%s order_id=%0d price=%0d qty=%0d | pos=%0d realized_pnl=%0d total_pnl=%0d mark_px=%0d",
                 $time,
                 exec_side ? "ASK" : "BID",
                 exec_order_id,
                 exec_price,
                 exec_quantity,
                 position,
-                day_pnl
+                day_pnl,
+                tb_total_pnl,
+                tb_mark_price
             );
         end
 
@@ -288,9 +415,9 @@ module tb_hft_single_stock_top_lobster;
         market_payload    = '0;
         market_valid      = 1'b0;
         order_time        = '0;
-        symbol            = SYMBOL_AMZN;
-        bid_quote_quantity= 16'd1;
-        ask_quote_quantity= 16'd1;
+        symbol            = SYMBOL_ACTIVE;
+        bid_quote_quantity= 16'd5;
+        ask_quote_quantity= 16'd5;
         trading_enable    = 1'b1;
         kill_switch       = 1'b0;
         price_band_enable = 1'b1;
@@ -311,7 +438,7 @@ module tb_hft_single_stock_top_lobster;
         rst_n = 1'b1;
         repeat (4) @(posedge clk);
 
-        csv_file = $fopen("ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/AMZN_2012-06-21_34200000_57600000_message_1.csv", "r");
+        csv_file = $fopen(LOBSTER_MESSAGE_PRELOADED_CSV, "r");
         if (csv_file == 0) begin
             $fatal(1, "Could not open LOBSTER CSV file");
         end
@@ -349,7 +476,8 @@ module tb_hft_single_stock_top_lobster;
                             get_mapped_order_id(raw_order_id, msg_type),
                             (direction == -1),
                             shares[31:0],
-                            price[31:0]
+                            price[31:0],
+                            order_time_ns[47:0]
                         ),
                         order_time_ns[47:0],
                         $sformatf("LOBSTER row %0d ADD raw_id=%0d map_id=%0d side=%0d qty=%0d px=%0d",
@@ -360,11 +488,14 @@ module tb_hft_single_stock_top_lobster;
                     if (get_mapped_order_id(raw_order_id, msg_type) != 0) begin
                         sent_count = sent_count + 1;
                         drive_payload(
-                            build_cancel_payload(
-                                STOCK_ID,
-                                get_mapped_order_id(raw_order_id, msg_type),
-                                shares[31:0]
-                            ),
+                        build_cancel_payload(
+                            STOCK_ID,
+                            get_mapped_order_id(raw_order_id, msg_type),
+                            (direction == -1),
+                            shares[31:0],
+                            price[31:0],
+                            order_time_ns[47:0]
+                        ),
                             order_time_ns[47:0],
                             $sformatf("LOBSTER row %0d CANCEL raw_id=%0d map_id=%0d qty=%0d",
                                       row_count, raw_order_id, get_mapped_order_id(raw_order_id, msg_type), shares)
@@ -380,7 +511,11 @@ module tb_hft_single_stock_top_lobster;
                         drive_payload(
                             build_delete_payload(
                                 STOCK_ID,
-                                get_mapped_order_id(raw_order_id, msg_type)
+                                get_mapped_order_id(raw_order_id, msg_type),
+                                (direction == -1),
+                                shares[31:0],
+                                price[31:0],
+                                order_time_ns[47:0]
                             ),
                             order_time_ns[47:0],
                             $sformatf("LOBSTER row %0d DELETE raw_id=%0d map_id=%0d",
@@ -398,7 +533,10 @@ module tb_hft_single_stock_top_lobster;
                             build_execute_payload(
                                 STOCK_ID,
                                 get_mapped_order_id(raw_order_id, msg_type),
-                                shares[31:0]
+                                (direction == -1),
+                                shares[31:0],
+                                price[31:0],
+                                order_time_ns[47:0]
                             ),
                             order_time_ns[47:0],
                             $sformatf("LOBSTER row %0d EXECUTE raw_id=%0d map_id=%0d qty=%0d px=%0d",
@@ -420,10 +558,12 @@ module tb_hft_single_stock_top_lobster;
         repeat (80) @(posedge clk);
         $fclose(trading_csv_file);
         $display("=== Replay Done ===");
-        $display("Final position=%0d pnl=%0d live_bid_qty=%0d live_ask_qty=%0d best_bid=%0d best_ask=%0d",
-            position, day_pnl, live_bid_qty, live_ask_qty, best_bid_price, best_ask_price);
+        $display("Final position=%0d realized_pnl=%0d total_pnl=%0d mark_px=%0d live_bid_qty=%0d live_ask_qty=%0d best_bid=%0d best_ask=%0d",
+            position, day_pnl, tb_total_pnl, tb_mark_price, live_bid_qty, live_ask_qty, best_bid_price, best_ask_price);
         $display("Summary: quote_payloads=%0d executions=%0d bid_fills=%0d ask_fills=%0d",
             quote_payload_count, exec_count, bid_fill_count, ask_fill_count);
+        $display("Summary: realized_pnl=%0d mtm_total_pnl=%0d inventory_value=%0d",
+            day_pnl, tb_total_pnl, tb_total_pnl - day_pnl);
         $display("Summary: bid_rejects=%0d ask_rejects=%0d total_rejects=%0d",
             bid_reject_count, ask_reject_count, bid_reject_count + ask_reject_count);
         for (reason_idx = 0; reason_idx < 16; reason_idx = reason_idx + 1) begin

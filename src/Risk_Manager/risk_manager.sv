@@ -1,7 +1,7 @@
 // Risk manager module, takes in potential quotes from trading logic and checks them against various risk rules before 
 // allowing them to go order generator to be sent to the exchange. This acts as a final firewall to prevent bad
 // quotes from reaching the exchange and stops from losing too much money or taking on too much risk. 
-module risk_manager (
+module risk_managers (
     input  logic               i_clk,
     input  logic               i_rst_n,
     // basic kill switchs and check enables, we may not use but added just in case. Can just assign to 1 or 0 for now. 
@@ -12,6 +12,7 @@ module risk_manager (
     // Comes from inventory so we now how much stock we have and how much money we lost or made on day. 
     input  logic signed [15:0] i_inventory_position,
     input  logic signed [63:0] i_day_pnl,
+    input  logic signed [63:0] i_total_pnl,
     // Comes from execution tracker so we know how much stock is already sitting in the market on each side.
     input  logic [15:0]        i_live_bid_qty,
     input  logic [15:0]        i_live_ask_qty,
@@ -38,12 +39,14 @@ module risk_manager (
 // exceed our current inventory position of the stock. Also will be others to change but that is optimization problem i guess
 
 // Most of these can be changed if need but set to more lenient demo values for now.
-localparam signed [15:0] MAX_LONG_POSITION      = 16'sd1000;
-localparam signed [15:0] MAX_SHORT_POSITION     = 16'sd1000;
+localparam signed [15:0] MAX_LONG_POSITION      = 16'sd1500;
+localparam signed [15:0] MAX_SHORT_POSITION     = 16'sd1500;
 localparam        [15:0] MAX_QUOTE_QTY          = 16'd500;
-localparam        [31:0] MAX_PRICE_DELTA        = 32'd100;
-localparam signed [63:0]  MAX_DAILY_LOSS        = 64'sd5000000;
-localparam [48:0] MAX_NOTIONAL_EXPOSURE         = 49'd10000000;
+localparam        [31:0] MAX_PRICE_DELTA        = 32'd4000;
+localparam signed [63:0] MAX_DAILY_LOSS         = 64'sd20000000;
+localparam [48:0] MAX_NOTIONAL_EXPOSURE         = 49'd500000000;
+localparam int MIN_QUOTE_GAP_CYCLES             = 4;
+localparam int DUPLICATE_HOLDOFF_CYCLES         = 12;
 localparam int RISK_POS_LEN   = 17;  // one bit wider than 16-bit position/qty
 localparam int NOTIONAL_LEN   = 49;  // 32-bit price * 17-bit position
 // Reject reason codes for debug stuff
@@ -75,7 +78,7 @@ logic signed [RISK_POS_LEN-1:0] long_lim_ext;
 logic [31:0] px_diff;
 logic [RISK_POS_LEN-1:0] long_abs;
 logic [RISK_POS_LEN-1:0] short_abs;
-logic [RISK_POS_LEN-1:0] worst_pos;
+logic [RISK_POS_LEN-1:0] proj_pos_for_quote;
 logic bad_disable;
 logic bad_loss;
 logic bad_size;
@@ -84,6 +87,14 @@ logic bad_long;
 logic bad_short;
 logic bad_exposure;
 logic [NOTIONAL_LEN-1:0] proj_notional;
+logic suppress_quote_rate;
+logic suppress_duplicate;
+logic [7:0] quote_gap_count_reg, quote_gap_count_n;
+logic [7:0] duplicate_holdoff_reg, duplicate_holdoff_n;
+logic       last_accept_valid_reg, last_accept_valid_n;
+logic [31:0] last_accept_price_reg, last_accept_price_n;
+logic [15:0] last_accept_quantity_reg, last_accept_quantity_n;
+logic        same_quote_as_last;
 
 always_comb begin
     // default to no quote and no reject each cycle
@@ -126,20 +137,30 @@ always_comb begin
         short_abs = -short_pos_n;
     else
         short_abs = short_pos_n;
-    if (long_abs >= short_abs)
-        worst_pos = long_abs;
+    if (!i_quote_side)
+        proj_pos_for_quote = long_abs;
     else
-        worst_pos = short_abs;
+        proj_pos_for_quote = short_abs;
 
-    proj_notional = worst_pos * i_reference_price;
+    proj_notional = proj_pos_for_quote * i_reference_price;
     // Rule and stuff. Not all used right now but added for future expansion if we wanna. 
     bad_disable  = !i_trading_enable || i_kill_switch;
-    bad_loss     = i_pnl_check_enable && (i_day_pnl <= -MAX_DAILY_LOSS);
+    bad_loss     = i_pnl_check_enable && (i_total_pnl <= -MAX_DAILY_LOSS);
     bad_size     = (i_quote_quantity == 16'd0) || (i_quote_quantity > MAX_QUOTE_QTY);
     bad_price    = i_price_band_enable && (px_diff > MAX_PRICE_DELTA);
     bad_long     = (long_pos_n > long_lim_ext);
     bad_short    = (short_pos_n < -short_lim_ext);
     bad_exposure = (proj_notional > MAX_NOTIONAL_EXPOSURE);
+    same_quote_as_last = last_accept_valid_reg
+                      && (i_quote_price == last_accept_price_reg)
+                      && (i_quote_quantity == last_accept_quantity_reg);
+    suppress_quote_rate = (quote_gap_count_reg != 0);
+    suppress_duplicate  = same_quote_as_last && (duplicate_holdoff_reg != 0);
+    quote_gap_count_n       = (quote_gap_count_reg != 0) ? (quote_gap_count_reg - 1'b1) : '0;
+    duplicate_holdoff_n     = (duplicate_holdoff_reg != 0) ? (duplicate_holdoff_reg - 1'b1) : '0;
+    last_accept_valid_n     = last_accept_valid_reg;
+    last_accept_price_n     = last_accept_price_reg;
+    last_accept_quantity_n  = last_accept_quantity_reg;
 
     // check rules in priority order, asign reasons for these as well for debug verifications. 
     if (i_quote_valid) begin
@@ -171,6 +192,11 @@ always_comb begin
             rej_vld_n    = 1'b1;
             rej_reason_n = REJECT_EXPOSURE;
         end
+        else if (suppress_duplicate || suppress_quote_rate) begin
+            // Throttle identical or too-fast quote bursts without counting them as
+            // hard rejects, which keeps the demo cleaner and avoids quote spam.
+            quote_vld_n = 1'b0;
+        end
         else begin
             // quote is good to go to market
             good_quote    = 1'b1;
@@ -178,6 +204,11 @@ always_comb begin
             quote_side_n  = i_quote_side;
             quote_px_n    = i_quote_price;
             quote_qty_n   = i_quote_quantity;
+            quote_gap_count_n      = MIN_QUOTE_GAP_CYCLES[7:0];
+            duplicate_holdoff_n    = DUPLICATE_HOLDOFF_CYCLES[7:0];
+            last_accept_valid_n    = 1'b1;
+            last_accept_price_n    = i_quote_price;
+            last_accept_quantity_n = i_quote_quantity;
         end
     end
 end
@@ -190,6 +221,11 @@ always_ff @(posedge i_clk or negedge i_rst_n) begin
         o_quote_quantity     <= '0;
         o_reject_valid       <= 1'b0;
         o_reject_reason      <= REJECT_NONE;
+        quote_gap_count_reg      <= '0;
+        duplicate_holdoff_reg    <= '0;
+        last_accept_valid_reg    <= 1'b0;
+        last_accept_price_reg    <= '0;
+        last_accept_quantity_reg <= '0;
     end
     else begin
         o_quote_valid        <= quote_vld_n;
@@ -198,6 +234,11 @@ always_ff @(posedge i_clk or negedge i_rst_n) begin
         o_quote_quantity     <= quote_qty_n;
         o_reject_valid       <= rej_vld_n;
         o_reject_reason      <= rej_reason_n;
+        quote_gap_count_reg      <= quote_gap_count_n;
+        duplicate_holdoff_reg    <= duplicate_holdoff_n;
+        last_accept_valid_reg    <= last_accept_valid_n;
+        last_accept_price_reg    <= last_accept_price_n;
+        last_accept_quantity_reg <= last_accept_quantity_n;
     end
 end
 endmodule

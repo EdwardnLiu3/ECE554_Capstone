@@ -3,7 +3,8 @@
 // Checks valid quotes, position limit rejects, quote size rejects,
 // price band reject, daily loss reject, disabled trading reject,
 // and exposure reject.
-module tb_risk_manager;
+module tb_risk_managers;
+
     //params the same as in risk manager, verifies reasoning for rejects is gooda
     localparam [3:0] REJECT_NONE       = 4'd0;
     localparam [3:0] REJECT_DISABLED   = 4'd1;
@@ -21,6 +22,9 @@ module tb_risk_manager;
     logic               pnl_check_enable;
     logic signed [15:0] inventory_position;
     logic signed [63:0] day_pnl;
+    logic signed [63:0] total_pnl;
+    logic [15:0]        live_bid_qty;
+    logic [15:0]        live_ask_qty;
     logic               quote_valid;
     logic               quote_side;
     logic [31:0]        quote_price;
@@ -42,6 +46,9 @@ module tb_risk_manager;
         .i_pnl_check_enable(pnl_check_enable),
         .i_inventory_position(inventory_position),
         .i_day_pnl(day_pnl),
+        .i_total_pnl(total_pnl),
+        .i_live_bid_qty(live_bid_qty),
+        .i_live_ask_qty(live_ask_qty),
         .i_quote_valid(quote_valid),
         .i_quote_side(quote_side),
         .i_quote_price(quote_price),
@@ -66,6 +73,9 @@ module tb_risk_manager;
             quote_quantity      = '0;
             inventory_position  = '0;
             day_pnl             = '0;
+            total_pnl           = '0;
+            live_bid_qty        = '0;
+            live_ask_qty        = '0;
             reference_price     = 32'd100;
             trading_enable      = 1'b1;
             kill_switch         = 1'b0;
@@ -109,16 +119,30 @@ module tb_risk_manager;
         if (out_quote_price !== 32'd100)   $fatal(1, "Test 2 failed: price wrong");
         if (out_quote_quantity !== 16'd20) $fatal(1, "Test 2 failed: quantity wrong");
         $display("PASS");
+
+        // Test 2b
+        $display("Test 2b: rapid repeat quote is throttled without a hard reject");
+        @(negedge clk);
+        quote_valid      = 1'b1;
+        quote_side       = 1'b0;
+        quote_price      = 32'd100;
+        quote_quantity   = 16'd20;
+        reference_price  = 32'd100;
+        @(posedge clk);
+        #1;
+        if (out_quote_valid !== 1'b0)      $fatal(1, "Test 2b failed: repeat quote should be throttled");
+        if (reject_valid !== 1'b0)         $fatal(1, "Test 2b failed: repeat quote throttle should not hard reject");
+        $display("PASS");
         @(negedge clk);
         clear_inputs();
         // Test 3
         $display("Test 3: max long reject");
         @(negedge clk);
-        inventory_position = 16'sd90;
+        inventory_position = 16'sd1480;
         quote_valid        = 1'b1;
         quote_side         = 1'b0;
         quote_price        = 32'd100;
-        quote_quantity     = 16'd15;
+        quote_quantity     = 16'd30;
         reference_price    = 32'd100;
         @(posedge clk);
         #1;
@@ -132,11 +156,11 @@ module tb_risk_manager;
         // Test 4
         $display("Test 4: max short reject");
         @(negedge clk);
-        inventory_position = -16'sd90;
+        inventory_position = -16'sd1480;
         quote_valid        = 1'b1;
         quote_side         = 1'b1;
         quote_price        = 32'd100;
-        quote_quantity     = 16'd20;
+        quote_quantity     = 16'd30;
         reference_price    = 32'd100;
         @(posedge clk);
         #1;
@@ -153,7 +177,7 @@ module tb_risk_manager;
         quote_valid      = 1'b1;
         quote_side       = 1'b0;
         quote_price      = 32'd100;
-        quote_quantity   = 16'd60;
+        quote_quantity   = 16'd520;
         reference_price  = 32'd100;
         @(posedge clk);
         #1;
@@ -165,6 +189,7 @@ module tb_risk_manager;
         $display("PASS");
     
         @(negedge clk);
+
         clear_inputs();
 
         // Test 6
@@ -190,7 +215,7 @@ module tb_risk_manager;
         price_band_enable = 1'b1;
         quote_valid       = 1'b1;
         quote_side        = 1'b0;
-        quote_price       = 32'd130;
+        quote_price       = 32'd5000;
         quote_quantity    = 16'd10;
         reference_price   = 32'd100;
         @(posedge clk);
@@ -203,9 +228,10 @@ module tb_risk_manager;
         clear_inputs();
 
         // test 8
-        $display("Test 8: daily loss reject");
+        $display("Test 8: marked-to-market daily loss reject");
         @(negedge clk);
-        day_pnl         = -64'sd600;
+        day_pnl         = 64'sd1000000;
+        total_pnl       = -64'sd25000000;
         quote_valid     = 1'b1;
         quote_side      = 1'b0;
         quote_price     = 32'd100;
@@ -259,12 +285,12 @@ module tb_risk_manager;
         // Test 11
         $display("Test 11: exposure reject");
         @(negedge clk);
-        inventory_position = 16'sd20;
+        inventory_position = 16'sd1400;
         quote_valid        = 1'b1;
         quote_side         = 1'b0;
-        quote_price        = 32'd300;
-        quote_quantity     = 16'd20;
-        reference_price    = 32'd300;
+        quote_price        = 32'd400000;
+        quote_quantity     = 16'd100;
+        reference_price    = 32'd400000;
         @(posedge clk);
         #1;
         if (out_quote_valid !== 1'b0)      $fatal(1, "Test 11 failed: exposure should block");
@@ -274,6 +300,43 @@ module tb_risk_manager;
         @(negedge clk);
         clear_inputs();
 
+
+        //should be good if we make it here. 
+        $display("Test 12: live bid quantity pushes max long");
+        @(negedge clk);
+        inventory_position = 16'sd1450;
+        live_bid_qty       = 16'd30;
+        quote_valid        = 1'b1;
+        quote_side         = 1'b0;
+        quote_price        = 32'd100;
+        quote_quantity     = 16'd50;
+        reference_price    = 32'd100;
+        @(posedge clk);
+        #1;
+        if (out_quote_valid !== 1'b0)      $fatal(1, "Test 12 failed: live bid quantity should count toward max long");
+        if (reject_valid !== 1'b1)         $fatal(1, "Test 12 failed: live bid quantity should reject");
+        if (reject_reason !== REJECT_MAX_LONG) $fatal(1, "Test 12 failed: wrong reject reason");
+        $display("PASS");
+        @(negedge clk);
+        clear_inputs();
+
+        $display("Test 13: live ask quantity pushes max short");
+        @(negedge clk);
+        inventory_position = -16'sd1450;
+        live_ask_qty       = 16'd30;
+        quote_valid        = 1'b1;
+        quote_side         = 1'b1;
+        quote_price        = 32'd100;
+        quote_quantity     = 16'd50;
+        reference_price    = 32'd100;
+        @(posedge clk);
+        #1;
+        if (out_quote_valid !== 1'b0)      $fatal(1, "Test 13 failed: live ask quantity should count toward max short");
+        if (reject_valid !== 1'b1)         $fatal(1, "Test 13 failed: live ask quantity should reject");
+        if (reject_reason !== REJECT_MAX_SHORT) $fatal(1, "Test 13 failed: wrong reject reason");
+        $display("PASS");
+        @(negedge clk);
+        clear_inputs();
 
         //should be good if we make it here. 
         $display("");
