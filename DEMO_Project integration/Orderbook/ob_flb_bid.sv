@@ -1,5 +1,5 @@
 import ob_pkg::*; 
-module ob_flb_bid #(parameter int BASE_PRICE = 0)(
+module ob_flb_bid #(parameter logic [PRICE_LEN-1:0] BASE_PRICE = '0)(
     input logic                         i_clk,
     input logic                         i_rst_n,
     input logic [QUANTITY_LEN-1:0]      i_quantity,
