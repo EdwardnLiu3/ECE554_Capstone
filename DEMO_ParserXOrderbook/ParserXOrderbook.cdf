@@ -6,7 +6,7 @@ JedecChain;
 	P ActionCode(Ign)
 		Device PartName(SOCVHPS) MfrSpec(OpMask(0));
 	P ActionCode(Cfg)
-		Device PartName(5CSEMA5F31) Path("C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/") File("ParserXOrderbook.sof") MfrSpec(OpMask(1));
+		Device PartName(5CSEMA5F31) Path("C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/") File("ParserXOrderbook.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 

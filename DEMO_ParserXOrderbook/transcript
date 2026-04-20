@@ -1,78 +1,113 @@
 # Compile of flb_refill_engine_ask.sv was successful.
+# Compile of flb_refill_engine_ask_1024.sv was successful.
 # Compile of flb_refill_engine_bid.sv was successful.
+# Compile of flb_refill_engine_bid_1024.sv was successful.
 # Compile of ob_flb_ask.sv was successful.
 # Compile of ob_flb_bid.sv was successful.
+# Compile of ob_opb copy.sv was successful with warnings.
 # Compile of ob_opb.sv was successful.
 # Compile of ob_pkg.sv was successful.
 # Compile of orderbook.sv was successful.
-# Load canceled
 # Compile of Orderbook_int.sv was successful.
 # Compile of parser.sv was successful.
 # Compile of ParserXOrderbook.sv was successful.
-# Compile of pe_lsb128.sv was successful.
-# Compile of pe_msb128.sv was successful.
-# Compile of flb_refill_engine_ask_1024.sv was successful.
-# Compile of flb_refill_engine_bid_1024.sv was successful.
 # Compile of pe_lsb32.sv was successful.
+# Compile of pe_lsb128.sv was successful.
 # Compile of pe_msb32.sv was successful.
+# Compile of pe_msb128.sv was successful.
+# Compile of tb_ob_flb.sv was successful with warnings.
+# Compile of tb_ob_opb.sv was successful with warnings.
+# Compile of tb_orderbook.sv was successful with warnings.
 # Compile of tb_ParserXOrderbook.sv was successful.
-# 17 compiles, 0 failed with no errors.
-vsim -gui work.ParserXOrderbook
-# vsim -gui work.ParserXOrderbook 
-# Start time: 16:45:22 on Apr 17,2026
+# Compile of tb_refill_engine.sv was successful.
+# 22 compiles, 0 failed with no errors.
+# Compile of flb_refill_engine_ask.sv was successful.
+# Compile of flb_refill_engine_ask_1024.sv was successful.
+# Compile of flb_refill_engine_bid.sv was successful.
+# Compile of flb_refill_engine_bid_1024.sv was successful.
+# Compile of ob_flb_ask.sv was successful.
+# Compile of ob_flb_bid.sv was successful.
+# Compile of ob_opb copy.sv was successful with warnings.
+# Compile of ob_opb.sv was successful.
+# Compile of ob_pkg.sv was successful.
+# Compile of orderbook.sv was successful.
+# Compile of Orderbook_int.sv was successful.
+# Compile of parser.sv was successful.
+# Compile of ParserXOrderbook.sv was successful.
+# Compile of pe_lsb32.sv was successful.
+# Compile of pe_lsb128.sv was successful.
+# Compile of pe_msb32.sv was successful.
+# Compile of pe_msb128.sv was successful.
+# Compile of tb_ob_flb.sv was successful.
+# Compile of tb_ob_opb.sv was successful.
+# Compile of tb_orderbook.sv was successful.
+# Compile of tb_ParserXOrderbook.sv was successful.
+# Compile of tb_refill_engine.sv was successful.
+# 22 compiles, 0 failed with no errors.
+vsim -gui work.tb_orderbook
+# vsim -gui work.tb_orderbook 
+# Start time: 00:28:00 on Apr 19,2026
 # Loading sv_std.std
 # Loading work.ob_pkg
-# Loading work.ParserXOrderbook_sv_unit
-# Loading work.ParserXOrderbook
+# Loading work.tb_orderbook_sv_unit
+# Loading work.tb_orderbook
 # Loading work.orderbook_sv_unit
 # Loading work.orderbook
-# ** Error: (vsim-13) Recompile work.ob_opb_sv_unit because work.ob_pkg has changed.
-# ** Error (suppressible): (vsim-12) Recompile work.ob_opb after work.ob_opb_sv_unit is recompiled.
-# ** Error: (vsim-13) Recompile work.ob_opb because work.ob_pkg has changed.
-# Error loading design
-# End time: 16:45:23 on Apr 17,2026, Elapsed time: 0:00:01
-# Errors: 3, Warnings: 2
-# Load canceled
-# Compile of flb_refill_engine_ask.sv was successful.
-# Compile of flb_refill_engine_bid.sv was successful.
-# Compile of ob_flb_ask.sv was successful.
-# Compile of ob_flb_bid.sv was successful.
-# Compile of ob_opb.sv was successful.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook.sv was successful.
-# Compile of Orderbook_int.sv was successful.
-# Compile of parser.sv was successful.
+# Loading work.ob_opb_sv_unit
+# Loading work.ob_opb
+# Loading work.ob_flb_bid_sv_unit
+# Loading work.ob_flb_bid
+# Loading work.flb_refill_engine_bid_1024_sv_unit
+# Loading work.flb_refill_engine_bid_1024
+# Loading work.pe_msb32
+# Loading work.ob_flb_ask_sv_unit
+# Loading work.ob_flb_ask
+# Loading work.flb_refill_engine_ask_1024_sv_unit
+# Loading work.flb_refill_engine_ask_1024
+# Loading work.pe_lsb32
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
+# WARNING: No extended dataflow license exists
+add wave -position insertpoint sim:/tb_orderbook/iDUT/*
+run -all
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_orderbook.sv(101)
+#    Time: 515 ns  Iteration: 1  Instance: /tb_orderbook
+# Break in Module tb_orderbook at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_orderbook.sv line 101
+# Compile of tb_orderbook.sv was successful.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.tb_orderbook_sv_unit
+# Loading work.tb_orderbook
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
+run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_orderbook.sv(101)
+#    Time: 515 ns  Iteration: 1  Instance: /tb_orderbook
+# Break in Module tb_orderbook at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_orderbook.sv line 101
+# Compile of ParserXOrderbook.sv failed with 4 errors.
+# Compile of tb_orderbook.sv was successful.
+# 2 compiles, 1 failed with 4 errors.
 # Compile of ParserXOrderbook.sv was successful.
-# Compile of pe_lsb128.sv was successful.
-# Compile of pe_msb128.sv was successful.
-# Compile of flb_refill_engine_ask_1024.sv was successful.
-# Compile of flb_refill_engine_bid_1024.sv was successful.
-# Compile of pe_lsb32.sv was successful.
-# Compile of pe_msb32.sv was successful.
-# Compile of tb_ParserXOrderbook.sv was successful.
-# 17 compiles, 0 failed with no errors.
-# Load canceled
-# Compile of flb_refill_engine_ask.sv was successful.
-# Compile of flb_refill_engine_bid.sv was successful.
-# Compile of ob_flb_ask.sv was successful.
-# Compile of ob_flb_bid.sv was successful.
-# Compile of ob_opb.sv was successful.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook.sv was successful.
-# Compile of Orderbook_int.sv was successful.
-# Compile of parser.sv was successful.
-# Compile of ParserXOrderbook.sv was successful.
-# Compile of pe_lsb128.sv was successful.
-# Compile of pe_msb128.sv was successful.
-# Compile of flb_refill_engine_ask_1024.sv was successful.
-# Compile of flb_refill_engine_bid_1024.sv was successful.
-# Compile of pe_lsb32.sv was successful.
-# Compile of pe_msb32.sv was successful.
-# Compile of tb_ParserXOrderbook.sv was successful.
-# 17 compiles, 0 failed with no errors.
 vsim -gui work.tb_ParserXOrderbook
+# End time: 01:49:27 on Apr 19,2026, Elapsed time: 1:21:27
+# Errors: 0, Warnings: 7
 # vsim -gui work.tb_ParserXOrderbook 
-# Start time: 16:47:06 on Apr 17,2026
+# Start time: 01:49:27 on Apr 19,2026
 # Loading sv_std.std
 # Loading work.ob_pkg
 # Loading work.tb_ParserXOrderbook_sv_unit
@@ -94,580 +129,262 @@ vsim -gui work.tb_ParserXOrderbook
 # Loading work.flb_refill_engine_ask_1024
 # Loading work.pe_lsb32
 # ** Warning: (vsim-2685) [TFMPC] - Too few port connections for 'ob'.  Expected 19, found 18.
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 148
-# ** Warning: (vsim-3722) C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ParserXOrderbook.sv(148): [TFMPC] - Missing connection for port 'o_side'.
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 264
+# ** Error (suppressible): (vsim-3839) Variable '/tb_ParserXOrderbook/iDUT/o_ask_best_quant', driven via a port connection, is multiply driven. See C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv(264).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 264
+# ** Warning: (vsim-3015) [PCDPC] - Port size (1) does not match connection size (16) for port 'o_ask_best_valid'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/orderbook.sv(22).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 264
+# ** Error (suppressible): (vsim-3839) Variable '/tb_ParserXOrderbook/iDUT/o_ask_best_quant', driven via a port connection, is multiply driven. See C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv(264).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 264
+# ** Warning: (vsim-3722) C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv(264): [TFMPC] - Missing connection for port 'o_side'.
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
+# Error loading design
+# End time: 01:49:27 on Apr 19,2026, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 8
+# Break key hit
+# Compile of flb_refill_engine_ask.sv was successful.
+# Compile of flb_refill_engine_ask_1024.sv was successful.
+# Compile of flb_refill_engine_bid.sv was successful.
+# Compile of flb_refill_engine_bid_1024.sv was successful.
+# Compile of ob_flb_ask.sv was successful.
+# Compile of ob_flb_bid.sv was successful.
+# Compile of ob_opb copy.sv was successful with warnings.
+# Compile of ob_opb.sv was successful.
+# Compile of ob_pkg.sv was successful.
+# Compile of orderbook.sv was successful.
+# Compile of Orderbook_int.sv was successful.
+# Compile of parser.sv was successful.
+# Compile of ParserXOrderbook.sv was successful.
+# Compile of pe_lsb32.sv was successful.
+# Compile of pe_lsb128.sv was successful.
+# Compile of pe_msb32.sv was successful.
+# Compile of pe_msb128.sv was successful.
+# Compile of tb_ob_flb.sv was successful.
+# Compile of tb_ob_opb.sv was successful.
+# Compile of tb_orderbook.sv was successful.
+# Compile of tb_ParserXOrderbook.sv was successful.
+# Compile of tb_refill_engine.sv was successful.
+# 22 compiles, 0 failed with no errors.
+vsim -gui work.tb_ParserXOrderbook
+# vsim -gui work.tb_ParserXOrderbook 
+# Start time: 01:52:28 on Apr 19,2026
+# Loading sv_std.std
+# Loading work.ob_pkg
+# Loading work.tb_ParserXOrderbook_sv_unit
+# Loading work.tb_ParserXOrderbook
+# Loading work.ParserXOrderbook_sv_unit
+# Loading work.ParserXOrderbook
+# Loading work.orderbook_sv_unit
+# Loading work.orderbook
+# Loading work.ob_opb_sv_unit
+# Loading work.ob_opb
+# Loading work.ob_flb_bid_sv_unit
+# Loading work.ob_flb_bid
+# Loading work.flb_refill_engine_bid_1024_sv_unit
+# Loading work.flb_refill_engine_bid_1024
+# Loading work.pe_msb32
+# Loading work.ob_flb_ask_sv_unit
+# Loading work.ob_flb_ask
+# Loading work.flb_refill_engine_ask_1024_sv_unit
+# Loading work.flb_refill_engine_ask_1024
+# Loading work.pe_lsb32
+# ** Warning: (vsim-2685) [TFMPC] - Too few port connections for 'ob'.  Expected 19, found 18.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 264
+# ** Error (suppressible): (vsim-3839) Variable '/tb_ParserXOrderbook/iDUT/o_ask_best_quant', driven via a port connection, is multiply driven. See C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv(264).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 264
+# ** Warning: (vsim-3015) [PCDPC] - Port size (1) does not match connection size (16) for port 'o_ask_best_valid'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/orderbook.sv(22).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 264
+# ** Error (suppressible): (vsim-3839) Variable '/tb_ParserXOrderbook/iDUT/o_ask_best_quant', driven via a port connection, is multiply driven. See C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv(264).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 264
+# ** Warning: (vsim-3722) C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv(264): [TFMPC] - Missing connection for port 'o_side'.
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
+# Error loading design
+# End time: 01:52:28 on Apr 19,2026, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 9
+# Compile of ob_opb copy.sv was successful with warnings.
+vsim -gui work.tb_ParserXOrderbook
+# vsim -gui work.tb_ParserXOrderbook 
+# Start time: 01:56:00 on Apr 19,2026
+# Loading sv_std.std
+# Loading work.ob_pkg
+# Loading work.tb_ParserXOrderbook_sv_unit
+# Loading work.tb_ParserXOrderbook
+# Loading work.ParserXOrderbook_sv_unit
+# Loading work.ParserXOrderbook
+# Loading work.orderbook_sv_unit
+# Loading work.orderbook
+# Loading work.ob_opb20copy_sv_unit
+# Loading work.ob_opb
+# Loading work.ob_flb_bid_sv_unit
+# Loading work.ob_flb_bid
+# Loading work.flb_refill_engine_bid_1024_sv_unit
+# Loading work.flb_refill_engine_bid_1024
+# Loading work.pe_msb32
+# Loading work.ob_flb_ask_sv_unit
+# Loading work.ob_flb_ask
+# Loading work.flb_refill_engine_ask_1024_sv_unit
+# Loading work.flb_refill_engine_ask_1024
+# Loading work.pe_lsb32
+# ** Warning: (vsim-2685) [TFMPC] - Too few port connections for 'ob'.  Expected 19, found 18.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 264
+# ** Error (suppressible): (vsim-3839) Variable '/tb_ParserXOrderbook/iDUT/o_ask_best_quant', driven via a port connection, is multiply driven. See C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv(264).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 264
+# ** Warning: (vsim-3015) [PCDPC] - Port size (1) does not match connection size (16) for port 'o_ask_best_valid'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/orderbook.sv(22).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 264
+# ** Error (suppressible): (vsim-3839) Variable '/tb_ParserXOrderbook/iDUT/o_ask_best_quant', driven via a port connection, is multiply driven. See C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv(264).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 264
+# ** Warning: (vsim-3722) C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv(264): [TFMPC] - Missing connection for port 'o_side'.
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
+# Error loading design
+# End time: 01:56:01 on Apr 19,2026, Elapsed time: 0:00:01
+# Errors: 2, Warnings: 9
+# Compile of ParserXOrderbook.sv was successful.
+vsim -gui work.tb_ParserXOrderbook
+# vsim -gui work.tb_ParserXOrderbook 
+# Start time: 01:58:10 on Apr 19,2026
+# Loading sv_std.std
+# Loading work.ob_pkg
+# Loading work.tb_ParserXOrderbook_sv_unit
+# Loading work.tb_ParserXOrderbook
+# Loading work.ParserXOrderbook_sv_unit
+# Loading work.ParserXOrderbook
+# Loading work.orderbook_sv_unit
+# Loading work.orderbook
+# Loading work.ob_opb20copy_sv_unit
+# Loading work.ob_opb
+# Loading work.ob_flb_bid_sv_unit
+# Loading work.ob_flb_bid
+# Loading work.flb_refill_engine_bid_1024_sv_unit
+# Loading work.flb_refill_engine_bid_1024
+# Loading work.pe_msb32
+# Loading work.ob_flb_ask_sv_unit
+# Loading work.ob_flb_ask
+# Loading work.flb_refill_engine_ask_1024_sv_unit
+# Loading work.flb_refill_engine_ask_1024
+# Loading work.pe_lsb32
+# ** Error (suppressible): (vsim-3839) Variable '/tb_ParserXOrderbook/iDUT/o_ask_best_quant', driven via a port connection, is multiply driven. See C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv(266).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 266
+# ** Warning: (vsim-3015) [PCDPC] - Port size (1) does not match connection size (16) for port 'o_ask_best_valid'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/orderbook.sv(22).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 266
+# ** Error (suppressible): (vsim-3839) Variable '/tb_ParserXOrderbook/iDUT/o_ask_best_quant', driven via a port connection, is multiply driven. See C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv(266).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 266
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
+# Error loading design
+# End time: 01:58:10 on Apr 19,2026, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 7
+# Compile of ParserXOrderbook.sv was successful.
+vsim -gui work.tb_ParserXOrderbook
+# vsim -gui work.tb_ParserXOrderbook 
+# Start time: 01:59:06 on Apr 19,2026
+# Loading sv_std.std
+# Loading work.ob_pkg
+# Loading work.tb_ParserXOrderbook_sv_unit
+# Loading work.tb_ParserXOrderbook
+# Loading work.ParserXOrderbook_sv_unit
+# Loading work.ParserXOrderbook
+# Loading work.orderbook_sv_unit
+# Loading work.orderbook
+# Loading work.ob_opb20copy_sv_unit
+# Loading work.ob_opb
+# Loading work.ob_flb_bid_sv_unit
+# Loading work.ob_flb_bid
+# Loading work.flb_refill_engine_bid_1024_sv_unit
+# Loading work.flb_refill_engine_bid_1024
+# Loading work.pe_msb32
+# Loading work.ob_flb_ask_sv_unit
+# Loading work.ob_flb_ask
+# Loading work.flb_refill_engine_ask_1024_sv_unit
+# Loading work.flb_refill_engine_ask_1024
+# Loading work.pe_lsb32
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
 # WARNING: No extended dataflow license exists
 add wave -position insertpoint sim:/tb_ParserXOrderbook/iDUT/*
 run -all
-# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv(149)
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv(149)
 #    Time: 845 ns  Iteration: 1  Instance: /tb_ParserXOrderbook
-# Break in Module tb_ParserXOrderbook at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv line 149
-add wave -position insertpoint sim:/tb_ParserXOrderbook/iDUT/ob/bid_opb/*
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# ** Warning: (vsim-2685) [TFMPC] - Too few port connections for 'ob'.  Expected 19, found 18.
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 148
-# ** Warning: (vsim-3722) C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ParserXOrderbook.sv(148): [TFMPC] - Missing connection for port 'o_side'.
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
-run -all
-# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv(149)
-#    Time: 845 ns  Iteration: 1  Instance: /tb_ParserXOrderbook
-# Break in Module tb_ParserXOrderbook at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv line 149
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-2685) [TFMPC] - Too few port connections for 'ob'.  Expected 19, found 18.
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 148
-# ** Warning: (vsim-3722) C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ParserXOrderbook.sv(148): [TFMPC] - Missing connection for port 'o_side'.
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s0_order_id'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s0_quantity'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s0_price'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s0_side'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s0_action'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s0_valid'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s0_add'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s0_cancel'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s0_execute'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s0_delete'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/rd_addr'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/rd_price'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/rd_quantity'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/rd_side'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/wr_en_price'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/wr_en_quantity'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/wr_en_side'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/wr_addr'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/wr_price'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/wr_quantity'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/wr_side'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s1_order_id'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s1_quantity'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s1_price'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s1_side'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s1_action'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s1_valid'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s1_add'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s1_cancel'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s1_execute'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s1_delete'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s1_mem_price'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s1_mem_quantity'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/s1_mem_side'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/prev_add_valid'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/prev_add_order_id'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/prev_add_price'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/prev_add_quantity'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/prev_add_side'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/use_bypass'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/eff_price'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/eff_quantity'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/eff_side'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/new_quantity'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ParserXOrderbook/iDUT/ob/bid_opb/zero_after_remove'. 
-run -all
-# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv(149)
-#    Time: 845 ns  Iteration: 1  Instance: /tb_ParserXOrderbook
-# Break in Module tb_ParserXOrderbook at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv line 149
-# Compile of flb_refill_engine_ask.sv was successful.
-# Compile of flb_refill_engine_bid.sv was successful.
-# Compile of ob_flb_ask.sv was successful.
-# Compile of ob_flb_bid.sv was successful.
-# Compile of ob_opb.sv failed with 7 errors.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook.sv was successful.
-# Compile of Orderbook_int.sv was successful.
-# Compile of parser.sv was successful.
-# Compile of ParserXOrderbook.sv was successful.
-# Compile of pe_lsb128.sv was successful.
-# Compile of pe_msb128.sv was successful.
-# Compile of flb_refill_engine_ask_1024.sv was successful.
-# Compile of flb_refill_engine_bid_1024.sv was successful.
-# Compile of pe_lsb32.sv was successful.
-# Compile of pe_msb32.sv was successful.
+# Break in Module tb_ParserXOrderbook at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv line 149
 # Compile of tb_ParserXOrderbook.sv was successful.
-# Compile of tb_ob_flb.sv was successful.
-# Compile of tb_ob_opb.sv was successful.
-# Compile of tb_orderbook.sv was successful.
-# 20 compiles, 1 failed with 7 errors.
-# Compile of ob_opb.sv failed with 3 errors.
-# Compile of flb_refill_engine_ask.sv was successful.
-# Compile of flb_refill_engine_bid.sv was successful.
-# Compile of ob_flb_ask.sv was successful.
-# Compile of ob_flb_bid.sv was successful.
-# Compile of ob_opb.sv was successful.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook.sv was successful.
-# Compile of Orderbook_int.sv was successful.
-# Compile of parser.sv was successful.
-# Compile of ParserXOrderbook.sv was successful.
-# Compile of pe_lsb128.sv was successful.
-# Compile of pe_msb128.sv was successful.
-# Compile of flb_refill_engine_ask_1024.sv was successful.
-# Compile of flb_refill_engine_bid_1024.sv was successful.
-# Compile of pe_lsb32.sv was successful.
-# Compile of pe_msb32.sv was successful.
-# Compile of tb_ParserXOrderbook.sv was successful.
-# Compile of tb_ob_flb.sv was successful.
-# Compile of tb_ob_opb.sv was successful.
-# Compile of tb_orderbook.sv was successful.
-# 20 compiles, 0 failed with no errors.
-vsim -gui work.tb_ob_opb
-# End time: 02:43:27 on Apr 18,2026, Elapsed time: 9:56:21
-# Errors: 0, Warnings: 12
-# vsim -gui work.tb_ob_opb 
-# Start time: 02:43:27 on Apr 18,2026
-# Loading sv_std.std
-# Loading work.ob_pkg
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-2685) [TFMPC] - Too few port connections for 'iDUT'.  Expected 13, found 11.
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 22
-# ** Warning: (vsim-3722) C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(22): [TFMPC] - Missing connection for port 'i_side'.
-# ** Warning: (vsim-3722) C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(22): [TFMPC] - Missing connection for port 'o_side'.
-# WARNING: No extended dataflow license exists
-add wave -position insertpoint sim:/tb_ob_opb/iDUT/*
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(122)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 122
 restart
 # ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# ** Warning: (vsim-2685) [TFMPC] - Too few port connections for 'iDUT'.  Expected 13, found 11.
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 22
-# ** Warning: (vsim-3722) C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(22): [TFMPC] - Missing connection for port 'i_side'.
-# ** Warning: (vsim-3722) C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(22): [TFMPC] - Missing connection for port 'o_side'.
-run -all
-# GetModuleFileName: The specified module could not be found.
-# 
-# 
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(122)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 122
-# Compile of tb_ob_opb.sv was successful.
-vsim -gui work.tb_ob_opb
-# End time: 02:47:47 on Apr 18,2026, Elapsed time: 0:04:20
-# Errors: 0, Warnings: 7
-# vsim -gui work.tb_ob_opb 
-# Start time: 02:47:47 on Apr 18,2026
-# Loading sv_std.std
-# Loading work.ob_pkg
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-# WARNING: No extended dataflow license exists
-add wave -position insertpoint sim:/tb_ob_opb/iDUT/*
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(125)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 125
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(125)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 125
-add wave -position insertpoint  \
-sim:/tb_ob_opb/iDUT/opb_price \
-sim:/tb_ob_opb/iDUT/opb_quant \
-sim:/tb_ob_opb/iDUT/opb_side
-# (vsim-4077) Logging very large object: /tb_ob_opb/iDUT/opb_price
-# (vsim-4077) Logging very large object: /tb_ob_opb/iDUT/opb_quant
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(125)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 125
-# Compile of ob_opb.sv failed with 14 errors.
-# Compile of flb_refill_engine_ask.sv was successful.
-# Compile of flb_refill_engine_bid.sv was successful.
-# Compile of ob_flb_ask.sv was successful.
-# Compile of ob_flb_bid.sv was successful.
-# Compile of ob_opb.sv failed with 14 errors.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook.sv was successful.
-# Compile of Orderbook_int.sv was successful.
-# Compile of parser.sv was successful.
-# Compile of ParserXOrderbook.sv was successful.
-# Compile of pe_lsb128.sv was successful.
-# Compile of pe_msb128.sv was successful.
-# Compile of flb_refill_engine_ask_1024.sv was successful.
-# Compile of flb_refill_engine_bid_1024.sv was successful.
-# Compile of pe_lsb32.sv was successful.
-# Compile of pe_msb32.sv was successful.
-# Compile of tb_ParserXOrderbook.sv was successful.
-# Compile of tb_ob_flb.sv was successful.
-# Compile of tb_ob_opb.sv was successful.
-# Compile of tb_orderbook.sv was successful.
-# 20 compiles, 1 failed with 14 errors.
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_pkg
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(184).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/wren_price'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/wren_quant'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/wren_side'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/rd_quant'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/wr_quant'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/s1_quant'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/s2_add'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/s2_cancel'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/s2_execute'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/s2_delete'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/s2_order_id'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/prev_quant'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/opb_quant[0]'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/opb_quant[1]'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/opb_quant[2]'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/opb_quant[3]'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/opb_quant[4]'. 
-# Warning in wave window restart: (vish-4014) No objects found matching '/tb_ob_opb/iDUT/opb_quant[5]'. 
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(125)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 125
-# Compile of ob_opb.sv failed with 1 errors.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(184).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(125)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 125
-add wave -position insertpoint  \
-sim:/tb_ob_opb/iDUT/opb_quant
-# (vsim-4077) Logging very large object: /tb_ob_opb/iDUT/opb_quant
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(125)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 125
-add wave -position insertpoint  \
-sim:/tb_ob_opb/iDUT/prev_quant \
-sim:/tb_ob_opb/iDUT/prev_price
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(125)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 125
-# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(125)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 125
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(125)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 125
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(125)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 125
-# Compile of tb_ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.tb_ob_opb_sv_unit
-# Loading work.tb_ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(125)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 125
-# Compile of ob_opb.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (1) for port 'o_action'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ob_opb.sv(19).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ob_opb/iDUT File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv Line: 23
-run -all
-# ** Note: $finish    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv(125)
-#    Time: 225 ns  Iteration: 1  Instance: /tb_ob_opb
-# 1
-# Break in Module tb_ob_opb at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_ob_opb.sv line 125
-# Compile of flb_refill_engine_ask.sv was successful.
-# Compile of flb_refill_engine_bid.sv was successful.
-# Compile of ob_flb_ask.sv was successful.
-# Compile of ob_flb_bid.sv was successful.
-# Compile of ob_opb.sv was successful.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook.sv was successful.
-# Compile of Orderbook_int.sv was successful.
-# Compile of parser.sv was successful.
-# Compile of ParserXOrderbook.sv was successful.
-# Compile of pe_lsb128.sv was successful.
-# Compile of pe_msb128.sv was successful.
-# Compile of flb_refill_engine_ask_1024.sv was successful.
-# Compile of flb_refill_engine_bid_1024.sv was successful.
-# Compile of pe_lsb32.sv was successful.
-# Compile of pe_msb32.sv was successful.
-# Compile of tb_ParserXOrderbook.sv was successful.
-# Compile of tb_ob_flb.sv was successful.
-# Compile of tb_ob_opb.sv was successful.
-# Compile of tb_orderbook.sv was successful.
-# 20 compiles, 0 failed with no errors.
-vsim -gui work.tb_orderbook
-# error in adjustGeometry: window ".main_pane.wave" isn't a top-level window
-# End time: 03:32:43 on Apr 18,2026, Elapsed time: 0:44:56
-# Errors: 0, Warnings: 2
-# vsim -gui work.tb_orderbook 
-# Start time: 03:32:43 on Apr 18,2026
-# Loading sv_std.std
-# Loading work.ob_pkg
-# Loading work.tb_orderbook_sv_unit
-# Loading work.tb_orderbook
-# Loading work.orderbook_sv_unit
-# Loading work.orderbook
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# Loading work.ob_flb_bid_sv_unit
-# Loading work.ob_flb_bid
-# Loading work.flb_refill_engine_bid_1024_sv_unit
-# Loading work.flb_refill_engine_bid_1024
-# Loading work.pe_msb32
-# Loading work.ob_flb_ask_sv_unit
-# Loading work.ob_flb_ask
-# Loading work.flb_refill_engine_ask_1024_sv_unit
-# Loading work.flb_refill_engine_ask_1024
-# Loading work.pe_lsb32
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
-add wave -position insertpoint sim:/tb_orderbook/iDUT/*
-run -all
-# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_orderbook.sv(100)
-#    Time: 505 ns  Iteration: 1  Instance: /tb_orderbook
-# Break in Module tb_orderbook at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_orderbook.sv line 100
-# WARNING: No extended dataflow license exists
-# Compile of ob_flb_ask.sv was successful.
-# Compile of tb_orderbook.sv was successful.
-# 2 compiles, 0 failed with no errors.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.tb_orderbook_sv_unit
-# Loading work.tb_orderbook
-# Loading work.ob_flb_ask_sv_unit
-# Loading work.ob_flb_ask
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
-run -all
-# GetModuleFileName: The specified module could not be found.
-# 
-# 
-# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_orderbook.sv(100)
-#    Time: 505 ns  Iteration: 1  Instance: /tb_orderbook
-# Break in Module tb_orderbook at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_orderbook.sv line 100
-# Compile of tb_orderbook.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.tb_orderbook_sv_unit
-# Loading work.tb_orderbook
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
-run -all
-# GetModuleFileName: The specified module could not be found.
-# 
-# 
-# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_orderbook.sv(116)
-#    Time: 505 ns  Iteration: 1  Instance: /tb_orderbook
-# Break in Module tb_orderbook at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_orderbook.sv line 116
-# Compile of tb_orderbook.sv was successful.
-restart
-# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
-# Loading work.tb_orderbook_sv_unit
-# Loading work.tb_orderbook
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_orderbook/iDUT/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
-run -all
-# GetModuleFileName: The specified module could not be found.
-# 
-# 
-# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_orderbook.sv(116)
-#    Time: 505 ns  Iteration: 1  Instance: /tb_orderbook
-# Break in Module tb_orderbook at C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/tb_orderbook.sv line 116
-# Compile of flb_refill_engine_ask.sv was successful.
-# Compile of flb_refill_engine_bid.sv was successful.
-# Compile of ob_flb_ask.sv was successful.
-# Compile of ob_flb_bid.sv was successful.
-# Compile of ob_opb.sv was successful.
-# Compile of ob_pkg.sv was successful.
-# Compile of orderbook.sv was successful.
-# Compile of Orderbook_int.sv was successful.
-# Compile of parser.sv was successful.
-# Compile of ParserXOrderbook.sv was successful.
-# Compile of pe_lsb128.sv was successful.
-# Compile of pe_msb128.sv was successful.
-# Compile of flb_refill_engine_ask_1024.sv was successful.
-# Compile of flb_refill_engine_bid_1024.sv was successful.
-# Compile of pe_lsb32.sv was successful.
-# Compile of pe_msb32.sv was successful.
-# Compile of tb_ParserXOrderbook.sv was successful.
-# Compile of tb_ob_flb.sv was successful.
-# Compile of tb_ob_opb.sv was successful.
-# Compile of tb_orderbook.sv was successful.
-# 20 compiles, 0 failed with no errors.
-vsim -gui work.tb_ParserXOrderbook
-# End time: 04:03:28 on Apr 18,2026, Elapsed time: 0:30:45
-# Errors: 0, Warnings: 6
-# vsim -gui work.tb_ParserXOrderbook 
-# Start time: 04:03:28 on Apr 18,2026
-# Loading sv_std.std
-# Loading work.ob_pkg
 # Loading work.tb_ParserXOrderbook_sv_unit
 # Loading work.tb_ParserXOrderbook
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
+run -all
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv(231)
+#    Time: 1445 ns  Iteration: 1  Instance: /tb_ParserXOrderbook
+# Break in Module tb_ParserXOrderbook at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv line 231
+# Compile of ParserXOrderbook.sv was successful.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
 # Loading work.ParserXOrderbook_sv_unit
 # Loading work.ParserXOrderbook
-# Loading work.orderbook_sv_unit
-# Loading work.orderbook
-# Loading work.ob_opb_sv_unit
-# Loading work.ob_opb
-# Loading work.ob_flb_bid_sv_unit
-# Loading work.ob_flb_bid
-# Loading work.flb_refill_engine_bid_1024_sv_unit
-# Loading work.flb_refill_engine_bid_1024
-# Loading work.pe_msb32
-# Loading work.ob_flb_ask_sv_unit
-# Loading work.ob_flb_ask
-# Loading work.flb_refill_engine_ask_1024_sv_unit
-# Loading work.flb_refill_engine_ask_1024
-# Loading work.pe_lsb32
-# ** Warning: (vsim-2685) [TFMPC] - Too few port connections for 'ob'.  Expected 19, found 18.
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 148
-# ** Warning: (vsim-3722) C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/ParserXOrderbook.sv(148): [TFMPC] - Missing connection for port 'o_side'.
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_msb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
-# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
-#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/final_project/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
-# WARNING: No extended dataflow license exists
-# End time: 12:58:34 on Apr 18,2026, Elapsed time: 8:55:06
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
+run -all
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv(231)
+#    Time: 1445 ns  Iteration: 1  Instance: /tb_ParserXOrderbook
+# Break in Module tb_ParserXOrderbook at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv line 231
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/bid_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid_1024.sv Line: 28
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findGroup File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 22
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (32) for port 'o_idx'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/ob/ask_flb/refill_engine/findIndex File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_ask_1024.sv Line: 28
+run -all
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv(231)
+#    Time: 1445 ns  Iteration: 1  Instance: /tb_ParserXOrderbook
+# Break in Module tb_ParserXOrderbook at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv line 231
+# End time: 21:44:07 on Apr 19,2026, Elapsed time: 19:45:01
 # Errors: 0, Warnings: 7

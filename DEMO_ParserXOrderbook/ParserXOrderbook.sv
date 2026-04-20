@@ -54,16 +54,18 @@ parameter HEX_15 = 7'b0001110;	// fifteen
 parameter OFF   = 7'b1111111;		// all off
 
 logic [1:0] i_action, quantity;
-logic rst_n, valid_i, valid_d, valid;
-logic [PRICE_LEN-1:0] i_price, o_bid_best_price;
-logic [QUANTITY_LEN-1 :0] i_quantity;
-logic [TOT_QUATITY_LEN-1:0] o_bid_best_quant;
+logic rst_n, valid_i, valid_d, valid, o_bid_best_valid, o_ask_best_valid, o_valid;
+logic [PRICE_LEN-1:0] i_price, o_bid_best_price, o_ask_best_price, o_price;
+logic [QUANTITY_LEN-1 :0] i_quantity, o_quantity;
+logic [TOT_QUATITY_LEN-1:0] o_bid_best_quant, o_ask_best_quant;
+logic [1:0] o_action;
+logic o_side;
 logic new_input_i, new_input_d, new_input;
-logic i_side, side1, side2, side3, side4, side5;
-logic [PRICE_LEN-1:0]price1, price2, price3, price4, price5;
-logic [QUANTITY_LEN-1 :0] quant1, quant2, quant3, quant4, quant5;
-logic [1:0] action1, action2, action3, action4, action5;
-logic [ORDERID_LEN-1:0] i_order_id, order_id1, order_id2, order_id3, order_id4, order_id5;
+logic i_side, side1, side2, side3, side4, side5, side6, side7, side8, side9, side10, side11, side12, side13, side14, side15, side16;
+logic [PRICE_LEN-1:0]price1, price2, price3, price4, price5, price6, price7, price8, price9, price10, price11, price12, price13, price14, price15, price16;
+logic [QUANTITY_LEN-1 :0] quant1, quant2, quant3, quant4, quant5, quant6, quant7, quant8, quant9, quant10, quant11, quant12, quant13, quant14, quant15, quant16;
+logic [1:0] action1, action2, action3, action4, action5, action6, action7, action8, action9, action10, action11, action12, action13, action14, action15, action16;
+logic [ORDERID_LEN-1:0] i_order_id, order_id1, order_id2, order_id3, order_id4, order_id5, order_id6, order_id7, order_id8, order_id9, order_id10, order_id11, order_id12, order_id13, order_id14, order_id15, order_id16;
 
 
 
@@ -90,62 +92,178 @@ always_ff @(posedge CLOCK_50, negedge rst_n) begin
 		i_quantity <= '0;
 		i_action <= '0;
 		i_side <= 0;
-		price1 <= 16'd4;
-		price2 <= 16'd5;
-		price3 <= 16'd4;
-		price4 <= 16'd0;
-		price5 <= 16'd6;
-		quant1 <= 12'd10;
-		quant2 <= 12'd40;
-		quant3 <= 12'd5;
-		quant4 <= 12'd0;
-		quant5 <= 12'd100;
+		price1 <= 16'd22382;
+		price2 <= 16'd22382;
+		price3 <= 16'd22399;
+		price4 <= 16'd22399;
+		price5 <= 16'd22399;
+		price6 <= 16'd22399;
+		price7 <= 16'd22399;
+		price8 <= 16'd22400;
+		price9 <= 16'd22400;
+		price10 <= 16'd22400;
+		price11 <= 16'd22400;
+		price12 <= 16'd22400;
+		price13 <= 16'd22395;
+		price14 <= 16'd22395;
+		price15 <= 16'd22395;
+		price16 <= 16'd22386;
+
+		quant1 <= 12'd21;
+		quant2 <= 12'd21;
+		quant3 <= 12'd100;
+		quant4 <= 12'd90;
+		quant5 <= 12'd50;
+		quant6 <= 12'd10;
+		quant7 <= 12'd50;
+		quant8 <= 12'd100;
+		quant9 <= 12'd100;
+		quant10 <= 12'd100;
+		quant11 <= 12'd100;
+		quant12 <= 12'd100;
+		quant13 <= 12'd100;
+		quant14 <= 12'd100;
+		quant15 <= 12'd75;
+		quant16 <= 12'd100;
+
 		side1 <= 0;
 		side2 <= 0;
-		side3 <= 0;
-		side4 <= 0;
-		side5 <= 0;
+		side3 <= 1;
+		side4 <= 1;
+		side5 <= 1;
+		side6 <= 1;
+		side7 <= 1;
+		side8 <= 1;
+		side9 <= 1;
+		side10 <= 1;
+		side11 <= 1;
+		side12 <= 1;
+		side13 <= 1;
+		side14 <= 1;
+		side15 <= 1;
+		side16 <= 1;
+		
+
 		action1 <= 2'b00;
-		action2 <= 2'b00;
-		action3 <= 2'b01;
-		action4 <= 2'b11;
+		action2 <= 2'b01;
+		action3 <= 2'b00;
+		action4 <= 2'b10;
 		action5 <= 2'b00;
-		order_id1 <= 16'd1;
-		order_id2 <= 16'd2;
+		action6 <= 2'b01;
+		action7 <= 2'b01;
+		action8 <= 2'b00;
+		action9 <= 2'b01;
+		action10 <= 2'b00;
+		action11 <= 2'b01;
+		action12 <= 2'b00;
+		action13 <= 2'b00;
+		action14 <= 2'b01;
+		action15 <= 2'b00;
+		action16 <= 2'b00;
+
+		order_id1 <= 16'd0;
+		order_id2 <= 16'd0;
 		order_id3 <= 16'd1;
-		order_id4 <= 16'd2;
-		order_id5 <= 16'd3;
+		order_id4 <= 16'd1;
+		order_id5 <= 16'd2;
+		order_id6 <= 16'd1;
+		order_id7 <= 16'd2;
+		order_id8 <= 16'd3;
+		order_id9 <= 16'd3;
+		order_id10 <= 16'd4;
+		order_id11 <= 16'd4;
+		order_id12 <= 16'd5;
+		order_id13 <= 16'd6;
+		order_id14 <= 16'd6;
+		order_id15 <= 16'd7;
+		order_id16 <= 16'd7;
+
 	end else if(new_input)begin
 		i_order_id <= order_id1;
 		order_id1 <= order_id2;
 		order_id2 <= order_id3;
 		order_id3 <= order_id4;
 		order_id4 <= order_id5;
+		order_id5 <= order_id6;
+		order_id6 <= order_id7;
+		order_id7 <= order_id8;
+		order_id8 <= order_id9;
+		order_id9 <= order_id10;
+		order_id10 <= order_id11;
+		order_id11 <= order_id12;
+		order_id12 <= order_id13;
+		order_id13 <= order_id14;
+		order_id14 <= order_id15;
+		order_id15 <= order_id16;
 		i_price <= price1;
 		price1 <= price2;
 		price2 <= price3;
 		price3 <= price4;
 		price4 <= price5;
+		price5 <= price6;
+		price6 <= price7;
+		price7 <= price8;
+		price8 <= price9;
+		price9 <= price10;
+		price10 <= price11;
+		price11 <= price12;
+		price12 <= price13;
+		price13 <= price14;
+		price14 <= price15;
+		price15 <= price16;
 		i_quantity <= quant1;
 		quant1 <= quant2;
 		quant2 <= quant3;
 		quant3 <= quant4;
 		quant4 <= quant5;
+		quant5 <= quant6;
+		quant6 <= quant7;
+		quant7 <= quant8;
+		quant8 <= quant9;
+		quant9 <= quant10;
+		quant10 <= quant11;
+		quant11 <= quant12;
+		quant12 <= quant13;
+		quant13 <= quant14;
+		quant14 <= quant15;
+		quant15 <= quant16;
 		i_action <= action1;
 		action1 <= action2;
 		action2 <= action3;
 		action3 <= action4;
 		action4 <= action5;
+		action5 <= action6;
+		action6 <= action7;
+		action7 <= action8;
+		action8 <= action9;
+		action9 <= action10;
+		action10 <= action11;
+		action11 <= action12;
+		action12 <= action13;
+		action13 <= action14;
+		action14 <= action15;
+		action15 <= action16;
 		i_side <= side1;
 		side1 <= side2;
 		side2 <= side3;
 		side3 <= side4;
 		side4 <= side5;
+		side5 <= side6;
+		side6 <= side7;
+		side7 <= side8;
+		side8 <= side9;
+		side9 <= side10;
+		side10 <= side11;
+		side11 <= side12;
+		side12 <= side13;
+		side13 <= side14;
+		side14 <= side15;
+		side15 <= side16;
 	end
 end
 
 
-orderbook ob(
+orderbook #(.BASE_PRICE(22000))ob(
 	.i_clk(CLOCK_50),
 	.i_rst_n(rst_n),
 	.i_order_id(i_order_id),
@@ -156,19 +274,20 @@ orderbook ob(
 	.i_valid(valid),
 	.o_bid_best_price(o_bid_best_price),
 	.o_bid_best_quant(o_bid_best_quant),
-	.o_ask_best_price(),
-	.o_ask_best_quant(),
+	.o_ask_best_price(o_ask_best_price),
+	.o_ask_best_quant(o_ask_best_quant),
 	.o_bid_best_valid(o_bid_best_valid),
-	.o_ask_best_valid(),
-	.o_action(),
-	.o_price(),
-	.o_quantity(),
-	.o_valid()
+	.o_ask_best_valid(o_ask_best_valid),
+	.o_action(o_action),
+	.o_price(o_price),
+	.o_quantity(o_quantity),
+	.o_valid(o_valid),
+	.o_side(o_side)
 );
 
 always_comb begin
-	if(o_bid_best_valid) begin
-		case(o_bid_best_quant[3:0])
+	if(o_ask_best_valid) begin
+		case(o_ask_best_quant[3:0])
 			4'd0: HEX0 = HEX_0;
 			4'd1: HEX0 = HEX_1;
 			4'd2: HEX0 = HEX_2;
@@ -187,13 +306,13 @@ always_comb begin
 			4'd15: HEX0 = HEX_15;
 		endcase
 	end else begin
-		HEX0 = HEX_0;
+		HEX0 = OFF;
 	end
 end
 
 always_comb begin
-	if(o_bid_best_valid) begin
-		case(o_bid_best_quant[7:4])
+	if(o_ask_best_valid) begin
+		case(o_ask_best_quant[7:4])
 			4'd0: HEX1 = HEX_0;
 			4'd1: HEX1 = HEX_1;
 			4'd2: HEX1 = HEX_2;
@@ -212,13 +331,13 @@ always_comb begin
 			4'd15: HEX1 = HEX_15;
 		endcase
 	end else begin
-		HEX1 = HEX_0;
+		HEX1 = OFF;
 	end
 end
 
 always_comb begin
-	if(o_bid_best_valid) begin
-		case(o_bid_best_quant[11:8])
+	if(o_ask_best_valid) begin
+		case(o_ask_best_quant[11:8])
 			4'd0: HEX2 = HEX_0;
 			4'd1: HEX2 = HEX_1;
 			4'd2: HEX2 = HEX_2;
@@ -237,13 +356,13 @@ always_comb begin
 			4'd15: HEX2 = HEX_15;
 		endcase
 	end else begin
-		HEX2 = HEX_0;
+		HEX2 = OFF;
 	end
 end
 
 always_comb begin
-	if(o_bid_best_valid) begin
-		case(o_bid_best_price[3:0])
+	if(o_ask_best_valid) begin
+		case(o_ask_best_price[3:0])
 			4'd0: HEX3 = HEX_0;
 			4'd1: HEX3 = HEX_1;
 			4'd2: HEX3 = HEX_2;
@@ -262,13 +381,13 @@ always_comb begin
 			4'd15: HEX3 = HEX_15;
 		endcase
 	end else begin
-		HEX3 = HEX_0;
+		HEX3 = OFF;
 	end
 end
 
 always_comb begin
-	if(o_bid_best_valid) begin
-		case(o_bid_best_price[7:4])
+	if(o_ask_best_valid) begin
+		case(o_ask_best_price[7:4])
 			4'd0: HEX4 = HEX_0;
 			4'd1: HEX4 = HEX_1;
 			4'd2: HEX4 = HEX_2;
@@ -287,12 +406,12 @@ always_comb begin
 			4'd15: HEX4 = HEX_15;
 		endcase
 	end else begin
-		HEX4 = HEX_0;
+		HEX4 = OFF;
 	end
 end
 always_comb begin
-	if(o_bid_best_valid) begin
-		case(o_bid_best_price[11:8])
+	if(o_ask_best_valid) begin
+		case(o_ask_best_price[11:8])
 			4'd0: HEX5 = HEX_0;
 			4'd1: HEX5 = HEX_1;
 			4'd2: HEX5 = HEX_2;
@@ -311,7 +430,7 @@ always_comb begin
 			4'd15: HEX5 = HEX_15;
 		endcase
 	end else begin
-		HEX5 = HEX_0;
+		HEX5 = OFF;
 	end
 end
 

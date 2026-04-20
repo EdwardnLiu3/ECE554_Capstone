@@ -116,6 +116,10 @@
 					"strict" : false
 				},
 				{
+					"name" : "HEX4[0]",
+					"strict" : false
+				},
+				{
 					"name" : "HEX4[1]",
 					"strict" : false
 				},
@@ -128,7 +132,31 @@
 					"strict" : false
 				},
 				{
+					"name" : "HEX4[4]",
+					"strict" : false
+				},
+				{
+					"name" : "HEX4[5]",
+					"strict" : false
+				},
+				{
 					"name" : "HEX4[6]",
+					"strict" : false
+				},
+				{
+					"name" : "HEX5[0]",
+					"strict" : false
+				},
+				{
+					"name" : "HEX5[1]",
+					"strict" : false
+				},
+				{
+					"name" : "HEX5[2]",
+					"strict" : false
+				},
+				{
+					"name" : "HEX5[3]",
 					"strict" : false
 				},
 				{
@@ -152,11 +180,11 @@
 					"strict" : false
 				},
 				{
-					"name" : "KEY[1]",
+					"name" : "KEY[2]",
 					"strict" : false
 				},
 				{
-					"name" : "KEY[2]",
+					"name" : "KEY[1]",
 					"strict" : false
 				}
 			]

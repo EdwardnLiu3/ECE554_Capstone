@@ -1,5 +1,5 @@
 Flow report for ParserXOrderbook
-Sat Apr 18 12:46:55 2026
+Sun Apr 19 03:00:16 2026
 Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 
 
@@ -41,18 +41,18 @@ on the Quartus Prime software download page.
 +-----------------------------------------------------------------------------------+
 ; Flow Summary                                                                      ;
 +---------------------------------+-------------------------------------------------+
-; Flow Status                     ; Successful - Sat Apr 18 12:46:42 2026           ;
+; Flow Status                     ; Successful - Sun Apr 19 03:00:02 2026           ;
 ; Quartus Prime Version           ; 25.1std.0 Build 1129 10/21/2025 SC Lite Edition ;
 ; Revision Name                   ; ParserXOrderbook                                ;
 ; Top-level Entity Name           ; ParserXOrderbook                                ;
 ; Family                          ; Cyclone V                                       ;
 ; Device                          ; 5CSEMA5F31C6                                    ;
 ; Timing Models                   ; Final                                           ;
-; Logic utilization (in ALMs)     ; 293 / 32,070 ( < 1 % )                          ;
-; Total registers                 ; 452                                             ;
+; Logic utilization (in ALMs)     ; 4,014 / 32,070 ( 13 % )                         ;
+; Total registers                 ; 4412                                            ;
 ; Total pins                      ; 70 / 457 ( 15 % )                               ;
 ; Total virtual pins              ; 0                                               ;
-; Total block memory bits         ; 210 / 4,065,280 ( < 1 % )                       ;
+; Total block memory bits         ; 24,814 / 4,065,280 ( < 1 % )                    ;
 ; Total DSP Blocks                ; 0 / 87 ( 0 % )                                  ;
 ; Total HSSI RX PCSs              ; 0                                               ;
 ; Total HSSI PMA RX Deserializers ; 0                                               ;
@@ -68,7 +68,7 @@ on the Quartus Prime software download page.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 04/18/2026 12:41:44 ;
+; Start date & time ; 04/19/2026 02:43:24 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; ParserXOrderbook    ;
 +-------------------+---------------------+
@@ -79,7 +79,7 @@ on the Quartus Prime software download page.
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id ;
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
-; COMPILER_SIGNATURE_ID               ; 66469456134483.177653410450744         ; --            ; --          ; --         ;
+; COMPILER_SIGNATURE_ID               ; 66469456134483.177658460453668         ; --            ; --          ; --         ;
 ; MAX_CORE_JUNCTION_TEMP              ; 85                                     ; --            ; --          ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; 0                                      ; --            ; --          ; --         ;
 ; PARTITION_COLOR                     ; -- (Not supported for targeted family) ; --            ; --          ; Top        ;
@@ -95,11 +95,11 @@ on the Quartus Prime software download page.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:23     ; 1.0                     ; 5209 MB             ; 00:00:42                           ;
-; Fitter               ; 00:04:20     ; 1.0                     ; 8009 MB             ; 00:24:23                           ;
-; Assembler            ; 00:00:10     ; 1.0                     ; 5250 MB             ; 00:00:10                           ;
-; Timing Analyzer      ; 00:00:11     ; 1.6                     ; 5461 MB             ; 00:00:13                           ;
-; Total                ; 00:05:04     ; --                      ; --                  ; 00:25:28                           ;
+; Analysis & Synthesis ; 00:00:39     ; 1.0                     ; 5003 MB             ; 00:00:52                           ;
+; Fitter               ; 00:15:46     ; 1.1                     ; 8045 MB             ; 01:42:50                           ;
+; Assembler            ; 00:00:08     ; 1.0                     ; 5298 MB             ; 00:00:08                           ;
+; Timing Analyzer      ; 00:00:13     ; 5.5                     ; 5583 MB             ; 00:00:55                           ;
+; Total                ; 00:16:46     ; --                      ; --                  ; 01:44:45                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
