@@ -106,7 +106,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         price2 <= price1;
         price3 <= price2;
         price4 <= price3;
-        price5 <= price4 / 100;
+        price5 <= price4;
     end
 end
 
@@ -124,7 +124,7 @@ always_ff @(posedge i_clk, negedge i_rst_n) begin
         index5 <= '0;
     end else begin
         price_diff <= i_price - BASE_PRICE;  
-        index2 <= price_diff / 100; 
+        index2 <= price_diff;
         index3 <= index2;
         index4 <= index3;
         index5 <= index4;
@@ -268,7 +268,7 @@ flb_refill_engine_bid_1024 refill_engine(
 );
 
 // OUTPUT
-assign o_best_price = cache[0].index + (BASE_PRICE/100);
+assign o_best_price = cache[0].index + BASE_PRICE;
 assign o_best_price_quant = cache[0].quantity;
 assign o_best_valid = cache[0].valid;
 assign o_action = action5;

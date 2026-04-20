@@ -154,6 +154,12 @@ module parser_avalon_wrapper (
                 6'd25: avs_readdata = o_quantity;            // OB input: quantity
                 6'd26: avs_readdata = {29'd0, o_valid, o_side, o_action[0]}; // OB input: valid/side/action
                 6'd27: avs_readdata = {30'd0, o_action};     // OB input: action full 2 bits
+
+                // Orderbook pipeline outputs (addr 28-31)
+                6'd28: avs_readdata = {30'd0, ob_side, ob_valid};
+                6'd29: avs_readdata = {30'd0, ob_action};
+                6'd30: avs_readdata = ob_price;
+                6'd31: avs_readdata = ob_quantity;
             endcase
         end
     end

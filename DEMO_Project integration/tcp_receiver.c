@@ -263,13 +263,12 @@ int main(int argc, char **argv) {
 
                                     printf("[ORDERBOOK STATE]\n");
                                     if (ob_bid_valid) {
-                                        // ob_bid_price = cache_index + BASE_PRICE/100; represents dollars directly
-                                        printf("   -> Best BID : price=$%.2f  qty=%llu\n", (double)ob_bid_price, ob_bid_quant);
+                                        printf("   -> Best BID : price=$%.2f  qty=%llu\n", ob_bid_price / 100.0, ob_bid_quant);
                                     } else {
                                         printf("   -> Best BID : (empty)\n");
                                     }
                                     if (ob_ask_valid) {
-                                        printf("   -> Best ASK : price=$%.2f  qty=%llu\n", (double)ob_ask_price, ob_ask_quant);
+                                        printf("   -> Best ASK : price=$%.2f  qty=%llu\n", ob_ask_price / 100.0, ob_ask_quant);
                                     } else {
                                         printf("   -> Best ASK : (empty)\n");
                                     }
@@ -300,6 +299,29 @@ int main(int argc, char **argv) {
                                     printf("   -> OB Quantity : %lu shares\n", ob_in_qty);
                                     printf("   -> OB Price    : $%.2f  (raw=%lu)\n", ob_in_price / 100.0, ob_in_price);
                                     printf("   -> OB Valid    : %s\n", ob_in_valid ? "YES" : "NO (latched after pulse)");
+                                    // ------------------------------------
+
+                                    // ---- ORDERBOOK PIPELINE OUTPUTS ----
+                                    unsigned long ob_out_flags  = *(h2p_lw_parser_addr + 28);
+                                    unsigned long ob_out_action = *(h2p_lw_parser_addr + 29) & 0x3;
+                                    unsigned long ob_out_price  = *(h2p_lw_parser_addr + 30);
+                                    unsigned long ob_out_qty    = *(h2p_lw_parser_addr + 31);
+
+                                    int ob_out_valid = ob_out_flags & 1;
+                                    int ob_out_side  = (ob_out_flags >> 1) & 1;
+
+                                    printf("[OB PIPELINE OUTPUT]\n");
+                                    printf("   -> Valid    : %s\n", ob_out_valid ? "YES" : "NO");
+                                    printf("   -> Side     : %s\n", ob_out_side ? "SELL" : "BUY");
+                                    printf("   -> Action   : ");
+                                    switch(ob_out_action) {
+                                        case 0: printf("ADD\n"); break;
+                                        case 1: printf("CANCEL\n"); break;
+                                        case 2: printf("EXECUTE\n"); break;
+                                        case 3: printf("DELETE\n"); break;
+                                    }
+                                    printf("   -> Price    : $%.2f  (raw=%lu)\n", ob_out_price / 100.0, ob_out_price);
+                                    printf("   -> Quantity : %lu shares\n", ob_out_qty);
                                     // ------------------------------------
 
                                 }
