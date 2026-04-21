@@ -48,23 +48,23 @@ module tb_ParserXOrderbook();
         send_op(4'b0001, 10'd0);
         send_op(4'b0101, 10'd0);
         send_op(4'b0001, 10'd0);
-
+        repeat(300) @(posedge CLOCK_50);
         send_op(4'b0001, 10'd0);
         send_op(4'b0011, 10'd0);
         send_op(4'b0001, 10'd0);
-
+        repeat(300) @(posedge CLOCK_50);
         send_op(4'b0001, 10'd0);
         send_op(4'b0101, 10'd0);
         send_op(4'b0001, 10'd0);
-
+        repeat(300) @(posedge CLOCK_50);
         send_op(4'b0001, 10'd0);
         send_op(4'b0011, 10'd0);
         send_op(4'b0001, 10'd0);
-
+        repeat(300) @(posedge CLOCK_50);
         send_op(4'b0001, 10'd0);
         send_op(4'b0101, 10'd0);
         send_op(4'b0001, 10'd0);
-
+        repeat(300) @(posedge CLOCK_50);
         send_op(4'b0001, 10'd0);
         send_op(4'b0011, 10'd0);
         send_op(4'b0001, 10'd0);

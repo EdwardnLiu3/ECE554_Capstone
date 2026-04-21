@@ -184,6 +184,12 @@ set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name SYSTEMVERILOG_FILE "Trading Logic/volatility.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "Trading Logic/tl_top.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "Trading Logic/tl_time.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "Trading Logic/tl_inventory.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "Trading Logic/ln_calc.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "Trading Logic/divider.sv"
 set_global_assignment -name SDC_FILE ParserXOrderbook.sdc
 set_global_assignment -name SYSTEMVERILOG_FILE pe_msb128.sv
 set_global_assignment -name SYSTEMVERILOG_FILE pe_lsb128.sv
