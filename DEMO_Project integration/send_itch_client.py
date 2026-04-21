@@ -41,7 +41,7 @@ def decode_itch(data: bytes) -> str:
             shares = struct.unpack(">I", data[23:27])[0]
             stock = data[27:35].decode("ascii").strip()
             price = struct.unpack(">I", data[35:39])[0]
-            return f"ADD ORDER: Ticker='{stock}', Side={side}, Shares={shares}, Price={price/10000.0:.4f}, OrderID={order_id}, Time={ts_sec:.6f}"
+            return f"ADD ORDER: Ticker='{stock}', Side={side}, Shares={shares}, Price={price/100.0:.2f}, OrderID={order_id}, Time={ts_sec:.6f}"
 
         elif msg_type == 'X':
             order_id = struct.unpack(">Q", data[14:22])[0]
@@ -65,7 +65,7 @@ def decode_itch(data: bytes) -> str:
             stock = data[27:35].decode("ascii").strip()
             price = struct.unpack(">I", data[35:39])[0]
             match_num = struct.unpack(">Q", data[39:47])[0]
-            return f"TRADE (HIDDEN): Ticker='{stock}', Side={side}, Shares={shares}, Price={price/10000.0:.4f}, MatchNum={match_num}, Time={ts_sec:.6f}"
+            return f"TRADE (HIDDEN): Ticker='{stock}', Side={side}, Shares={shares}, Price={price/100.0:.2f}, MatchNum={match_num}, Time={ts_sec:.6f}"
 
         elif msg_type == 'H':
             stock = data[14:22].decode("ascii").strip()

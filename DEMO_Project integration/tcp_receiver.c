@@ -324,15 +324,35 @@ int main(int argc, char **argv) {
                                     printf("   -> Quantity : %lu shares\n", ob_out_qty);
                                     // ------------------------------------
 
+                                    // ---- PARSER TIMESTAMP ----
+                                    // Timestamp bytes were loaded little-endian into the payload
+                                    // but ITCH sends them big-endian, so byte-swap the 48-bit value
+                                    unsigned long long ts_raw_lo = *(h2p_lw_parser_addr + 37);
+                                    unsigned long long ts_raw_hi = *(h2p_lw_parser_addr + 38) & 0xFFFF;
+                                    unsigned long long ts_raw = (ts_raw_hi << 32) | ts_raw_lo;
+                                    // Byte-swap 6 bytes
+                                    unsigned long long ts_ns =
+                                        ((ts_raw & 0x0000000000FFull) << 40) |
+                                        ((ts_raw & 0x00000000FF00ull) << 24) |
+                                        ((ts_raw & 0x000000FF0000ull) <<  8) |
+                                        ((ts_raw & 0x0000FF000000ull) >>  8) |
+                                        ((ts_raw & 0x00FF00000000ull) >> 24) |
+                                        ((ts_raw & 0xFF0000000000ull) >> 40);
+                                    printf("[TIMESTAMP] %llu ns  (%.6f s into day)\n",
+                                           ts_ns, ts_ns / 1e9);
+                                    // --------------------------
+
                                     // ---- TRADING LOGIC OUTPUTS ----
                                     unsigned long tl_bid_price = *(h2p_lw_parser_addr + 32);
                                     unsigned long tl_ask_price = *(h2p_lw_parser_addr + 33);
-                                    unsigned long tl_valid     = *(h2p_lw_parser_addr + 34) & 1;
+                                    unsigned long tl_bid_qty   = *(h2p_lw_parser_addr + 34) & 0xFFFF;
+                                    unsigned long tl_ask_qty   = *(h2p_lw_parser_addr + 35) & 0xFFFF;
+                                    unsigned long tl_valid     = *(h2p_lw_parser_addr + 36) & 1;
 
                                     printf("[TRADING LOGIC OUTPUT]\n");
                                     printf("   -> Valid     : %s\n", tl_valid ? "YES" : "NO");
-                                    printf("   -> Quote BID : $%.2f  (raw=%lu)\n", tl_bid_price / 100.0, tl_bid_price);
-                                    printf("   -> Quote ASK : $%.2f  (raw=%lu)\n", tl_ask_price / 100.0, tl_ask_price);
+                                    printf("   -> Quote BID : $%.2f  qty=%lu\n", tl_bid_price / 100.0, tl_bid_qty);
+                                    printf("   -> Quote ASK : $%.2f  qty=%lu\n", tl_ask_price / 100.0, tl_ask_qty);
                                     if (tl_valid && tl_ask_price > tl_bid_price)
                                         printf("   -> Spread    : $%.2f\n", (tl_ask_price - tl_bid_price) / 100.0);
                                     // --------------------------------
