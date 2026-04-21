@@ -55,6 +55,7 @@ parameter OFF   = 7'b1111111;		// all off
 
 logic rst_n, valid_i, valid_d, valid, o_valid;
 logic new_input_i, new_input_d, new_input;
+logic set_trade, set_trade_d, set_trade_i;
 logic [PRICE_LEN-1:0] i_best_bid, i_best_ask, o_bid_price, o_ask_price, display_bid_price, display_ask_price;
 logic [PRICE_LEN-1:0] best_bid1, best_bid2, best_bid3, best_bid4, best_bid5;
 logic [PRICE_LEN-1:0] best_ask1, best_ask2, best_ask3, best_ask4, best_ask5;
@@ -62,8 +63,10 @@ logic [47:0] i_order_time, i_order_time1, i_order_time2, i_order_time3, i_order_
 assign rst_n = KEY[0];
 assign valid_i = KEY[1];
 assign new_input_i = KEY[2];
+assign set_trade_i = KEY[3];
 assign valid = valid_i && (!valid_d);
 assign new_input = new_input_i && (!new_input_d);
+assign set_trade = set_trade_i && (!set_trade_d);
 
 
 tl_top dut(
@@ -73,7 +76,7 @@ tl_top dut(
     .i_best_ask(i_best_ask),
     .i_order_time(i_order_time),
     .i_price_valid(valid),
-    .i_trade_valid(1'b1),
+    .i_trade_valid(set_trade),
     .i_trade_side(0),   // 0 = buy, 1 = sell
     .i_trade_qty(16'd30),
 
@@ -129,9 +132,11 @@ always_ff @(posedge CLOCK_50, negedge rst_n) begin
 	if(!rst_n) begin
 		new_input_d <= 0;
 		valid_d <= 0;
+		set_trade_d <= 0;
 	end else begin
 		new_input_d <= new_input_i;
 		valid_d <= valid_i;
+		set_trade_d <= set_trade_i;
 	end
 end
 

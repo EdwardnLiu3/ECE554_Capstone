@@ -182,6 +182,15 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	inventory
 
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling package ParserXOrderbook_sv_unit
+-- Importing package ob_pkg
+-- Compiling module ParserXOrderbook
+
+Top level modules:
+	ParserXOrderbook
+
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/flb_refill_engine_bid.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling package flb_refill_engine_bid_sv_unit
