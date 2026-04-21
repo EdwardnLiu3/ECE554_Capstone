@@ -72,8 +72,8 @@ tl_top dut(
     .i_best_bid(i_best_bid),
     .i_best_ask(i_best_ask),
     .i_order_time(i_order_time),
-    .i_price_valid(i_valid),
-    .i_trade_valid(1'b0),
+    .i_price_valid(valid),
+    .i_trade_valid(1'b1),
     .i_trade_side(0),   // 0 = buy, 1 = sell
     .i_trade_qty(16'd30),
 
@@ -96,11 +96,11 @@ always_ff @(posedge CLOCK_50, negedge rst_n) begin
 		best_bid3 <= 16'd22389;
 		best_bid4 <= 16'd22389;
 		best_bid5 <= 16'd22389;
-		best_ask1 <= 16'd22323;
-		best_ask2 <= 16'd22321;
-		best_ask3 <= 16'd22320;
-		best_ask4 <= 16'd22320;
-		best_ask5 <= 16'd22329;
+		best_ask1 <= 16'd22413;
+		best_ask2 <= 16'd22410;
+		best_ask3 <= 16'd22408;
+		best_ask4 <= 16'd22407;
+		best_ask5 <= 16'd22405;
 		i_order_time1 <= 48'd3420448;
 		i_order_time2 <= 48'd3420465;
 		i_order_time3 <= 48'd3420510;
