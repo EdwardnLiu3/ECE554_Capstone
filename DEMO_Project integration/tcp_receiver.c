@@ -324,15 +324,25 @@ int main(int argc, char **argv) {
                                     printf("   -> Quantity : %lu shares\n", ob_out_qty);
                                     // ------------------------------------
 
+                                    // ---- PARSER TIMESTAMP ----
+                                    unsigned long long ts_lo  = *(h2p_lw_parser_addr + 37);
+                                    unsigned long long ts_hi  = *(h2p_lw_parser_addr + 38) & 0xFFFF;
+                                    unsigned long long ts_ns  = (ts_hi << 32) | ts_lo;
+                                    printf("[TIMESTAMP] %llu ns  (%.6f s into day)\n",
+                                           ts_ns, ts_ns / 1e9);
+                                    // --------------------------
+
                                     // ---- TRADING LOGIC OUTPUTS ----
                                     unsigned long tl_bid_price = *(h2p_lw_parser_addr + 32);
                                     unsigned long tl_ask_price = *(h2p_lw_parser_addr + 33);
-                                    unsigned long tl_valid     = *(h2p_lw_parser_addr + 34) & 1;
+                                    unsigned long tl_bid_qty   = *(h2p_lw_parser_addr + 34) & 0xFFFF;
+                                    unsigned long tl_ask_qty   = *(h2p_lw_parser_addr + 35) & 0xFFFF;
+                                    unsigned long tl_valid     = *(h2p_lw_parser_addr + 36) & 1;
 
                                     printf("[TRADING LOGIC OUTPUT]\n");
                                     printf("   -> Valid     : %s\n", tl_valid ? "YES" : "NO");
-                                    printf("   -> Quote BID : $%.2f  (raw=%lu)\n", tl_bid_price / 100.0, tl_bid_price);
-                                    printf("   -> Quote ASK : $%.2f  (raw=%lu)\n", tl_ask_price / 100.0, tl_ask_price);
+                                    printf("   -> Quote BID : $%.2f  qty=%lu\n", tl_bid_price / 100.0, tl_bid_qty);
+                                    printf("   -> Quote ASK : $%.2f  qty=%lu\n", tl_ask_price / 100.0, tl_ask_qty);
                                     if (tl_valid && tl_ask_price > tl_bid_price)
                                         printf("   -> Spread    : $%.2f\n", (tl_ask_price - tl_bid_price) / 100.0);
                                     // --------------------------------

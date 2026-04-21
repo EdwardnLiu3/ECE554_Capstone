@@ -19,13 +19,14 @@ module parser_avalon_wrapper (
     logic         combined_rst_n;
 
     // Parser Outputs
-    logic [ORDERID_LEN-1:0] o_order_id;  // 10 bits (ob_pkg::ORDERID_LEN)
+    logic [ORDERID_LEN-1:0] o_order_id;
     logic [QUANTITY_LEN-1:0] o_quantity;
     logic        o_side;
     logic [PRICE_LEN-1:0] o_price;
     logic [1:0]  o_action;
     logic        o_valid;
     logic [15:0] o_stock_id;
+    logic [47:0] o_timestamp;
 
     // Orderbook Outputs
     logic [PRICE_LEN-1:0]       ob_bid_best_price;
@@ -40,12 +41,12 @@ module parser_avalon_wrapper (
     logic                       ob_valid;
     logic                       ob_side;
 
-    //Trading Logic Outputs
+    // Trading Logic Outputs
     logic [PRICE_LEN-1:0]       tl_bid_price;
     logic [PRICE_LEN-1:0]       tl_ask_price;
+    logic [15:0]                tl_bid_qty;
+    logic [15:0]                tl_ask_qty;
     logic                       tl_o_valid;
-    logic [16:0]                tl_bid_qty;
-    logic [16:0]                tl_ask_qty;
 
     // Instantiate the parser
     parser #(
@@ -64,7 +65,8 @@ module parser_avalon_wrapper (
         .o_price(o_price),
         .o_action(o_action),
         .o_valid(o_valid),
-        .o_stock_id(o_stock_id)
+        .o_stock_id(o_stock_id),
+        .o_timestamp(o_timestamp)
     );
 
     // Instantiate the orderbook (parser outputs feed directly into orderbook)
@@ -167,26 +169,37 @@ module parser_avalon_wrapper (
                 6'd29: avs_readdata = {30'd0, ob_action};
                 6'd30: avs_readdata = ob_price;
                 6'd31: avs_readdata = ob_quantity;
+
+                // Trading logic outputs (addr 32-36)
+                6'd32: avs_readdata = tl_bid_price;
+                6'd33: avs_readdata = tl_ask_price;
+                6'd34: avs_readdata = {16'd0, tl_bid_qty};
+                6'd35: avs_readdata = {16'd0, tl_ask_qty};
+                6'd36: avs_readdata = {31'd0, tl_o_valid};
+
+                // Parser timestamp (addr 37-38)
+                6'd37: avs_readdata = o_timestamp[31:0];
+                6'd38: avs_readdata = {16'd0, o_timestamp[47:32]};
+
             endcase
         end
     end
 
-    tl_top trading_logic(
-        .i_clk(clk),
-        .i_rst_n(combined_rst_n),
-        .i_best_bid(ob_bid_best_price),
-        .i_best_ask(ob_ask_best_price),
-        .i_order_time(48'd45_900_000_000_000),      //Time
+    tl_top trading_logic (
+        .i_clk        (clk),
+        .i_rst_n      (combined_rst_n),
+        .i_best_bid   (ob_bid_best_price),
+        .i_best_ask   (ob_ask_best_price),
+        .i_order_time (o_timestamp),
         .i_price_valid(o_valid),
-        .i_trade_valid(1'b0),                       //Need signals from execution tracker
-        .i_trade_side(),   
-        .i_trade_qty(16'h0000),
-
-        .o_bid_price(tl_bid_price),
-        .o_ask_price(tl_ask_price),
-        .o_bid_qty(tl_bid_qty),
-        .o_ask_qty(tl_ask_qty),
-        .o_valid(tl_o_valid)
-    )
+        .i_trade_valid(1'b0),
+        .i_trade_side (1'b0),
+        .i_trade_qty  (16'h0000),
+        .o_bid_price  (tl_bid_price),
+        .o_ask_price  (tl_ask_price),
+        .o_bid_qty    (tl_bid_qty),
+        .o_ask_qty    (tl_ask_qty),
+        .o_valid      (tl_o_valid)
+    );
 
 endmodule
