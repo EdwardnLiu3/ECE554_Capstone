@@ -194,7 +194,7 @@ module parser_avalon_wrapper (
         .i_best_bid   (ob_bid_best_price),
         .i_best_ask   (ob_ask_best_price),
         .i_order_time (o_timestamp),
-        .i_price_valid(o_valid),
+        .i_price_valid(ob_bid_best_valid & ob_ask_best_valid),
         .i_trade_valid(1'b0),
         .i_trade_side (1'b0),
         .i_trade_qty  (16'h0000),
