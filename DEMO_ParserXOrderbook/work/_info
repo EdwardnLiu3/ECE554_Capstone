@@ -642,25 +642,25 @@ R9
 vParserXOrderbook
 R0
 R10
-DXx4 work 24 ParserXOrderbook_sv_unit 0 22 U;eFZWKb=?Zod@Wg1ciL_1
-Z60 !s110 1776790997
+DXx4 work 24 ParserXOrderbook_sv_unit 0 22 F^^NU8W5NGEAk^dh`4OUB0
+Z60 !s110 1776801277
 R3
 r1
 !s85 0
 !i10b 1
-!s100 JOWIfZJ=Y2oXYGI5T=`dV1
-I^fml=:5lZMLWnOh:VVJ5O2
+!s100 dJ`^I<YU2YzElSz=V22<00
+IHH@460L`JW@hoS@Y[@L431
 !s105 ParserXOrderbook_sv_unit
 S1
 R4
-Z61 w1776790994
+Z61 w1776801273
 Z62 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv
 Z63 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv
-!i122 598
-L0 5 503
+!i122 600
+L0 5 508
 R6
 31
-Z64 !s108 1776790997.000000
+Z64 !s108 1776801276.000000
 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv|
 Z65 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv|
 !i113 1
@@ -671,19 +671,19 @@ XParserXOrderbook_sv_unit
 R0
 R10
 R60
-VU;eFZWKb=?Zod@Wg1ciL_1
+VF^^NU8W5NGEAk^dh`4OUB0
 r1
 !s85 0
 !i10b 1
-!s100 DA>Kz[`WPd=g_9G3K11cU2
-IU;eFZWKb=?Zod@Wg1ciL_1
+!s100 _8o`Zz`3cGiMXMN89m<We3
+IF^^NU8W5NGEAk^dh`4OUB0
 !i103 1
 S1
 R4
 R61
 R62
 R63
-!i122 598
+!i122 600
 R58
 R6
 31
@@ -956,27 +956,27 @@ R9
 vtb_ParserXOrderbook
 R0
 R10
-DXx4 work 27 tb_ParserXOrderbook_sv_unit 0 22 OHM]HHMV:3eFjdDm:B<`g3
-R1
+DXx4 work 27 tb_ParserXOrderbook_sv_unit 0 22 F@=7fKYleY@8:T4mAMZ^Y1
+Z81 !s110 1776801047
 R3
 r1
 !s85 0
 !i10b 1
-!s100 5haIf;?SCi[F?02_b2cHV3
-IaJSz4;jdi8CW_oG=8^`T?1
+!s100 ZcUPfg7`Y`ZlHIfGGfS0X2
+I<_BOmK:Wec]PLIE4@QmhA3
 !s105 tb_ParserXOrderbook_sv_unit
 S1
 R4
-Z81 w1776758301
-Z82 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv
-Z83 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv
-!i122 589
-L0 3 231
+Z82 w1776801030
+Z83 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv
+Z84 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv
+!i122 599
+L0 3 234
 R6
 31
-R7
-Z84 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv|
-Z85 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv|
+Z85 !s108 1776801047.000000
+Z86 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv|
+Z87 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv|
 !i113 1
 R8
 R9
@@ -984,26 +984,26 @@ ntb_@parser@x@orderbook
 Xtb_ParserXOrderbook_sv_unit
 R0
 R10
-R1
-VOHM]HHMV:3eFjdDm:B<`g3
+R81
+VF@=7fKYleY@8:T4mAMZ^Y1
 r1
 !s85 0
 !i10b 1
-!s100 UDVikOhl12If;TDgk9L_o1
-IOHM]HHMV:3eFjdDm:B<`g3
+!s100 Wh?@JUIEHBelE0G99GC6h3
+IF@=7fKYleY@8:T4mAMZ^Y1
 !i103 1
 S1
 R4
-R81
 R82
 R83
-!i122 589
+R84
+!i122 599
 R72
 R6
 31
-R7
-R84
 R85
+R86
+R87
 !i113 1
 R8
 R9
@@ -1023,15 +1023,15 @@ I9[74?^I8YX<7gj^lS[CIH1
 S1
 R4
 R5
-Z86 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_refill_engine.sv
-Z87 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_refill_engine.sv
+Z88 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_refill_engine.sv
+Z89 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_refill_engine.sv
 !i122 590
 L0 3 61
 R6
 31
 R7
-Z88 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_refill_engine.sv|
-Z89 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_refill_engine.sv|
+Z90 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_refill_engine.sv|
+Z91 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_refill_engine.sv|
 !i113 1
 R8
 R9
@@ -1049,15 +1049,15 @@ I<Gca1Wi^[6Hz@zSoKkb[S1
 S1
 R4
 R5
-R86
-R87
+R88
+R89
 !i122 590
 R72
 R6
 31
 R7
-R88
-R89
+R90
+R91
 !i113 1
 R8
 R9
@@ -1080,7 +1080,7 @@ R6
 r1
 !s85 0
 31
-Z90 !s108 1776790552.000000
+Z92 !s108 1776790552.000000
 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/Trading Logic/tl_time.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/Trading Logic/tl_time.sv|
 !i113 1
@@ -1106,7 +1106,7 @@ R6
 r1
 !s85 0
 31
-R90
+R92
 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/Trading Logic/tl_top.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/Trading Logic/tl_top.sv|
 !i113 1
@@ -1131,7 +1131,7 @@ R6
 r1
 !s85 0
 31
-R90
+R92
 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/Trading Logic/volatility.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/Trading Logic/volatility.sv|
 !i113 1

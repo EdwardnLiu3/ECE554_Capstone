@@ -85,3 +85,94 @@ run -all
 # ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv(231)
 #    Time: 16445 ns  Iteration: 1  Instance: /tb_ParserXOrderbook
 # Break in Module tb_ParserXOrderbook at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv line 231
+add wave -position insertpoint  \
+sim:/tb_ParserXOrderbook/iDUT/dut/reservation
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Warning: (vsim-3015) [PCDPC] - Port size (1) does not match connection size (32) for port 'i_trade_side'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/Trading Logic/tl_top.sv(15).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 69
+run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv(231)
+#    Time: 16445 ns  Iteration: 1  Instance: /tb_ParserXOrderbook
+# Break in Module tb_ParserXOrderbook at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv line 231
+# Compile of ParserXOrderbook.sv failed with 1 errors.
+# Compile of tb_ParserXOrderbook.sv was successful.
+# 2 compiles, 1 failed with 1 error.
+vsim -gui work.tb_ParserXOrderbook
+# End time: 14:51:12 on Apr 21,2026, Elapsed time: 2:55:12
+# Errors: 0, Warnings: 3
+# vsim -gui work.tb_ParserXOrderbook 
+# Start time: 14:51:12 on Apr 21,2026
+# Loading sv_std.std
+# Loading work.ob_pkg
+# Loading work.tb_ParserXOrderbook_sv_unit
+# Loading work.tb_ParserXOrderbook
+# Loading work.ParserXOrderbook_sv_unit
+# Loading work.ParserXOrderbook
+# Loading work.tl_top
+# Loading work.tl_time
+# Loading work.volatility_ewma
+# Loading work.inventory
+# Loading work.divider_q16
+# Loading work.ln_calc
+# ** Warning: (vsim-3015) [PCDPC] - Port size (1) does not match connection size (32) for port 'i_trade_side'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/Trading Logic/tl_top.sv(15).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 69
+# WARNING: No extended dataflow license exists
+add wave -position insertpoint sim:/tb_ParserXOrderbook/iDUT/*
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: tyler_hyposvu  Hostname: TYLER  ProcessID: 14940
+#           Attempting to use alternate WLF file "./wlfty7wtsq".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlfty7wtsq
+run -all
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv(234)
+#    Time: 19475 ns  Iteration: 1  Instance: /tb_ParserXOrderbook
+# Break in Module tb_ParserXOrderbook at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv line 234
+add wave -position insertpoint  \
+sim:/tb_ParserXOrderbook/iDUT/dut/reservation
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Warning: (vsim-3015) [PCDPC] - Port size (1) does not match connection size (32) for port 'i_trade_side'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/Trading Logic/tl_top.sv(15).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 69
+run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv(234)
+#    Time: 19475 ns  Iteration: 1  Instance: /tb_ParserXOrderbook
+# Break in Module tb_ParserXOrderbook at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv line 234
+# Compile of ParserXOrderbook.sv failed with 1 errors.
+# Compile of ParserXOrderbook.sv was successful.
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# Loading work.ParserXOrderbook_sv_unit
+# Loading work.ParserXOrderbook
+# ** Warning: (vsim-3015) [PCDPC] - Port size (1) does not match connection size (32) for port 'i_trade_side'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/Trading Logic/tl_top.sv(15).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 72
+add wave -position insertpoint  \
+sim:/tb_ParserXOrderbook/iDUT/set_trade
+run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv(234)
+#    Time: 19475 ns  Iteration: 1  Instance: /tb_ParserXOrderbook
+# Break in Module tb_ParserXOrderbook at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv line 234
+add wave -position insertpoint  \
+sim:/tb_ParserXOrderbook/iDUT/dut/q
+restart
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Warning: (vsim-3015) [PCDPC] - Port size (1) does not match connection size (32) for port 'i_trade_side'. The port definition is at: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/Trading Logic/tl_top.sv(15).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_ParserXOrderbook/iDUT/dut File: C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/ParserXOrderbook.sv Line: 72
+run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv(234)
+#    Time: 19475 ns  Iteration: 1  Instance: /tb_ParserXOrderbook
+# Break in Module tb_ParserXOrderbook at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_ParserXOrderbook/tb_ParserXOrderbook.sv line 234
+# End time: 16:03:35 on Apr 21,2026, Elapsed time: 1:12:23
+# Errors: 0, Warnings: 2
