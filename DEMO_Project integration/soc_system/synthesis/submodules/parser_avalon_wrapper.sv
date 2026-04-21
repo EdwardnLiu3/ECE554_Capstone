@@ -36,6 +36,7 @@ module parser_avalon_wrapper (
     logic        tl_o_valid;
 
     // Orderbook Outputs
+    logic [47:0]                ob_timestamp;
     logic [PRICE_LEN-1:0]       ob_bid_best_price;
     logic [TOT_QUATITY_LEN-1:0] ob_bid_best_quant;
     logic [PRICE_LEN-1:0]       ob_ask_best_price;
@@ -70,7 +71,7 @@ module parser_avalon_wrapper (
     );
 
     // Instantiate the orderbook (parser outputs feed directly into orderbook)
-    orderbook ob_inst (
+    orderbook #(.BASE_PRICE(22000)) ob_inst (
         .i_clk(clk),
         .i_rst_n(combined_rst_n),
         .i_order_id(o_order_id),
@@ -79,6 +80,7 @@ module parser_avalon_wrapper (
         .i_quantity(o_quantity),
         .i_action(o_action),
         .i_valid(o_valid),
+        .i_timestamp(o_timestamp),
         .o_bid_best_price(ob_bid_best_price),
         .o_bid_best_quant(ob_bid_best_quant),
         .o_ask_best_price(ob_ask_best_price),
@@ -89,7 +91,8 @@ module parser_avalon_wrapper (
         .o_price(ob_price),
         .o_quantity(ob_quantity),
         .o_valid(ob_valid),
-        .o_side(ob_side)
+        .o_side(ob_side),
+        .o_timestamp(ob_timestamp)
     );
 
     // No wait states needed
