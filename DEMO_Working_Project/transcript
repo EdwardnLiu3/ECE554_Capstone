@@ -1,0 +1,26 @@
+# vsim -c tb_execution_trackers -do "run -all; quit -f" 
+# Start time: 16:16:22 on Apr 21,2026
+# Loading sv_std.std
+# Loading work.tb_execution_trackers
+# Loading work.execution_trackers
+# run -all
+# Test 1: reset behavior
+# PASS
+# Test 2: first quote update adds first fifo entry
+# PASS
+# Test 3: tenth quote update fills fifo and oldest quote is ready to replace
+# PASS
+# Test 4: oldest bid is checked first and partial fill keeps it at head
+# PASS
+# Test 5: full fill removes oldest bid and next quote becomes head
+# PASS
+# Test 6: new quote appends when fifo has room and replaces oldest when full
+# PASS
+# Test 7: same-cycle fill happens before fifo update
+# PASS
+# 
+# YAHOO ALL TESTS PASSED
+# ** Note: $finish    : ExecutionTracker/tb_execution_trackers.sv(242)
+#    Time: 320 ns  Iteration: 1  Instance: /tb_execution_trackers
+# End time: 16:16:23 on Apr 21,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0

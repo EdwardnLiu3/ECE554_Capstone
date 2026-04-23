@@ -1,0 +1,71 @@
+C:/Users/sellb/ECE554/apr6_codex/risk_tester.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/apr6_codex/risk_tester.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module risk_managers
+
+Top level modules:
+	risk_managers
+
+} {} {}} C:/Users/sellb/ECE554/apr6_codex/tb_risk_managers.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/apr6_codex/tb_risk_managers.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module tb_risk_managers
+
+Top level modules:
+	tb_risk_managers
+
+} {} {}} C:/Users/sellb/ECE554/apr6_codex/execution_tracker.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/apr6_codex/execution_tracker.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module execution_tracker
+
+Top level modules:
+	execution_tracker
+
+} {} {}} C:/Users/sellb/ECE554/apr6_codex/tb_risk_manager.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/apr6_codex/tb_risk_manager.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module tb_risk_manager
+
+Top level modules:
+	tb_risk_manager
+
+} {} {}} C:/Users/sellb/ECE554/apr6_codex/tb_inventory_trackers.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/apr6_codex/tb_inventory_trackers.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module tb_inventory_tracker
+
+Top level modules:
+	tb_inventory_tracker
+
+} {} {}} C:/Users/sellb/ECE554/apr6_codex/inventory_tracker.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/apr6_codex/inventory_tracker.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module inventory_tracker
+
+Top level modules:
+	inventory_tracker
+
+} {} {}} C:/Users/sellb/ECE554/apr6_codex/risk_manager.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/apr6_codex/risk_manager.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module risk_manager
+
+Top level modules:
+	risk_manager
+
+} {} {}} C:/Users/sellb/ECE554/apr6_codex/tb_execution_tracker.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/apr6_codex/tb_execution_tracker.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module tb_execution_tracker
+
+Top level modules:
+	tb_execution_tracker
+
+} {} {}} C:/Users/sellb/ECE554/apr6_codex/inventory_trackers.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/apr6_codex/inventory_trackers.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module inventory_tracker
+
+Top level modules:
+	inventory_tracker
+
+} {} {}} C:/Users/sellb/ECE554/apr6_codex/tb_inventory_tracker.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/apr6_codex/tb_inventory_tracker.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module tb_inventory_tracker
+
+Top level modules:
+	tb_inventory_tracker
+
+} {} {}}

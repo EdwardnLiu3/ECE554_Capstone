@@ -1,0 +1,17 @@
+Analysis & Synthesis Status : Successful - Tue Apr 21 18:10:08 2026
+Quartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
+Revision Name : tcp_packet_receiver_redo
+Top-level Entity Name : tcp_packet_receiver_redo
+Family : Cyclone V
+Logic utilization (in ALMs) : N/A
+Total registers : 15072
+Total pins : 368
+Total virtual pins : 0
+Total block memory bits : 1,970,318
+Total DSP Blocks : 25
+Total HSSI RX PCSs : 0
+Total HSSI PMA RX Deserializers : 0
+Total HSSI TX PCSs : 0
+Total HSSI PMA TX Serializers : 0
+Total PLLs : 0
+Total DLLs : 1
