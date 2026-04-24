@@ -1,18 +1,16 @@
 `timescale 1ns/1ps
-
+import ob_pkg::*;
 module tb_hft_single_stock_top_lobster;
-
+    
     localparam int MARKET_PAYLOAD_LEN = 288;
     localparam int OUCH_PAYLOAD_LEN   = 752;
-    localparam int PRICE_LEN          = 32;
-    localparam int QUANTITY_LEN       = 16;
-    localparam int ORDER_ID_LEN       = 32;
     localparam int POSITION_LEN       = 16;
     localparam int PNL_LEN            = 64;
     localparam int STOCK_LEN          = 16;
     localparam int MAX_ROWS_TO_READ   = 200;
     localparam int MAX_SUPPORTED_SEND = 200;
     localparam [STOCK_LEN-1:0] STOCK_ID = 16'h0001;
+    localparam int BOOK_PRICE_DIVISOR = (PRICE_LEN <= 16) ? 100 : 1;
     // ------------------------------------------------------------------------
     // Stock replay presets. Uncomment the set you want, then keep the active
     // SYMBOL_ACTIVE / BOOK_BASE_PRICE / LOBSTER_MESSAGE_CSV lines below aligned.
@@ -75,20 +73,20 @@ module tb_hft_single_stock_top_lobster;
     logic                           market_valid;
     logic [47:0]                    order_time;
     logic [63:0]                    symbol;
-    logic [QUANTITY_LEN-1:0]        bid_quote_quantity;
-    logic [QUANTITY_LEN-1:0]        ask_quote_quantity;
+    logic [TOT_QUATITY_LEN-1:0]        bid_quote_quantity;
+    logic [TOT_QUATITY_LEN-1:0]        ask_quote_quantity;
     logic                           trading_enable;
     logic                           kill_switch;
     logic                           price_band_enable;
     logic                           pnl_check_enable;
 
     logic [STOCK_LEN-1:0]           stock_id;
-    logic [PRICE_LEN-1:0]           best_bid_price;
-    logic [PRICE_LEN-1:0]           best_ask_price;
+    logic [FULL_PRICE_LEN-1:0]           best_bid_price;
+    logic [FULL_PRICE_LEN-1:0]           best_ask_price;
     logic                           best_bid_valid;
     logic                           best_ask_valid;
-    logic [PRICE_LEN-1:0]           trading_bid_price;
-    logic [PRICE_LEN-1:0]           trading_ask_price;
+    logic [FULL_PRICE_LEN-1:0]           trading_bid_price;
+    logic [FULL_PRICE_LEN-1:0]           trading_ask_price;
     logic [1:0]                     trading_order_type;
     logic                           trading_valid;
     logic                           bid_reject_valid;
@@ -99,17 +97,27 @@ module tb_hft_single_stock_top_lobster;
     logic [OUCH_PAYLOAD_LEN-1:0]    order_payload;
     logic                           exec_valid;
     logic                           exec_side;
-    logic [PRICE_LEN-1:0]           exec_price;
-    logic [QUANTITY_LEN-1:0]        exec_quantity;
-    logic [ORDER_ID_LEN-1:0]        exec_order_id;
+    logic [FULL_PRICE_LEN-1:0]           exec_price;
+    logic [TOT_QUATITY_LEN-1:0]        exec_quantity;
+    logic [ORDERID_LEN-1:0]        exec_order_id;
     logic signed [POSITION_LEN-1:0] position;
     logic signed [PNL_LEN-1:0]      day_pnl;
-    logic [QUANTITY_LEN-1:0]        live_bid_qty;
-    logic [QUANTITY_LEN-1:0]        live_ask_qty;
-    logic [PRICE_LEN-1:0]           tb_mark_price;
+    logic [TOT_QUATITY_LEN-1:0]        live_bid_qty;
+    logic [TOT_QUATITY_LEN-1:0]        live_ask_qty;
+    logic [FULL_PRICE_LEN-1:0]           tb_mark_price;
     logic                           tb_mark_price_valid;
     longint signed                  tb_total_pnl;
-
+    logic [PRICE_LEN-1:0]        parser_price_book;
+    logic [QUANTITY_LEN-1:0]     parser_quantity_book;
+    logic [63:0]                    parser_order_id;
+    logic [31:0]                    parser_quantity;
+    logic                           parser_side;
+    logic [31:0]                    parser_price;
+    logic [1:0]                     parser_action;
+    logic                           parser_valid;
+    logic [STOCK_LEN-1:0]           parser_stock_id;
+    logic [47:0]                    parser_timestamp;
+    
     integer                         csv_file;
     integer                         trading_csv_file;
     integer                         row_count;
@@ -134,15 +142,64 @@ module tb_hft_single_stock_top_lobster;
     integer                         raw_to_mapped_oid [integer];
     integer                         next_mapped_oid;
 
+    function automatic [PRICE_LEN-1:0] scale_price_to_book(
+        input logic [31:0] raw_price
+    );
+        integer scaled_price;
+        begin
+            scaled_price = raw_price / BOOK_PRICE_DIVISOR;
+            if (scaled_price < 0)
+                scale_price_to_book = '0;
+            else if (scaled_price > ((1 << PRICE_LEN) - 1))
+                scale_price_to_book = {PRICE_LEN{1'b1}};
+            else
+                scale_price_to_book = scaled_price[PRICE_LEN-1:0];
+        end
+    endfunction
+
+    function automatic [QUANTITY_LEN-1:0] clamp_quantity_to_book(
+        input logic [31:0] raw_quantity
+    );
+        begin
+            if (raw_quantity > ((1 << QUANTITY_LEN) - 1))
+                clamp_quantity_to_book = {QUANTITY_LEN{1'b1}};
+            else
+                clamp_quantity_to_book = raw_quantity[QUANTITY_LEN-1:0];
+        end
+    endfunction
+        
+    parser ps(
+        .i_clk(clk),
+        .i_rst_n(rst_n),
+        .i_payload(market_payload),
+        .i_valid(market_valid),
+        .o_order_id(parser_order_id),
+        .o_quantity(parser_quantity),
+        .o_side(parser_side),
+        .o_price(parser_price),
+        .o_action(parser_action),
+        .o_valid(parser_valid),
+        .o_stock_id(parser_stock_id),
+        .o_timestamp(parser_timestamp)
+    );
+
+    assign parser_price_book   = scale_price_to_book(parser_price);
+    assign parser_quantity_book = clamp_quantity_to_book(parser_quantity);
+
     hft_single_stock_top #(
         .BOOK_BASE_PRICE(BOOK_BASE_PRICE)
     ) dut (
         .i_clk               (clk),
         .i_rst_n             (rst_n),
-        .i_market_payload    (market_payload),
-        .i_market_valid      (market_valid),
-        .i_order_time        (order_time),
-        .i_symbol            (symbol),
+        .i_order_id          (parser_order_id[ORDERID_LEN-1:0]),
+        .i_quantity          (parser_quantity_book),
+        .i_side              (parser_side),
+        .i_price             (parser_price_book),
+        .i_action            (parser_action),
+        .i_valid             (parser_valid),
+        .i_stock_id          (parser_stock_id),
+        .i_timestamp         (parser_timestamp),
+
         .i_bid_quote_quantity(bid_quote_quantity),
         .i_ask_quote_quantity(ask_quote_quantity),
         .i_trading_enable    (trading_enable),
@@ -357,7 +414,7 @@ module tb_hft_single_stock_top_lobster;
     function automatic longint signed calc_total_pnl(
         input logic signed [PNL_LEN-1:0] realized_pnl_in,
         input logic signed [POSITION_LEN-1:0] position_in,
-        input logic [PRICE_LEN-1:0] mark_price_in
+        input logic [FULL_PRICE_LEN-1:0] mark_price_in
     );
         longint signed realized_pnl_long;
         longint signed position_long;
@@ -414,19 +471,19 @@ module tb_hft_single_stock_top_lobster;
             );
         end
 
-        if (trading_valid) begin
-            $fdisplay(trading_csv_file, "%0t,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d",
-                $time,
-                trading_bid_price,
-                trading_ask_price,
-                trading_order_type,
-                best_bid_price,
-                best_ask_price,
-                position,
-                day_pnl,
-                stock_id
-            );
-        end
+        // if (trading_valid) begin
+        //     $fdisplay(trading_csv_file, "%0t,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d",
+        //         $time,
+        //         trading_bid_price,
+        //         trading_ask_price,
+        //         trading_order_type,
+        //         best_bid_price,
+        //         best_ask_price,
+        //         position,
+        //         day_pnl,
+        //         stock_id
+        //     );
+        // end
 
         if (exec_valid) begin
             exec_count = exec_count + 1;
@@ -499,11 +556,11 @@ module tb_hft_single_stock_top_lobster;
         if (csv_file == 0) begin
             $fatal(1, "Could not open LOBSTER CSV file");
         end
-        trading_csv_file = $fopen("trading_logic_quotes.csv", "w");
-        if (trading_csv_file == 0) begin
-            $fatal(1, "Could not open trading logic quotes CSV output file");
-        end
-        $fdisplay(trading_csv_file, "sim_time_ns,trading_bid_price,trading_ask_price,trading_order_type,best_bid_price,best_ask_price,position,day_pnl,stock_id");
+        // trading_csv_file = $fopen("trading_logic_quotes.csv", "w");
+        // if (trading_csv_file == 0) begin
+        //     $fatal(1, "Could not open trading logic quotes CSV output file");
+        // end
+        // $fdisplay(trading_csv_file, "sim_time_ns,trading_bid_price,trading_ask_price,trading_order_type,best_bid_price,best_ask_price,position,day_pnl,stock_id");
 
         $display("=== HFT Single Stock LOBSTER Replay ===");
         $display("Reading first %0d rows, sending up to %0d supported rows", MAX_ROWS_TO_READ, MAX_SUPPORTED_SEND);
@@ -613,7 +670,7 @@ module tb_hft_single_stock_top_lobster;
         $fclose(csv_file);
 
         repeat (80) @(posedge clk);
-        $fclose(trading_csv_file);
+        // $fclose(trading_csv_file);
         $display("=== Replay Done ===");
         $display("Final position=%0d realized_pnl=%0d total_pnl=%0d mark_px=%0d live_bid_qty=%0d live_ask_qty=%0d best_bid=%0d best_ask=%0d",
             position, day_pnl, tb_total_pnl, tb_mark_price, live_bid_qty, live_ask_qty, best_bid_price, best_ask_price);

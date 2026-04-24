@@ -8,6 +8,7 @@ package ob_pkg;
     parameter int FLB_CACHE_LEVEL = 5;
     parameter int CACHE_POS = $clog2(FLB_CACHE_LEVEL);
     parameter int V_TABLE_IDX = $clog2(NUM_LEVELS);
+    parameter int FULL_PRICE_LEN = 32;
 
     // action
     parameter ADD = 2'b00;
