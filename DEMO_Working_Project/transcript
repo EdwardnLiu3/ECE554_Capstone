@@ -3814,3 +3814,15 @@ run -all
 #    Time: 6895 ns  Iteration: 1  Instance: /tb_hft_single_stock_top_lobster
 # 1
 # Break in Module tb_hft_single_stock_top_lobster at C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tb_hft_single_stock_top_lobster.sv line 688
+# Compile of parser_avalon_wrapper.sv failed with 1 errors.
+# Compile of tb_hft_single_stock_top_lobster.sv was successful.
+# Compile of tcp_packet_receiver_redo.v failed with 1 errors.
+# 3 compiles, 2 failed with 2 errors.
+# Compile of parser_avalon_wrapper.sv was successful.
+# Compile of tcp_packet_receiver_redo.v failed with 1 errors.
+# 2 compiles, 1 failed with 1 error.
+# Compile of parser_avalon_wrapper.sv was successful.
+# Compile of tcp_packet_receiver_redo.v failed with 1 errors.
+# 2 compiles, 1 failed with 1 error.
+# End time: 17:45:03 on Apr 26,2026, Elapsed time: 19:36:04
+# Errors: 0, Warnings: 38

@@ -1,18 +1,16 @@
+import ob_pkg::*;
 module parser_avalon_wrapper #(
     parameter int MARKET_PAYLOAD_LEN = 288,
     parameter int OUCH_PAYLOAD_LEN   = 752,
     parameter int SYMBOL_LEN         = 64,
-    parameter int ORDER_ID_LEN       = 32,
-    parameter int PRICE_LEN          = 32,
-    parameter int QUANTITY_LEN       = 16,
     parameter int POSITION_LEN       = 16,
     parameter int PNL_LEN            = 64,
     parameter int STOCK_LEN          = 16,
     parameter int MARKET_QTY_LEN     = 32,
     parameter int BOOK_BASE_PRICE    = 32'd2_200_000,
     parameter logic [SYMBOL_LEN-1:0] DEFAULT_SYMBOL = {"A","M","Z","N"," "," "," "," "},
-    parameter logic [QUANTITY_LEN-1:0] DEFAULT_BID_QTY = 16'd5,
-    parameter logic [QUANTITY_LEN-1:0] DEFAULT_ASK_QTY = 16'd5
+    parameter logic [TOT_QUATITY_LEN-1:0] DEFAULT_BID_QTY = 16'd5,
+    parameter logic [TOT_QUATITY_LEN-1:0] DEFAULT_ASK_QTY = 16'd5
 ) (
     input  logic        clk,
     input  logic        reset_n,
@@ -25,7 +23,7 @@ module parser_avalon_wrapper #(
 );
 
     localparam int OUCH_WORDS = (OUCH_PAYLOAD_LEN + 31) / 32;
-
+    localparam int BOOK_PRICE_DIVISOR = (PRICE_LEN <= 16) ? 100 : 1;
     // Avalon write-side control registers.
     logic [MARKET_PAYLOAD_LEN-1:0] market_payload_reg;
     logic                          market_valid_pulse;
@@ -33,8 +31,8 @@ module parser_avalon_wrapper #(
     logic                          soft_rst_n;
     logic                          combined_rst_n;
     logic [SYMBOL_LEN-1:0]         symbol_reg;
-    logic [QUANTITY_LEN-1:0]       bid_quote_qty_reg;
-    logic [QUANTITY_LEN-1:0]       ask_quote_qty_reg;
+    logic [TOT_QUATITY_LEN-1:0]    bid_quote_qty_reg;
+    logic [TOT_QUATITY_LEN-1:0]    ask_quote_qty_reg;
     logic                          trading_enable_reg;
     logic                          kill_switch_reg;
     logic                          price_band_enable_reg;
@@ -43,12 +41,12 @@ module parser_avalon_wrapper #(
 
     // HFT outputs.
     logic [STOCK_LEN-1:0]          stock_id;
-    logic [PRICE_LEN-1:0]          best_bid_price;
-    logic [PRICE_LEN-1:0]          best_ask_price;
+    logic [FULL_PRICE_LEN-1:0]     best_bid_price;
+    logic [FULL_PRICE_LEN-1:0]     best_ask_price;
     logic                          best_bid_valid;
     logic                          best_ask_valid;
-    logic [PRICE_LEN-1:0]          trading_bid_price;
-    logic [PRICE_LEN-1:0]          trading_ask_price;
+    logic [FULL_PRICE_LEN-1:0]     trading_bid_price;
+    logic [FULL_PRICE_LEN-1:0]     trading_ask_price;
     logic [1:0]                    trading_order_type;
     logic                          trading_valid;
     logic                          bid_reject_valid;
@@ -59,13 +57,13 @@ module parser_avalon_wrapper #(
     logic [OUCH_PAYLOAD_LEN-1:0]   order_payload;
     logic                          exec_valid;
     logic                          exec_side;
-    logic [PRICE_LEN-1:0]          exec_price;
-    logic [QUANTITY_LEN-1:0]       exec_quantity;
-    logic [ORDER_ID_LEN-1:0]       exec_order_id;
+    logic [FULL_PRICE_LEN-1:0]     exec_price;
+    logic [TOT_QUATITY_LEN-1:0]    exec_quantity;
+    logic [ORDERID_LEN-1:0]       exec_order_id;
     logic signed [POSITION_LEN-1:0] position;
     logic signed [PNL_LEN-1:0]     day_pnl;
-    logic [QUANTITY_LEN-1:0]       live_bid_qty;
-    logic [QUANTITY_LEN-1:0]       live_ask_qty;
+    logic [TOT_QUATITY_LEN-1:0]    live_bid_qty;
+    logic [TOT_QUATITY_LEN-1:0]    live_ask_qty;
 
     // One-cycle debug signals exported by the HFT top.
     logic [63:0]                   debug_parser_order_id;
@@ -76,28 +74,28 @@ module parser_avalon_wrapper #(
     logic                          debug_parser_valid;
     logic [STOCK_LEN-1:0]          debug_parser_stock_id;
     logic [47:0]                   debug_parser_timestamp;
-    logic [ob_pkg::ORDERID_LEN-1:0] debug_ob_in_order_id;
-    logic [ob_pkg::PRICE_LEN-1:0]  debug_ob_in_price;
-    logic [ob_pkg::QUANTITY_LEN-1:0] debug_ob_in_quantity;
+    logic [ORDERID_LEN-1:0] debug_ob_in_order_id;
+    logic [PRICE_LEN-1:0]          debug_ob_in_price;
+    logic [QUANTITY_LEN-1:0] debug_ob_in_quantity;
     logic [1:0]                    debug_ob_in_action;
     logic                          debug_ob_in_valid;
     logic                          debug_ob_in_side;
     logic [1:0]                    debug_ob_event_action;
-    logic [ob_pkg::PRICE_LEN-1:0]  debug_ob_event_price;
-    logic [ob_pkg::QUANTITY_LEN-1:0] debug_ob_event_quantity;
+    logic [PRICE_LEN-1:0]          debug_ob_event_price;
+    logic [QUANTITY_LEN-1:0] debug_ob_event_quantity;
     logic                          debug_ob_event_valid;
     logic                          debug_ob_event_side;
-    logic [ob_pkg::TOT_QUATITY_LEN-1:0] debug_best_bid_quantity;
-    logic [ob_pkg::TOT_QUATITY_LEN-1:0] debug_best_ask_quantity;
+    logic [TOT_QUATITY_LEN-1:0] debug_best_bid_quantity;
+    logic [TOT_QUATITY_LEN-1:0] debug_best_ask_quantity;
 
     // Latched debug / status registers so software does not miss pulses.
     logic [OUCH_PAYLOAD_LEN-1:0]   last_order_payload;
     logic                          last_order_payload_valid;
     logic                          last_exec_valid;
     logic                          last_exec_side;
-    logic [PRICE_LEN-1:0]          last_exec_price;
-    logic [QUANTITY_LEN-1:0]       last_exec_quantity;
-    logic [ORDER_ID_LEN-1:0]       last_exec_order_id;
+    logic [FULL_PRICE_LEN-1:0]     last_exec_price;
+    logic [TOT_QUATITY_LEN-1:0]       last_exec_quantity;
+    logic [ORDERID_LEN-1:0]       last_exec_order_id;
     logic                          last_bid_reject_valid;
     logic [3:0]                    last_bid_reject_reason;
     logic                          last_ask_reject_valid;
@@ -115,27 +113,38 @@ module parser_avalon_wrapper #(
     logic                          last_parser_valid;
     logic [STOCK_LEN-1:0]          last_parser_stock_id;
     logic [47:0]                   last_parser_timestamp;
-    logic [ob_pkg::ORDERID_LEN-1:0] last_ob_in_order_id;
-    logic [ob_pkg::PRICE_LEN-1:0]  last_ob_in_price;
-    logic [ob_pkg::QUANTITY_LEN-1:0] last_ob_in_quantity;
+    logic [ORDERID_LEN-1:0]        last_ob_in_order_id;
+    logic [PRICE_LEN-1:0]          last_ob_in_price;
+    logic [QUANTITY_LEN-1:0]       last_ob_in_quantity;
     logic [1:0]                    last_ob_in_action;
     logic                          last_ob_in_valid;
     logic                          last_ob_in_side;
     logic [1:0]                    last_ob_event_action;
-    logic [ob_pkg::PRICE_LEN-1:0]  last_ob_event_price;
-    logic [ob_pkg::QUANTITY_LEN-1:0] last_ob_event_quantity;
+    logic [PRICE_LEN-1:0]          last_ob_event_price;
+    logic [QUANTITY_LEN-1:0] last_ob_event_quantity;
     logic                          last_ob_event_valid;
     logic                          last_ob_event_side;
 
-    logic [PRICE_LEN-1:0]          mark_price;
+    logic [FULL_PRICE_LEN-1:0]     mark_price;
     logic                          mark_price_valid;
     logic signed [PNL_LEN-1:0]     mtm_total_pnl;
     logic signed [PNL_LEN-1:0]     inventory_value;
 
+    logic [PRICE_LEN-1:0]           parser_price_book;
+    logic [QUANTITY_LEN-1:0]        parser_quantity_book;
+    logic [63:0]                    parser_order_id;
+    logic [31:0]                    parser_quantity;
+    logic                           parser_side;
+    logic [31:0]                    parser_price;
+    logic [1:0]                     parser_action;
+    logic                           parser_valid;
+    logic [STOCK_LEN-1:0]           parser_stock_id;
+    logic [47:0]                    parser_timestamp;
+
     function automatic signed [PNL_LEN-1:0] calc_total_pnl(
         input signed [PNL_LEN-1:0] day_pnl_in,
         input signed [POSITION_LEN-1:0] position_in,
-        input logic [PRICE_LEN-1:0] mark_price_in
+        input logic [FULL_PRICE_LEN-1:0] mark_price_in
     );
         logic signed [PNL_LEN-1:0] inventory_mark_value;
         begin
@@ -171,13 +180,55 @@ module parser_avalon_wrapper #(
 
     assign inventory_value = mtm_total_pnl - day_pnl;
 
+
+    function automatic [PRICE_LEN-1:0] scale_price_to_book(
+        input logic [31:0] raw_price
+    );
+        integer scaled_price;
+        begin
+            scaled_price = raw_price / BOOK_PRICE_DIVISOR;
+            if (scaled_price < 0)
+                scale_price_to_book = '0;
+            else if (scaled_price > ((1 << PRICE_LEN) - 1))
+                scale_price_to_book = {PRICE_LEN{1'b1}};
+            else
+                scale_price_to_book = scaled_price[PRICE_LEN-1:0];
+        end
+    endfunction
+
+    function automatic [QUANTITY_LEN-1:0] clamp_quantity_to_book(
+        input logic [31:0] raw_quantity
+    );
+        begin
+            if (raw_quantity > ((1 << QUANTITY_LEN) - 1))
+                clamp_quantity_to_book = {QUANTITY_LEN{1'b1}};
+            else
+                clamp_quantity_to_book = raw_quantity[QUANTITY_LEN-1:0];
+        end
+    endfunction
+        
+    parser ps(
+        .i_clk(clk),
+        .i_rst_n(rst_n),
+        .i_payload(market_payload_reg),
+        .i_valid(market_valid_pulse),
+        .o_order_id(parser_order_id),
+        .o_quantity(parser_quantity),
+        .o_side(parser_side),
+        .o_price(parser_price),
+        .o_action(parser_action),
+        .o_valid(parser_valid),
+        .o_stock_id(parser_stock_id),
+        .o_timestamp(parser_timestamp)
+    );
+
+    assign parser_price_book   = scale_price_to_book(parser_price);
+    assign parser_quantity_book = clamp_quantity_to_book(parser_quantity);
+
     hft_single_stock_top #(
         .MARKET_PAYLOAD_LEN (MARKET_PAYLOAD_LEN),
         .OUCH_PAYLOAD_LEN   (OUCH_PAYLOAD_LEN),
         .SYMBOL_LEN         (SYMBOL_LEN),
-        .ORDER_ID_LEN       (ORDER_ID_LEN),
-        .PRICE_LEN          (PRICE_LEN),
-        .QUANTITY_LEN       (QUANTITY_LEN),
         .POSITION_LEN       (POSITION_LEN),
         .PNL_LEN            (PNL_LEN),
         .STOCK_LEN          (STOCK_LEN),
@@ -186,10 +237,14 @@ module parser_avalon_wrapper #(
     ) dut (
         .i_clk               (clk),
         .i_rst_n             (combined_rst_n),
-        .i_market_payload    (market_payload_reg),
-        .i_market_valid      (market_valid_pulse),
-        .i_order_time        (sw_order_time_reg),
-        .i_symbol            (symbol_reg),
+        .i_order_id          (parser_order_id[ORDERID_LEN-1:0]),
+        .i_quantity          (parser_quantity_book),
+        .i_side              (parser_side),
+        .i_price             (parser_price_book),
+        .i_action            (parser_action),
+        .i_valid             (parser_valid && parser_stock_id == STOCK_LEN'(1)),
+        .i_stock_id          (parser_stock_id),
+        .i_timestamp         (parser_timestamp),
         .i_bid_quote_quantity(bid_quote_qty_reg),
         .i_ask_quote_quantity(ask_quote_qty_reg),
         .i_trading_enable    (trading_enable_reg),
@@ -329,8 +384,8 @@ module parser_avalon_wrapper #(
                     6'd9:  market_valid_pulse           <= 1'b1;
                     6'd10: symbol_reg[31:0]             <= avs_writedata;
                     6'd11: symbol_reg[63:32]            <= avs_writedata;
-                    6'd12: bid_quote_qty_reg            <= avs_writedata[QUANTITY_LEN-1:0];
-                    6'd13: ask_quote_qty_reg            <= avs_writedata[QUANTITY_LEN-1:0];
+                    6'd12: bid_quote_qty_reg            <= avs_writedata[TOT_QUATITY_LEN-1:0];
+                    6'd13: ask_quote_qty_reg            <= avs_writedata[TOT_QUATITY_LEN-1:0];
                     6'd14: begin
                         trading_enable_reg    <= avs_writedata[0];
                         kill_switch_reg       <= avs_writedata[1];
@@ -415,8 +470,8 @@ module parser_avalon_wrapper #(
                 6'd9:  avs_readdata = {31'd0, market_valid_pulse};
                 6'd10: avs_readdata = symbol_reg[31:0];
                 6'd11: avs_readdata = symbol_reg[63:32];
-                6'd12: avs_readdata = {{(32-QUANTITY_LEN){1'b0}}, bid_quote_qty_reg};
-                6'd13: avs_readdata = {{(32-QUANTITY_LEN){1'b0}}, ask_quote_qty_reg};
+                6'd12: avs_readdata = {{(32-TOT_QUATITY_LEN){1'b0}}, bid_quote_qty_reg};
+                6'd13: avs_readdata = {{(32-TOT_QUATITY_LEN){1'b0}}, ask_quote_qty_reg};
                 6'd14: avs_readdata = {28'd0, pnl_check_enable_reg, price_band_enable_reg, kill_switch_reg, trading_enable_reg};
                 6'd15: avs_readdata = sw_order_time_reg[31:0];
                 6'd16: avs_readdata = {16'd0, sw_order_time_reg[47:32]};
@@ -483,15 +538,15 @@ module parser_avalon_wrapper #(
                         6'd6:  avs_readdata = {{(32-STOCK_LEN){1'b0}}, last_parser_stock_id};
                         6'd7:  avs_readdata = last_parser_timestamp[31:0];
                         6'd8:  avs_readdata = {16'd0, last_parser_timestamp[47:32]};
-                        6'd9:  avs_readdata = {{(32-ob_pkg::ORDERID_LEN){1'b0}}, last_ob_in_order_id};
-                        6'd10: avs_readdata = {{(32-ob_pkg::PRICE_LEN){1'b0}}, last_ob_in_price};
-                        6'd11: avs_readdata = {{(32-ob_pkg::QUANTITY_LEN){1'b0}}, last_ob_in_quantity};
+                        6'd9:  avs_readdata = {{(32-ORDERID_LEN){1'b0}}, last_ob_in_order_id};
+                        6'd10: avs_readdata = {{(32-PRICE_LEN){1'b0}}, last_ob_in_price};
+                        6'd11: avs_readdata = {{(32-QUANTITY_LEN){1'b0}}, last_ob_in_quantity};
                         6'd12: avs_readdata = {27'd0, last_ob_in_action, last_ob_in_side, last_ob_in_valid};
-                        6'd13: avs_readdata = {{(32-ob_pkg::PRICE_LEN){1'b0}}, last_ob_event_price};
-                        6'd14: avs_readdata = {{(32-ob_pkg::QUANTITY_LEN){1'b0}}, last_ob_event_quantity};
+                        6'd13: avs_readdata = {{(32-PRICE_LEN){1'b0}}, last_ob_event_price};
+                        6'd14: avs_readdata = {{(32-QUANTITY_LEN){1'b0}}, last_ob_event_quantity};
                         6'd15: avs_readdata = {27'd0, last_ob_event_action, last_ob_event_side, last_ob_event_valid};
-                        6'd16: avs_readdata = {{(32-ob_pkg::TOT_QUATITY_LEN){1'b0}}, debug_best_bid_quantity};
-                        6'd17: avs_readdata = {{(32-ob_pkg::TOT_QUATITY_LEN){1'b0}}, debug_best_ask_quantity};
+                        6'd16: avs_readdata = {{(32-TOT_QUATITY_LEN){1'b0}}, debug_best_bid_quantity};
+                        6'd17: avs_readdata = {{(32-TOT_QUATITY_LEN){1'b0}}, debug_best_ask_quantity};
                         6'd18: avs_readdata = order_payload_count;
                         6'd19: avs_readdata = exec_count;
                         default: avs_readdata = 32'h0;

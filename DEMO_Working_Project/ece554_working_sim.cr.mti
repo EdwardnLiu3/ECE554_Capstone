@@ -19,6 +19,15 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	tl_time
 
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tb_hft_single_stock_top_lobster.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tb_hft_single_stock_top_lobster.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling package tb_hft_single_stock_top_lobster_sv_unit
+-- Importing package ob_pkg
+-- Compiling module tb_hft_single_stock_top_lobster
+
+Top level modules:
+	tb_hft_single_stock_top_lobster
+
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/divider.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/divider.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
 -- Compiling module divider_q16
@@ -136,8 +145,9 @@ Top level modules:
 
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_avalon_wrapper.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_avalon_wrapper.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module parser_avalon_wrapper
+-- Compiling package parser_avalon_wrapper_sv_unit
 -- Importing package ob_pkg
+-- Compiling module parser_avalon_wrapper
 
 Top level modules:
 	parser_avalon_wrapper

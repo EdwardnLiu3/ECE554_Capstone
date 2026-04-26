@@ -1,10 +1,8 @@
+import ob_pkg::*;
 module hft_single_stock_top #(
     parameter int MARKET_PAYLOAD_LEN = 288,
     parameter int OUCH_PAYLOAD_LEN   = 752,
     parameter int SYMBOL_LEN         = 64,
-    parameter int ORDER_ID_LEN       = 32,
-    parameter int PRICE_LEN          = 32,
-    parameter int QUANTITY_LEN       = 16,
     parameter int POSITION_LEN       = 16,
     parameter int PNL_LEN            = 64,
     parameter int STOCK_LEN          = 16,
@@ -13,24 +11,28 @@ module hft_single_stock_top #(
 ) (
     input  logic                            i_clk,
     input  logic                            i_rst_n,
-    input  logic [MARKET_PAYLOAD_LEN-1:0]   i_market_payload,
-    input  logic                            i_market_valid,
-    input  logic [47:0]                     i_order_time,
-    input  logic [SYMBOL_LEN-1:0]           i_symbol,
-    input  logic [QUANTITY_LEN-1:0]         i_bid_quote_quantity,
-    input  logic [QUANTITY_LEN-1:0]         i_ask_quote_quantity,
+    input  logic [ORDERID_LEN-1:0]          i_order_id,
+    input  logic [QUANTITY_LEN-1:0]         i_quantity,
+    input  logic                            i_side,
+    input  logic [PRICE_LEN-1:0]            i_price,
+    input  logic [1:0]                      i_action,
+    input  logic                            i_valid,
+    input  logic [STOCK_LEN-1:0]            i_stock_id,
+    input  logic [47:0]                     i_timestamp,
+    input  logic [TOT_QUATITY_LEN-1:0]         i_bid_quote_quantity,
+    input  logic [TOT_QUATITY_LEN-1:0]         i_ask_quote_quantity,
     input  logic                            i_trading_enable,
     input  logic                            i_kill_switch,
     input  logic                            i_price_band_enable,
     input  logic                            i_pnl_check_enable,
 
     output logic [STOCK_LEN-1:0]            o_stock_id,
-    output logic [PRICE_LEN-1:0]            o_best_bid_price,
-    output logic [PRICE_LEN-1:0]            o_best_ask_price,
+    output logic [FULL_PRICE_LEN-1:0]       o_best_bid_price,
+    output logic [FULL_PRICE_LEN-1:0]       o_best_ask_price,
     output logic                            o_best_bid_valid,
     output logic                            o_best_ask_valid,
-    output logic [PRICE_LEN-1:0]            o_trading_bid_price,
-    output logic [PRICE_LEN-1:0]            o_trading_ask_price,
+    output logic [FULL_PRICE_LEN-1:0]       o_trading_bid_price,
+    output logic [FULL_PRICE_LEN-1:0]       o_trading_ask_price,
     output logic [1:0]                      o_trading_order_type,
     output logic                            o_trading_valid,
     output logic                            o_bid_reject_valid,
@@ -41,82 +43,69 @@ module hft_single_stock_top #(
     output logic [OUCH_PAYLOAD_LEN-1:0]     o_order_payload,
     output logic                            o_exec_valid,
     output logic                            o_exec_side,
-    output logic [PRICE_LEN-1:0]            o_exec_price,
-    output logic [QUANTITY_LEN-1:0]         o_exec_quantity,
-    output logic [ORDER_ID_LEN-1:0]         o_exec_order_id,
-output logic signed [POSITION_LEN-1:0]  o_position,
-output logic signed [PNL_LEN-1:0]       o_day_pnl,
-output logic [QUANTITY_LEN-1:0]         o_live_bid_qty,
-output logic [QUANTITY_LEN-1:0]         o_live_ask_qty,
+    output logic [FULL_PRICE_LEN-1:0]       o_exec_price,
+    output logic [TOT_QUATITY_LEN-1:0]         o_exec_quantity,
+    output logic [ORDERID_LEN-1:0]          o_exec_order_id,
+    output logic signed [POSITION_LEN-1:0]  o_position,
+    output logic signed [PNL_LEN-1:0]       o_day_pnl,
+    output logic [TOT_QUATITY_LEN-1:0]         o_live_bid_qty,
+    output logic [TOT_QUATITY_LEN-1:0]         o_live_ask_qty,
 
-output logic [63:0]                     o_debug_parser_order_id,
-output logic [31:0]                     o_debug_parser_quantity,
-output logic                            o_debug_parser_side,
-output logic [31:0]                     o_debug_parser_price,
-output logic [1:0]                      o_debug_parser_action,
-output logic                            o_debug_parser_valid,
-output logic [STOCK_LEN-1:0]            o_debug_parser_stock_id,
-output logic [47:0]                     o_debug_parser_timestamp,
-output logic [ob_pkg::ORDERID_LEN-1:0]  o_debug_ob_in_order_id,
-output logic [ob_pkg::PRICE_LEN-1:0]    o_debug_ob_in_price,
-output logic [ob_pkg::QUANTITY_LEN-1:0] o_debug_ob_in_quantity,
-output logic [1:0]                      o_debug_ob_in_action,
-output logic                            o_debug_ob_in_valid,
-output logic                            o_debug_ob_in_side,
-output logic [1:0]                      o_debug_ob_event_action,
-output logic [ob_pkg::PRICE_LEN-1:0]    o_debug_ob_event_price,
-output logic [ob_pkg::QUANTITY_LEN-1:0] o_debug_ob_event_quantity,
-output logic                            o_debug_ob_event_valid,
-output logic                            o_debug_ob_event_side,
-output logic [ob_pkg::TOT_QUATITY_LEN-1:0] o_debug_best_bid_quantity,
-output logic [ob_pkg::TOT_QUATITY_LEN-1:0] o_debug_best_ask_quantity
+    output logic [63:0]                     o_debug_parser_order_id,
+    output logic [31:0]                     o_debug_parser_quantity,
+    output logic                            o_debug_parser_side,
+    output logic [31:0]                     o_debug_parser_price,
+    output logic [1:0]                      o_debug_parser_action,
+    output logic                            o_debug_parser_valid,
+    output logic [STOCK_LEN-1:0]            o_debug_parser_stock_id,
+    output logic [47:0]                     o_debug_parser_timestamp,
+    output logic [ORDERID_LEN-1:0]  o_debug_ob_in_order_id,
+    output logic [PRICE_LEN-1:0]    o_debug_ob_in_price,
+    output logic [QUANTITY_LEN-1:0] o_debug_ob_in_quantity,
+    output logic [1:0]                      o_debug_ob_in_action,
+    output logic                            o_debug_ob_in_valid,
+    output logic                            o_debug_ob_in_side,
+    output logic [1:0]                      o_debug_ob_event_action,
+    output logic [PRICE_LEN-1:0]    o_debug_ob_event_price,
+    output logic [QUANTITY_LEN-1:0] o_debug_ob_event_quantity,
+    output logic                            o_debug_ob_event_valid,
+    output logic                            o_debug_ob_event_side,
+    output logic [TOT_QUATITY_LEN-1:0] o_debug_best_bid_quantity,
+    output logic [TOT_QUATITY_LEN-1:0] o_debug_best_ask_quantity
 );
 
-localparam int OB_ORDERID_LEN  = ob_pkg::ORDERID_LEN;
-localparam int OB_PRICE_LEN    = ob_pkg::PRICE_LEN;
-localparam int OB_QUANTITY_LEN = ob_pkg::QUANTITY_LEN;
-localparam int OB_TOTAL_QTY_LEN = ob_pkg::TOT_QUATITY_LEN;
-localparam int BOOK_PRICE_DIVISOR = (OB_PRICE_LEN <= 16) ? 100 : 1;
+localparam int BOOK_PRICE_DIVISOR = (PRICE_LEN <= 16) ? 100 : 1;
 localparam int BOOK_BASE_PRICE_OB = BOOK_BASE_PRICE / BOOK_PRICE_DIVISOR;
 // Parser outputs
-logic [63:0]               parser_order_id;
-logic [31:0]               parser_quantity;
-logic                      parser_side;
-logic [31:0]               parser_price;
-logic [1:0]                parser_action;
-logic                      parser_valid;
-logic [STOCK_LEN-1:0]      parser_stock_id;
-logic [47:0]               parser_timestamp;
-logic [OB_PRICE_LEN-1:0]   parser_price_book;
-logic [OB_QUANTITY_LEN-1:0] parser_quantity_book;
+logic [47:0]               ob_timestamp;
 // Order book outputs
-logic [OB_PRICE_LEN-1:0]   ob_best_bid_price_book;
-logic [OB_PRICE_LEN-1:0]   ob_best_ask_price_book;
-logic [PRICE_LEN-1:0]      ob_best_bid_price;
-logic [PRICE_LEN-1:0]      ob_best_ask_price;
-logic [OB_TOTAL_QTY_LEN-1:0] ob_best_bid_quantity;
-logic [OB_TOTAL_QTY_LEN-1:0] ob_best_ask_quantity;
+logic [PRICE_LEN-1:0]   ob_best_bid_price_book;
+logic [PRICE_LEN-1:0]   ob_best_ask_price_book;
+logic [FULL_PRICE_LEN-1:0]      ob_best_bid_price;
+logic [FULL_PRICE_LEN-1:0]      ob_best_ask_price;
+logic [TOT_QUATITY_LEN-1:0] ob_best_bid_quantity;
+logic [TOT_QUATITY_LEN-1:0] ob_best_ask_quantity;
 logic                      ob_best_bid_valid;
 logic                      ob_best_ask_valid;
 logic [1:0]                ob_event_action;
-logic [OB_PRICE_LEN-1:0]   ob_event_price_book;
-logic [PRICE_LEN-1:0]      ob_event_price;
-logic [OB_QUANTITY_LEN-1:0] ob_event_quantity_narrow;
+logic [PRICE_LEN-1:0]   ob_event_price_book;
+logic [FULL_PRICE_LEN-1:0]      ob_event_price;
+logic [QUANTITY_LEN-1:0] ob_event_quantity_narrow;
 logic [MARKET_QTY_LEN-1:0] ob_event_quantity;
 logic                      ob_event_valid;
 logic                      ob_event_side;
 // Trading logic outputs
-logic [OB_PRICE_LEN-1:0]   tl_bid_price_book;
-logic [OB_PRICE_LEN-1:0]   tl_ask_price_book;
-logic [PRICE_LEN-1:0]      tl_bid_price;
-logic [PRICE_LEN-1:0]      tl_ask_price;
-logic [QUANTITY_LEN-1:0]   tl_bid_quantity;
-logic [QUANTITY_LEN-1:0]   tl_ask_quantity;
+logic [PRICE_LEN-1:0]   tl_bid_price_book;
+logic [PRICE_LEN-1:0]   tl_ask_price_book;
+logic [FULL_PRICE_LEN-1:0]      tl_bid_price;
+logic [FULL_PRICE_LEN-1:0]      tl_ask_price;
+logic [TOT_QUATITY_LEN-1:0]   tl_bid_quantity;
+logic [TOT_QUATITY_LEN-1:0]   tl_ask_quantity;
 logic                      tl_valid;
 // Split bid/ask quote requests into separate risk-managers
 logic                      bid_quote_req_valid;
 logic                      ask_quote_req_valid;
-logic [PRICE_LEN-1:0]      reference_price;
+logic [FULL_PRICE_LEN-1:0]      reference_price;
 logic                      price_valid_for_tl;
 logic                      market_exec_valid_for_tracker;
 logic                      market_exec_side_for_tracker;
@@ -128,25 +117,25 @@ logic signed [PNL_LEN-1:0] inventory_total_pnl;
 // Risk manager outputs
 logic                      bid_quote_valid;
 logic                      bid_quote_side;
-logic [PRICE_LEN-1:0]      bid_quote_price;
-logic [QUANTITY_LEN-1:0]   bid_quote_quantity;
+logic [FULL_PRICE_LEN-1:0]      bid_quote_price;
+logic [TOT_QUATITY_LEN-1:0]   bid_quote_quantity;
 logic                      ask_quote_valid;
 logic                      ask_quote_side;
-logic [PRICE_LEN-1:0]      ask_quote_price;
-logic [QUANTITY_LEN-1:0]   ask_quote_quantity;
+logic [FULL_PRICE_LEN-1:0]      ask_quote_price;
+logic [TOT_QUATITY_LEN-1:0]   ask_quote_quantity;
 // Order generator / execution tracker feedback
-logic [QUANTITY_LEN-1:0]   og_quantity_buy;
-logic [QUANTITY_LEN-1:0]   og_quantity_sell;
-logic [PRICE_LEN-1:0]      og_price_buy;
-logic [PRICE_LEN-1:0]      og_price_sell;
-logic [ORDER_ID_LEN-1:0]   og_new_order_num_buy;
-logic [ORDER_ID_LEN-1:0]   og_new_order_num_sell;
+logic [TOT_QUATITY_LEN-1:0]   og_quantity_buy;
+logic [TOT_QUATITY_LEN-1:0]   og_quantity_sell;
+logic [FULL_PRICE_LEN-1:0]      og_price_buy;
+logic [FULL_PRICE_LEN-1:0]      og_price_sell;
+logic [ORDERID_LEN-1:0]   og_new_order_num_buy;
+logic [ORDERID_LEN-1:0]   og_new_order_num_sell;
 logic                      exec_replace_bid_ready;
 logic                      exec_replace_ask_ready;
-logic [ORDER_ID_LEN-1:0]   exec_oldest_bid_order_id;
-logic [ORDER_ID_LEN-1:0]   exec_oldest_ask_order_id;
+logic [ORDERID_LEN-1:0]   exec_oldest_bid_order_id;
+logic [ORDERID_LEN-1:0]   exec_oldest_ask_order_id;
 
-function automatic [OB_PRICE_LEN-1:0] scale_price_to_book(
+function automatic [PRICE_LEN-1:0] scale_price_to_book(
     input logic [31:0] raw_price
 );
     integer scaled_price;
@@ -154,21 +143,21 @@ function automatic [OB_PRICE_LEN-1:0] scale_price_to_book(
         scaled_price = raw_price / BOOK_PRICE_DIVISOR;
         if (scaled_price < 0)
             scale_price_to_book = '0;
-        else if (scaled_price > ((1 << OB_PRICE_LEN) - 1))
-            scale_price_to_book = {OB_PRICE_LEN{1'b1}};
+        else if (scaled_price > ((1 << PRICE_LEN) - 1))
+            scale_price_to_book = {PRICE_LEN{1'b1}};
         else
-            scale_price_to_book = scaled_price[OB_PRICE_LEN-1:0];
+            scale_price_to_book = scaled_price[PRICE_LEN-1:0];
     end
 endfunction
 
-function automatic [OB_QUANTITY_LEN-1:0] clamp_quantity_to_book(
+function automatic [QUANTITY_LEN-1:0] clamp_quantity_to_book(
     input logic [31:0] raw_quantity
 );
     begin
-        if (raw_quantity > ((1 << OB_QUANTITY_LEN) - 1))
-            clamp_quantity_to_book = {OB_QUANTITY_LEN{1'b1}};
+        if (raw_quantity > ((1 << QUANTITY_LEN) - 1))
+            clamp_quantity_to_book = {QUANTITY_LEN{1'b1}};
         else
-            clamp_quantity_to_book = raw_quantity[OB_QUANTITY_LEN-1:0];
+            clamp_quantity_to_book = raw_quantity[QUANTITY_LEN-1:0];
     end
 endfunction
 
@@ -182,29 +171,13 @@ assign price_valid_for_tl = ob_event_valid && ob_best_bid_valid && ob_best_ask_v
 assign trade_valid_for_tl = o_exec_valid;
 assign trade_qty_for_tl   = o_exec_quantity;
 assign trade_side_for_tl  = o_exec_side;
-assign ob_event_quantity  = {{(MARKET_QTY_LEN-OB_QUANTITY_LEN){1'b0}}, ob_event_quantity_narrow};
-assign parser_price_book   = scale_price_to_book(parser_price);
-assign parser_quantity_book = clamp_quantity_to_book(parser_quantity);
-assign ob_best_bid_price   = {{(PRICE_LEN-OB_PRICE_LEN){1'b0}}, ob_best_bid_price_book};
-assign ob_best_ask_price   = {{(PRICE_LEN-OB_PRICE_LEN){1'b0}}, ob_best_ask_price_book};
-assign ob_event_price      = {{(PRICE_LEN-OB_PRICE_LEN){1'b0}}, ob_event_price_book};
-assign tl_bid_price        = {{(PRICE_LEN-OB_PRICE_LEN){1'b0}}, tl_bid_price_book};
-assign tl_ask_price        = {{(PRICE_LEN-OB_PRICE_LEN){1'b0}}, tl_ask_price_book};
+assign ob_event_quantity  = {{(MARKET_QTY_LEN-QUANTITY_LEN){1'b0}}, ob_event_quantity_narrow};
+assign ob_best_bid_price   = {{(FULL_PRICE_LEN-PRICE_LEN){1'b0}}, ob_best_bid_price_book};
+assign ob_best_ask_price   = {{(FULL_PRICE_LEN-PRICE_LEN){1'b0}}, ob_best_ask_price_book};
+assign ob_event_price      = {{(FULL_PRICE_LEN-PRICE_LEN){1'b0}}, ob_event_price_book};
+assign tl_bid_price        = {{(FULL_PRICE_LEN-PRICE_LEN){1'b0}}, tl_bid_price_book};
+assign tl_ask_price        = {{(FULL_PRICE_LEN-PRICE_LEN){1'b0}}, tl_ask_price_book};
 
-parser parser_inst (
-    .i_clk      (i_clk),
-    .i_rst_n    (i_rst_n),
-    .i_payload  (i_market_payload),
-    .i_valid    (i_market_valid),
-    .o_order_id (parser_order_id),
-    .o_quantity (parser_quantity),
-    .o_side     (parser_side),
-    .o_price    (parser_price),
-    .o_action   (parser_action),
-    .o_valid    (parser_valid),
-    .o_stock_id (parser_stock_id),
-    .o_timestamp(parser_timestamp)
-);
 
 // Parser I think gives wider fields than the book uses, so slice order_id to package width here
 // need to get the output for execution tracker from here still, might be wrong here tho so can change if needed
@@ -213,12 +186,13 @@ orderbook #(
 ) ob_inst (
     .i_clk            (i_clk),
     .i_rst_n          (i_rst_n),
-    .i_order_id       (parser_order_id[OB_ORDERID_LEN-1:0]),
-    .i_side           (parser_side),
-    .i_price          (parser_price_book),
-    .i_quantity       (parser_quantity_book),
-    .i_action         (parser_action),
-    .i_valid          (parser_valid),
+    .i_order_id       (i_order_id[ORDERID_LEN-1:0]),
+    .i_side           (i_side),
+    .i_price          (i_price),
+    .i_quantity       (i_quantity),
+    .i_action         (i_action),
+    .i_valid          (i_valid),
+    .i_timestamp      (i_timestamp),
     .o_bid_best_price (ob_best_bid_price_book),
     .o_bid_best_quant (ob_best_bid_quantity),
     .o_ask_best_price (ob_best_ask_price_book),
@@ -229,7 +203,8 @@ orderbook #(
     .o_price          (ob_event_price_book),
     .o_quantity       (ob_event_quantity_narrow),
     .o_valid          (ob_event_valid),
-    .o_side           (ob_event_side)
+    .o_side           (ob_event_side),
+    .o_timestamp      (ob_timestamp)
 );
 
 // should still be updated so it outputs a trade quantity
@@ -238,7 +213,7 @@ tl_top tl_inst (
     .i_rst_n      (i_rst_n),
     .i_best_bid   (ob_best_bid_price_book),
     .i_best_ask   (ob_best_ask_price_book),
-    .i_order_time (parser_timestamp),
+    .i_order_time (i_timestamp),
     .i_price_valid(price_valid_for_tl),
     .i_trade_valid(trade_valid_for_tl),
     .i_trade_side (trade_side_for_tl),
@@ -369,7 +344,7 @@ inventory_tracker inventory_tracker_inst (
     .o_total_pnl    (inventory_total_pnl)
 );
 
-assign o_stock_id         = parser_stock_id;
+assign o_stock_id         = i_stock_id;
 assign o_best_bid_price   = ob_best_bid_price;
 assign o_best_ask_price   = ob_best_ask_price;
 assign o_best_bid_valid   = ob_best_bid_valid;
@@ -378,20 +353,20 @@ assign o_trading_bid_price = tl_bid_price;
 assign o_trading_ask_price = tl_ask_price;
 assign o_trading_order_type = 2'b11;
 assign o_trading_valid    = tl_valid;
-assign o_debug_parser_order_id = parser_order_id;
-assign o_debug_parser_quantity = parser_quantity;
-assign o_debug_parser_side = parser_side;
-assign o_debug_parser_price = parser_price;
-assign o_debug_parser_action = parser_action;
-assign o_debug_parser_valid = parser_valid;
-assign o_debug_parser_stock_id = parser_stock_id;
-assign o_debug_parser_timestamp = parser_timestamp;
-assign o_debug_ob_in_order_id = parser_order_id[OB_ORDERID_LEN-1:0];
-assign o_debug_ob_in_price = parser_price_book;
-assign o_debug_ob_in_quantity = parser_quantity_book;
-assign o_debug_ob_in_action = parser_action;
-assign o_debug_ob_in_valid = parser_valid;
-assign o_debug_ob_in_side = parser_side;
+assign o_debug_parser_order_id = i_order_id;
+assign o_debug_parser_quantity = i_quantity;
+assign o_debug_parser_side = i_side;
+assign o_debug_parser_price = i_price;
+assign o_debug_parser_action = i_action;
+assign o_debug_parser_valid = i_valid;
+assign o_debug_parser_stock_id = i_stock_id;
+assign o_debug_parser_timestamp = i_timestamp;
+assign o_debug_ob_in_order_id = i_order_id[ORDERID_LEN-1:0];
+assign o_debug_ob_in_price = i_price;
+assign o_debug_ob_in_quantity = i_quantity;
+assign o_debug_ob_in_action = i_action;
+assign o_debug_ob_in_valid = i_valid;
+assign o_debug_ob_in_side = i_side;
 assign o_debug_ob_event_action = ob_event_action;
 assign o_debug_ob_event_price = ob_event_price_book;
 assign o_debug_ob_event_quantity = ob_event_quantity_narrow;

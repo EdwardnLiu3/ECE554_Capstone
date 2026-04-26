@@ -738,32 +738,59 @@ R8
 vparser_avalon_wrapper
 R0
 R10
-Z67 !s110 1777172922
-!i10b 1
-!s100 ^9Q3;LbJm_]U0Aazl1jUm2
-R2
-IiKI?G`doC=[>DKAcBN>4c3
+DXx4 work 29 parser_avalon_wrapper_sv_unit 0 22 E:kR8oOK_:?g5?J4MGE?D1
+Z67 !s110 1777242536
 R3
-S1
-R4
-R44
-8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_avalon_wrapper.sv
-FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_avalon_wrapper.sv
-!i122 246
-L0 1 505
-R6
 r1
 !s85 0
+!i10b 1
+!s100 AGO6RjSn3o@EUjd`RF0]z3
+IMPKAUUgEUMK5O4hUBVzU>2
+!s105 parser_avalon_wrapper_sv_unit
+S1
+R4
+Z68 w1777242531
+Z69 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_avalon_wrapper.sv
+Z70 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_avalon_wrapper.sv
+!i122 267
+L0 2 559
+R6
 31
-R59
+Z71 !s108 1777242536.000000
 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_avalon_wrapper.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_avalon_wrapper.sv|
+Z72 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_avalon_wrapper.sv|
+!i113 1
+R7
+R8
+Xparser_avalon_wrapper_sv_unit
+R0
+R10
+R67
+VE:kR8oOK_:?g5?J4MGE?D1
+r1
+!s85 0
+!i10b 1
+!s100 aK_QRzj>dN<lmBE=6c9Fi2
+IE:kR8oOK_:?g5?J4MGE?D1
+!i103 1
+S1
+R4
+R68
+R69
+R70
+!i122 267
+R21
+R6
+31
+R71
+Z73 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_avalon_wrapper.sv|
+R72
 !i113 1
 R7
 R8
 vparser_tb
 R0
-R67
+Z74 !s110 1777172922
 !i10b 1
 !s100 6OPEF7`ne3hTlZEXUd:H10
 R2
@@ -780,7 +807,7 @@ R6
 r1
 !s85 0
 31
-Z68 !s108 1777172922.000000
+Z75 !s108 1777172922.000000
 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_tb.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_tb.sv|
 !i113 1
@@ -788,7 +815,7 @@ R7
 R8
 vpe_lsb128
 R0
-R67
+R74
 !i10b 1
 !s100 T3mMbY`>8oBC13hPYI;_B2
 R2
@@ -800,12 +827,12 @@ R44
 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_lsb128.sv
 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_lsb128.sv
 !i122 249
-Z69 L0 1 20
+Z76 L0 1 20
 R6
 r1
 !s85 0
 31
-R68
+R75
 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_lsb128.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_lsb128.sv|
 !i113 1
@@ -813,7 +840,7 @@ R7
 R8
 vpe_lsb32
 R0
-R67
+R74
 !i10b 1
 !s100 >DC[WM896CS74`8`>BofN0
 R2
@@ -825,12 +852,12 @@ R44
 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_lsb32.sv
 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_lsb32.sv
 !i122 248
-R69
+R76
 R6
 r1
 !s85 0
 31
-R68
+R75
 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_lsb32.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_lsb32.sv|
 !i113 1
@@ -850,7 +877,7 @@ R44
 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_msb128.sv
 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_msb128.sv
 !i122 251
-R69
+R76
 R6
 r1
 !s85 0
@@ -875,12 +902,12 @@ R44
 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_msb32.sv
 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_msb32.sv
 !i122 250
-R69
+R76
 R6
 r1
 !s85 0
 31
-R68
+R75
 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_msb32.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_msb32.sv|
 !i113 1
@@ -938,7 +965,7 @@ vtb_hft_single_stock_top_lobster
 R0
 R10
 DXx4 work 39 tb_hft_single_stock_top_lobster_sv_unit 0 22 imfNbKG<H^69fM5YI`jFO1
-Z70 !s110 1777173069
+Z77 !s110 1777242327
 R3
 r1
 !s85 0
@@ -948,23 +975,23 @@ IHK8X@UR`C[>4`5mD5d6<n1
 !s105 tb_hft_single_stock_top_lobster_sv_unit
 S1
 R4
-Z71 w1777173059
-Z72 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tb_hft_single_stock_top_lobster.sv
-Z73 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tb_hft_single_stock_top_lobster.sv
-!i122 264
+Z78 w1777240117
+Z79 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tb_hft_single_stock_top_lobster.sv
+Z80 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tb_hft_single_stock_top_lobster.sv
+!i122 265
 L0 3 689
 R6
 31
-Z74 !s108 1777173069.000000
-!s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tb_hft_single_stock_top_lobster.sv|
-Z75 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tb_hft_single_stock_top_lobster.sv|
+Z81 !s108 1777242326.000000
+Z82 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tb_hft_single_stock_top_lobster.sv|
+Z83 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tb_hft_single_stock_top_lobster.sv|
 !i113 1
 R7
 R8
 Xtb_hft_single_stock_top_lobster_sv_unit
 R0
 R10
-R70
+R77
 VimfNbKG<H^69fM5YI`jFO1
 r1
 !s85 0
@@ -974,16 +1001,16 @@ IimfNbKG<H^69fM5YI`jFO1
 !i103 1
 S1
 R4
-R71
-R72
-R73
-!i122 264
+R78
+R79
+R80
+!i122 265
 L0 2 0
 R6
 31
-R74
-Z76 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tb_hft_single_stock_top_lobster.sv|
-R75
+R81
+R82
+R83
 !i113 1
 R7
 R8
@@ -1053,15 +1080,15 @@ I4_Tl8kUST`VoG_T:FVY_02
 S1
 R4
 R38
-Z77 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/volatility.sv
-Z78 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/volatility.sv
+Z84 8C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/volatility.sv
+Z85 FC:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/volatility.sv
 !i122 256
 L0 2 61
 R6
 31
 R45
-Z79 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/volatility.sv|
-Z80 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/volatility.sv|
+Z86 !s107 C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/volatility.sv|
+Z87 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/volatility.sv|
 !i113 1
 R7
 R8
@@ -1079,15 +1106,15 @@ I?70z5YNO_Q1X0@m[CSZQW2
 S1
 R4
 R38
-R77
-R78
+R84
+R85
 !i122 256
 R21
 R6
 31
 R45
-R79
-R80
+R86
+R87
 !i113 1
 R7
 R8
