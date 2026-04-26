@@ -302,7 +302,7 @@ soc_system u0 (
         .hps_0_hps_io_hps_io_gpio_inst_GPIO61  ( HPS_GSENSOR_INT),  //                               .hps_io_gpio_inst_GPIO61
         
 		  .led_pio_external_connection_export    (LEDR),    // led_pio_external_connection.export
-		  .button_pio_external_connection_export (KEY),
+		  .button_pio_external_connection_export ({SW[0], KEY[2:0]}),
         .hps_0_h2f_reset_reset_n               (1'b1),               //             hps_0_h2f_reset.reset_n
         .seg7_if_conduit_end_export            ({HEX5P, HEX5, HEX4P, HEX4,
 		                                           HEX3P, HEX3, HEX2P, HEX2,

@@ -1,5 +1,5 @@
 Flow report for tcp_packet_receiver_redo
-Tue Apr 21 18:25:36 2026
+Sun Apr 26 00:53:19 2026
 Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 
 
@@ -41,7 +41,7 @@ on the Quartus Prime software download page.
 +-----------------------------------------------------------------------------------+
 ; Flow Summary                                                                      ;
 +---------------------------------+-------------------------------------------------+
-; Flow Status                     ; Successful - Tue Apr 21 18:24:27 2026           ;
+; Flow Status                     ; Successful - Sun Apr 26 00:52:11 2026           ;
 ; Quartus Prime Version           ; 25.1std.0 Build 1129 10/21/2025 SC Lite Edition ;
 ; Revision Name                   ; tcp_packet_receiver_redo                        ;
 ; Top-level Entity Name           ; tcp_packet_receiver_redo                        ;
@@ -49,7 +49,7 @@ on the Quartus Prime software download page.
 ; Device                          ; 5CSEMA5F31C6                                    ;
 ; Timing Models                   ; Final                                           ;
 ; Logic utilization (in ALMs)     ; 15,626 / 32,070 ( 49 % )                        ;
-; Total registers                 ; 16913                                           ;
+; Total registers                 ; 16911                                           ;
 ; Total pins                      ; 368 / 457 ( 81 % )                              ;
 ; Total virtual pins              ; 0                                               ;
 ; Total block memory bits         ; 1,970,318 / 4,065,280 ( 48 % )                  ;
@@ -68,7 +68,7 @@ on the Quartus Prime software download page.
 +-------------------+--------------------------+
 ; Option            ; Setting                  ;
 +-------------------+--------------------------+
-; Start date & time ; 04/21/2026 18:06:25      ;
+; Start date & time ; 04/26/2026 00:27:20      ;
 ; Main task         ; Compilation              ;
 ; Revision Name     ; tcp_packet_receiver_redo ;
 +-------------------+--------------------------+
@@ -79,7 +79,7 @@ on the Quartus Prime software download page.
 +---------------------------------------+----------------------------------------+---------------+-------------+------------+
 ; Assignment Name                       ; Value                                  ; Default Value ; Entity Name ; Section Id ;
 +---------------------------------------+----------------------------------------+---------------+-------------+------------+
-; COMPILER_SIGNATURE_ID                 ; 171978328238326.177681278326784        ; --            ; --          ; --         ;
+; COMPILER_SIGNATURE_ID                 ; 59850978926649.177718123721852         ; --            ; --          ; --         ;
 ; ECO_REGENERATE_REPORT                 ; On                                     ; Off           ; --          ; --         ;
 ; MAX_CORE_JUNCTION_TEMP                ; 85                                     ; --            ; --          ; --         ;
 ; MIN_CORE_JUNCTION_TEMP                ; 0                                      ; --            ; --          ; --         ;
@@ -101,11 +101,11 @@ on the Quartus Prime software download page.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:03:40     ; 1.0                     ; 5798 MB             ; 00:04:45                           ;
-; Fitter               ; 00:13:37     ; 1.3                     ; 8614 MB             ; 00:54:06                           ;
-; Assembler            ; 00:00:26     ; 1.0                     ; 5538 MB             ; 00:00:23                           ;
-; Timing Analyzer      ; 00:01:07     ; 2.5                     ; 6410 MB             ; 00:02:34                           ;
-; Total                ; 00:18:50     ; --                      ; --                  ; 01:01:48                           ;
+; Analysis & Synthesis ; 00:05:34     ; 1.0                     ; 5819 MB             ; 00:06:54                           ;
+; Fitter               ; 00:18:36     ; 1.4                     ; 9214 MB             ; 01:45:08                           ;
+; Assembler            ; 00:00:22     ; 1.0                     ; 5527 MB             ; 00:00:20                           ;
+; Timing Analyzer      ; 00:01:05     ; 3.5                     ; 6505 MB             ; 00:03:15                           ;
+; Total                ; 00:25:37     ; --                      ; --                  ; 01:55:37                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -114,10 +114,10 @@ on the Quartus Prime software download page.
 +----------------------+------------------+------------+------------+----------------+
 ; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
 +----------------------+------------------+------------+------------+----------------+
-; Analysis & Synthesis ; bret_dell        ; Windows 10 ; 10.0       ; x86_64         ;
-; Fitter               ; bret_dell        ; Windows 10 ; 10.0       ; x86_64         ;
-; Assembler            ; bret_dell        ; Windows 10 ; 10.0       ; x86_64         ;
-; Timing Analyzer      ; bret_dell        ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis ; DESKTOP-TFPELLO  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; DESKTOP-TFPELLO  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-TFPELLO  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; DESKTOP-TFPELLO  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 

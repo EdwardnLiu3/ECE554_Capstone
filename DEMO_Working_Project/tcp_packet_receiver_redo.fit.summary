@@ -1,4 +1,4 @@
-Fitter Status : Successful - Tue Apr 21 18:23:47 2026
+Fitter Status : Successful - Sun Apr 26 00:51:36 2026
 Quartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 Revision Name : tcp_packet_receiver_redo
 Top-level Entity Name : tcp_packet_receiver_redo
@@ -6,7 +6,7 @@ Family : Cyclone V
 Device : 5CSEMA5F31C6
 Timing Models : Final
 Logic utilization (in ALMs) : 15,626 / 32,070 ( 49 % )
-Total registers : 16913
+Total registers : 16911
 Total pins : 368 / 457 ( 81 % )
 Total virtual pins : 0
 Total block memory bits : 1,970,318 / 4,065,280 ( 48 % )

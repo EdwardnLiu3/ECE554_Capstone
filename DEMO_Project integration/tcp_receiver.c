@@ -175,24 +175,44 @@ int main(int argc, char **argv) {
                 break;
             }
 
-            // 2. Poll FPGA Physical Buttons
+            // 2. Poll FPGA Physical Buttons and Switches
             unsigned long current_button_state = *h2p_lw_button_addr & 0xF;
-            
-            // Edge detection (only trigger once per press)
-            if (current_button_state != last_button_state) {
-                for (int i=0; i<4; i++) {
-                    // Active low: Went from 1 (unpressed) to 0 (pressed)
-                    if (((last_button_state >> i) & 1) && !((current_button_state >> i) & 1)) {
-                        if (cached_packet_ptr < cached_packet_len) {
-                            // Extract SoupBinTCP 2-byte length
-                            int msg_len = (cached_packet[cached_packet_ptr] << 8) | cached_packet[cached_packet_ptr+1];
-                            int total_len = msg_len + 2;
-                            
-                            // Bounds check
-                            if (cached_packet_ptr + total_len <= cached_packet_len) {
-                                printf("\n======================================================\n");
-                                printf("[EVENT] FPGA KEY%d Pressed! Feeding packet to HW PARSER...\n", i);
-                                
+            int auto_mode = (current_button_state & 0x08) ? 1 : 0;
+            int packets_to_process = 0;
+            int triggered_by = -1;
+
+            if (auto_mode) {
+                packets_to_process = 999999; // Drain cache
+            } else {
+                // Edge detection (only trigger once per press for manual mode)
+                if ((current_button_state & 0x7) != (last_button_state & 0x7)) {
+                    for (int i=0; i<3; i++) {
+                        // Active low: Went from 1 (unpressed) to 0 (pressed)
+                        if (((last_button_state >> i) & 1) && !((current_button_state >> i) & 1)) {
+                            packets_to_process = 1;
+                            triggered_by = i;
+                        }
+                    }
+                }
+            }
+            last_button_state = current_button_state;
+
+            while (packets_to_process > 0) {
+                if (cached_packet_ptr < cached_packet_len) {
+                    if (triggered_by != -1) {
+                        printf("\n======================================================\n");
+                        printf("[EVENT] FPGA KEY%d Pressed! Feeding packet to HW PARSER...\n", triggered_by);
+                        triggered_by = -1; // Only print once per press
+                    } else if (!auto_mode) {
+                        // No print needed
+                    }
+                    
+                    // Extract SoupBinTCP 2-byte length
+                    int msg_len = (cached_packet[cached_packet_ptr] << 8) | cached_packet[cached_packet_ptr+1];
+                    int total_len = msg_len + 2;
+                    
+                    // Bounds check
+                    if (cached_packet_ptr + total_len <= cached_packet_len) {
                                 // Strip the 3-byte SoupBinTCP framing
                                 if (msg_len >= 1) {
                                     int payload_len = msg_len - 1; // subtract 'S' byte
@@ -364,17 +384,23 @@ int main(int argc, char **argv) {
                                 cached_packet_ptr += total_len;
                             } else {
                                 printf("[ERROR] Malformed length or incomplete packet in cache.\n");
+                                break;
                             }
-                        } else {
-                            printf("[EVENT] FPGA KEY%d Pressed! No more packets to echo.\n", i);
-                        }
+                } else {
+                    if (!auto_mode && triggered_by != -1) {
+                        printf("[EVENT] FPGA KEY%d Pressed! No more packets to echo.\n", triggered_by);
                     }
+                    break;
                 }
-                last_button_state = current_button_state;
+                packets_to_process--;
             }
             
-            // Prevent 100% CPU usage
-            usleep(10000); // 10ms
+            // Prevent 100% CPU usage, lower latency slightly if in auto mode
+            if (auto_mode) {
+                usleep(1000); // 1ms
+            } else {
+                usleep(10000); // 10ms
+            }
         }
         close(new_socket);
     }

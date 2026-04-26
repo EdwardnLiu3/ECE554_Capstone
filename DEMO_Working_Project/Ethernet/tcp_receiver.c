@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <time.h>
 #include <sys/mman.h>
 #include <stdbool.h>
 #include <string.h>
@@ -135,6 +134,7 @@ int main(int argc, char **argv) {
         fcntl(new_socket, F_SETFL, flags | O_NONBLOCK);
 
         unsigned long last_button_state = 0xF; // 4 buttons, active low (unpressed = 1)
+        bool auto_stream = false; // KEY0 toggles: sends all cached packets in real time
 
         // New cached packet buffer
         unsigned char cached_packet[65536] = {0};
@@ -147,60 +147,63 @@ int main(int argc, char **argv) {
             memset(temp_buffer, 0, sizeof(temp_buffer));
             int valread = read(new_socket, temp_buffer, sizeof(temp_buffer));
             if (valread > 0) {
-                printf("\n[RECEIVED] %d bytes of binary data added to cache.\n", valread);
-                // Save it to cache
-                if (cached_packet_ptr >= cached_packet_len) {
-                     // Reset cache if we've sent everything
-                     cached_packet_len = 0;
-                     cached_packet_ptr = 0;
+                if (auto_stream) {
+                    // Pass-through: forward immediately, Python already applies correct timing
+                    send(new_socket, temp_buffer, valread, 0);
+                    printf("[AUTO] Forwarded %d bytes to FPGA.\n", valread);
+                    SEG7_Decimal(valread);
+                } else {
+                    // Manual mode: cache for button dispatch
+                    printf("\n[RECEIVED] %d bytes added to cache.\n", valread);
+                    if (cached_packet_ptr >= cached_packet_len) {
+                        cached_packet_len = 0;
+                        cached_packet_ptr = 0;
+                    }
+                    if (cached_packet_len + valread < (int)sizeof(cached_packet)) {
+                        memcpy(cached_packet + cached_packet_len, temp_buffer, valread);
+                        cached_packet_len += valread;
+                    }
+                    SEG7_Decimal(valread);
+                    LED_Set(valread);
                 }
-                
-                if (cached_packet_len + valread < sizeof(cached_packet)) {
-                     memcpy(cached_packet + cached_packet_len, temp_buffer, valread);
-                     cached_packet_len += valread;
-                }
-                
-                // Display the new packet length on the HEX display
-                SEG7_Decimal(valread);
-                // Optional: set LED based on the length
-                LED_Set(valread);
             } else if (valread == 0) {
                 printf("[INFO] Client disconnected.\n");
                 break;
             }
 
-            // 2. Poll FPGA Physical Buttons
+            // 2. Poll FPGA Physical Buttons (edge detection, active low)
             unsigned long current_button_state = *h2p_lw_button_addr & 0xF;
-            
-            // Edge detection (only trigger once per press)
             if (current_button_state != last_button_state) {
-                for (int i=0; i<4; i++) {
-                    // Active low: Went from 1 (unpressed) to 0 (pressed)
+                for (int i = 0; i < 4; i++) {
                     if (((last_button_state >> i) & 1) && !((current_button_state >> i) & 1)) {
-                        if (cached_packet_ptr < cached_packet_len) {
-                            // Extract SoupBinTCP 2-byte length
-                            int msg_len = (cached_packet[cached_packet_ptr] << 8) | cached_packet[cached_packet_ptr+1];
-                            int total_len = msg_len + 2;
-                            
-                            // Bounds check
-                            if (cached_packet_ptr + total_len <= cached_packet_len) {
-                                printf("[EVENT] FPGA KEY%d Pressed! Echoing single packet (%d bytes). Sent %d/%d bytes.\n", 
-                                        i, total_len, cached_packet_ptr + total_len, cached_packet_len);
-                                send(new_socket, cached_packet + cached_packet_ptr, total_len, 0);
-                                cached_packet_ptr += total_len;
-                            } else {
-                                printf("[ERROR] Malformed length or incomplete packet in cache.\n");
-                            }
+                        if (i == 0) {
+                            // KEY0: toggle auto-stream on/off
+                            auto_stream = !auto_stream;
+                            printf("[AUTO] Auto-stream %s! (KEY0)\n", auto_stream ? "ENABLED" : "DISABLED");
+                            LED_Set(auto_stream ? 0x200 : 0);
                         } else {
-                            printf("[EVENT] FPGA KEY%d Pressed! No more packets to echo.\n", i);
+                            // KEY1-KEY3: send one cached packet manually
+                            if (cached_packet_ptr < cached_packet_len) {
+                                int msg_len = (cached_packet[cached_packet_ptr] << 8) | cached_packet[cached_packet_ptr+1];
+                                int total_len = msg_len + 2;
+                                if (cached_packet_ptr + total_len <= cached_packet_len) {
+                                    printf("[EVENT] KEY%d: sent %d bytes (%d/%d total).\n",
+                                           i, total_len, cached_packet_ptr + total_len, cached_packet_len);
+                                    send(new_socket, cached_packet + cached_packet_ptr, total_len, 0);
+                                    cached_packet_ptr += total_len;
+                                } else {
+                                    printf("[ERROR] Malformed packet in cache.\n");
+                                }
+                            } else {
+                                printf("[EVENT] KEY%d: no cached packets.\n", i);
+                            }
                         }
                     }
                 }
                 last_button_state = current_button_state;
             }
-            
-            // Prevent 100% CPU usage
-            usleep(10000); // 10ms
+
+            usleep(10000); // 10ms poll tick
         }
         close(new_socket);
     }

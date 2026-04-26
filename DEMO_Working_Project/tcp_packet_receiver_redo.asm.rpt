@@ -1,5 +1,5 @@
 Assembler report for tcp_packet_receiver_redo
-Tue Apr 21 18:24:27 2026
+Sun Apr 26 00:52:11 2026
 Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 
 
@@ -11,8 +11,8 @@ Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
   3. Assembler Settings
   4. Assembler Encrypted IP Cores Summary
   5. Assembler Generated Files
-  6. Assembler Device Options: C:/Users/sellb/ECE554/curr_quartus_tester20/tcp_packet_receiver_redo.sof
-  7. Assembler Device Options: C:/Users/sellb/ECE554/curr_quartus_tester20/tcp_packet_receiver_redo.rbf
+  6. Assembler Device Options: C:/Users/edwar/OneDrive/Documents/Coding/ECE 554/ECE554_Capstone/DEMO_Working_Project/tcp_packet_receiver_redo.sof
+  7. Assembler Device Options: C:/Users/edwar/OneDrive/Documents/Coding/ECE 554/ECE554_Capstone/DEMO_Working_Project/tcp_packet_receiver_redo.rbf
   8. Assembler Messages
 
 
@@ -40,7 +40,7 @@ on the Quartus Prime software download page.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Tue Apr 21 18:24:27 2026 ;
+; Assembler Status      ; Successful - Sun Apr 26 00:52:11 2026 ;
 ; Revision Name         ; tcp_packet_receiver_redo              ;
 ; Top-level Entity Name ; tcp_packet_receiver_redo              ;
 ; Family                ; Cyclone V                             ;
@@ -65,34 +65,34 @@ on the Quartus Prime software download page.
 +--------+------------------------+--------------+
 
 
-+--------------------------------------------------------------------------+
-; Assembler Generated Files                                                ;
-+--------------------------------------------------------------------------+
-; File Name                                                                ;
-+--------------------------------------------------------------------------+
-; C:/Users/sellb/ECE554/curr_quartus_tester20/tcp_packet_receiver_redo.sof ;
-; C:/Users/sellb/ECE554/curr_quartus_tester20/tcp_packet_receiver_redo.rbf ;
-+--------------------------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------------------+
+; Assembler Generated Files                                                                                          ;
++--------------------------------------------------------------------------------------------------------------------+
+; File Name                                                                                                          ;
++--------------------------------------------------------------------------------------------------------------------+
+; C:/Users/edwar/OneDrive/Documents/Coding/ECE 554/ECE554_Capstone/DEMO_Working_Project/tcp_packet_receiver_redo.sof ;
+; C:/Users/edwar/OneDrive/Documents/Coding/ECE 554/ECE554_Capstone/DEMO_Working_Project/tcp_packet_receiver_redo.rbf ;
++--------------------------------------------------------------------------------------------------------------------+
 
 
-+----------------------------------------------------------------------------------------------------+
-; Assembler Device Options: C:/Users/sellb/ECE554/curr_quartus_tester20/tcp_packet_receiver_redo.sof ;
-+----------------+-----------------------------------------------------------------------------------+
-; Option         ; Setting                                                                           ;
-+----------------+-----------------------------------------------------------------------------------+
-; JTAG usercode  ; 0x07C385A1                                                                        ;
-; Checksum       ; 0x07C385A1                                                                        ;
-+----------------+-----------------------------------------------------------------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------------+
+; Assembler Device Options: C:/Users/edwar/OneDrive/Documents/Coding/ECE 554/ECE554_Capstone/DEMO_Working_Project/tcp_packet_receiver_redo.sof ;
++----------------+-----------------------------------------------------------------------------------------------------------------------------+
+; Option         ; Setting                                                                                                                     ;
++----------------+-----------------------------------------------------------------------------------------------------------------------------+
+; JTAG usercode  ; 0x07C3C37D                                                                                                                  ;
+; Checksum       ; 0x07C3C37D                                                                                                                  ;
++----------------+-----------------------------------------------------------------------------------------------------------------------------+
 
 
-+----------------------------------------------------------------------------------------------------+
-; Assembler Device Options: C:/Users/sellb/ECE554/curr_quartus_tester20/tcp_packet_receiver_redo.rbf ;
-+---------------------+------------------------------------------------------------------------------+
-; Option              ; Setting                                                                      ;
-+---------------------+------------------------------------------------------------------------------+
-; Raw Binary File     ;                                                                              ;
-;  Compression Ratio  ; 2                                                                            ;
-+---------------------+------------------------------------------------------------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------------+
+; Assembler Device Options: C:/Users/edwar/OneDrive/Documents/Coding/ECE 554/ECE554_Capstone/DEMO_Working_Project/tcp_packet_receiver_redo.rbf ;
++---------------------+------------------------------------------------------------------------------------------------------------------------+
+; Option              ; Setting                                                                                                                ;
++---------------------+------------------------------------------------------------------------------------------------------------------------+
+; Raw Binary File     ;                                                                                                                        ;
+;  Compression Ratio  ; 2                                                                                                                      ;
++---------------------+------------------------------------------------------------------------------------------------------------------------+
 
 
 +--------------------+
@@ -101,15 +101,16 @@ on the Quartus Prime software download page.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
-    Info: Processing started: Tue Apr 21 18:24:01 2026
+    Info: Processing started: Sun Apr 26 00:51:49 2026
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off tcp_packet_receiver_redo -c tcp_packet_receiver_redo
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (115030): Assembler is generating device programming files
+Warning (12914): The file, C:/Users/sellb/ECE554/curr_quartus_tester20/soc_system.sopcinfo, is not embedded into sof file as expected.  Some tools, such as System Console, may not function fully.
 Info (11878): Hard Processor Subsystem configuration has not changed and a Preloader software update is not required
-Info: Quartus Prime Assembler was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 5538 megabytes
-    Info: Processing ended: Tue Apr 21 18:24:28 2026
-    Info: Elapsed time: 00:00:27
-    Info: Total CPU time (on all processors): 00:00:23
+Info: Quartus Prime Assembler was successful. 0 errors, 2 warnings
+    Info: Peak virtual memory: 5527 megabytes
+    Info: Processing ended: Sun Apr 26 00:52:11 2026
+    Info: Elapsed time: 00:00:22
+    Info: Total CPU time (on all processors): 00:00:21
 
 

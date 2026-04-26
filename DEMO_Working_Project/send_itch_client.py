@@ -73,6 +73,36 @@ def decode_itch(data: bytes) -> str:
             status = chr(data[22])
             return f"TRADING ACTION: Ticker='{stock}', Status={status}, Time={ts_sec:.6f}"
 
+        # ---- OUCH outbound messages sent back by the FPGA Order_Generator ----
+        # These packets arrive as SoupBinTCP 'S' frames (data[2]='S'),
+        # with data[3] = OUCH message type byte.
+        elif msg_type == 'O':  # 0x4F  Enter Order
+            # Byte offsets relative to data[3] (the OUCH type byte):
+            # [4:8]  UserRefNum  (4-byte big-endian)
+            # [8]    Side        (0x42='B', 0x53='S')
+            # [9:13] Quantity    (4-byte big-endian)
+            # [13:21] Symbol     (8 chars)
+            # [21:29] Price      (8-byte big-endian, in cents)
+            ref_num = struct.unpack(">I", data[4:8])[0]
+            side    = chr(data[8])
+            qty     = struct.unpack(">I", data[9:13])[0]
+            symbol  = data[13:21].decode("ascii").strip()
+            price   = struct.unpack(">Q", data[21:29])[0]
+            return (f"[FPGA\u2192] ENTER ORDER: Side={side}, Qty={qty}, "
+                    f"Price=${price/100.0:.2f}, Symbol='{symbol}', RefNum={ref_num}")
+
+        elif msg_type == 'U':  # 0x55  Replace Order
+            # [4:8]  OrigUserRefNum (4-byte big-endian)
+            # [8:12] UserRefNum     (4-byte big-endian)
+            # [12:16] Quantity      (4-byte big-endian)
+            # [16:24] Price         (8-byte big-endian, in cents)
+            orig_ref = struct.unpack(">I", data[4:8])[0]
+            new_ref  = struct.unpack(">I", data[8:12])[0]
+            qty      = struct.unpack(">I", data[12:16])[0]
+            price    = struct.unpack(">Q", data[16:24])[0]
+            return (f"[FPGA\u2192] REPLACE ORDER: OrigRefNum={orig_ref}, NewRefNum={new_ref}, "
+                    f"Qty={qty}, Price=${price/100.0:.2f}")
+
         else:
             return f"Unknown Message Type '{msg_type}'"
 
@@ -80,18 +110,38 @@ def decode_itch(data: bytes) -> str:
         return f"Error decoding message type '{msg_type}': {ex}"
 
 def receive_loop(sock: socket.socket):
-    """Continuously listens for incoming binary messages from the FPGA."""
+    """Continuously listens for incoming binary messages from the FPGA.
+    
+    Uses a byte buffer to correctly handle cases where multiple SoupBinTCP
+    frames arrive in a single recv() call (e.g., the buy+sell OUCH pair).
+    """
+    buf = b""
     while True:
         try:
-            data = sock.recv(1024)
-            if not data:
+            chunk = sock.recv(4096)
+            if not chunk:
                 print("\n[DISCONNECTED] FPGA closed the connection (receive_loop).")
                 import os
                 os._exit(0)
-                
-            readable_msg = decode_itch(data)
-            print(f"\n<<< [BOARD MESSAGE ECHO] {readable_msg}")
-            
+
+            buf += chunk
+
+            # Drain all complete SoupBinTCP frames from the buffer.
+            # Frame format: [2-byte big-endian length][length bytes of payload]
+            while len(buf) >= 2:
+                msg_len = struct.unpack(">H", buf[0:2])[0]
+                frame_total = msg_len + 2   # includes the 2-byte length field
+                if len(buf) < frame_total:
+                    break                   # wait for the rest of this frame
+                frame = buf[:frame_total]
+                buf   = buf[frame_total:]   # consume and keep remainder
+
+                readable_msg = decode_itch(frame)
+                if readable_msg.startswith("[FPGA"):
+                    print(f"\n<<< [FPGA OUCH OUT] {readable_msg}")
+                else:
+                    print(f"\n<<< [BOARD ECHO]     {readable_msg}")
+
         except ConnectionAbortedError:
             break
         except Exception as e:

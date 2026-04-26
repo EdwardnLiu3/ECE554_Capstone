@@ -42,6 +42,26 @@ void SEG7_Decimal(unsigned long Data) {
     }          
 }
 
+// Show two values split across the display:
+// hi3 -> HEX5-HEX3 (outbound OUCH order count)
+// lo3 -> HEX2-HEX0 (last incoming packet byte count)
+void SEG7_Split(unsigned long hi3, unsigned long lo3) {
+    int i;
+    unsigned char seg_mask;
+    unsigned long lv = lo3;
+    unsigned long hv = hi3;
+    for(i=0; i<3; i++){
+        seg_mask = szMap[lv % 10];
+        lv /= 10;
+        *(h2p_lw_hex_addr + i) = seg_mask;   // HEX0, HEX1, HEX2
+    }
+    for(i=3; i<6; i++){
+        seg_mask = szMap[hv % 10];
+        hv /= 10;
+        *(h2p_lw_hex_addr + i) = seg_mask;   // HEX3, HEX4, HEX5
+    }
+}
+
 void LED_Set(unsigned long Data) {
     *h2p_lw_led_addr = Data & 0x3FF; 
 }
@@ -56,6 +76,80 @@ long long Parser_Read_Signed64(unsigned int lo_reg, unsigned int hi_reg) {
     uint32_t hi = (uint32_t)*(h2p_lw_parser_addr + hi_reg);
     uint64_t combined = ((uint64_t)hi << 32) | lo;
     return (long long)(int64_t)combined;
+}
+
+// Read the latched 752-bit OUCH payload from Avalon regs 32-55,
+// reconstruct big-endian byte order, and send two 47-byte SoupBinTCP
+// packets back to the laptop (buy order first, then sell/replace order).
+static void Send_OUCH_Payload(int sock, unsigned long count) {
+    uint32_t words[24];
+    int i;
+    for(i = 0; i < 24; i++)
+        words[i] = (uint32_t)*(h2p_lw_parser_addr + 32 + i);
+
+    /* Avalon mapping:
+     *   addr 32 -> payload[31:0]  (LSB word)
+     *   addr 33 -> payload[63:32]
+     *   ...
+     *   addr 55 -> {16'd0, payload[751:736]}  (MSB word, upper 16 bits only)
+     *
+     * OUCH byte 0 = payload[751:744] = words[23] bits [15:8]
+     * OUCH byte 1 = payload[743:736] = words[23] bits [7:0]
+     * OUCH bytes 2-5 = words[22] big-endian, etc.
+     */
+    uint8_t ouch[94];
+    ouch[0] = (words[23] >> 8) & 0xFF;
+    ouch[1] =  words[23]       & 0xFF;
+    for(i = 22; i >= 0; i--) {
+        int base = 2 + (22 - i) * 4;
+        ouch[base + 0] = (words[i] >> 24) & 0xFF;
+        ouch[base + 1] = (words[i] >> 16) & 0xFF;
+        ouch[base + 2] = (words[i] >>  8) & 0xFF;
+        ouch[base + 3] =  words[i]         & 0xFF;
+    }
+
+    /* SoupBinTCP frame: [2-byte len=48][1-byte 'S'][47-byte OUCH order] */
+    uint8_t frame[50];
+    frame[0] = 0x00;
+    frame[1] = 0x30;  /* 48 = 1 ('S') + 47 (OUCH half-payload) */
+    frame[2] = 'S';
+
+    /* Helper macro: read a 32-bit big-endian value from byte array */
+    #define RD32(b, off) (((uint32_t)(b)[(off)]<<24)|((uint32_t)(b)[(off)+1]<<16)|\
+                          ((uint32_t)(b)[(off)+2]<<8)|(uint32_t)(b)[(off)+3])
+    #define RD64(b, off) (((uint64_t)(b)[(off)]<<56)|((uint64_t)(b)[(off)+1]<<48)|\
+                          ((uint64_t)(b)[(off)+2]<<40)|((uint64_t)(b)[(off)+3]<<32)|\
+                          ((uint64_t)(b)[(off)+4]<<24)|((uint64_t)(b)[(off)+5]<<16)|\
+                          ((uint64_t)(b)[(off)+6]<<8)|(uint64_t)(b)[(off)+7])
+
+    /* --- First order (slot 0, bytes 0-46) --- */
+    memcpy(&frame[3], ouch, 47);
+    send(sock, frame, 50, 0);
+
+    if (ouch[0] == 0x4F) {  /* ENTER ORDER: type, refnum[1-4], side[5], qty[6-9], sym[10-17], price[18-25] */
+        char sym0[9]; memcpy(sym0, &ouch[10], 8); sym0[8] = '\0';
+        printf("[OUCH OUT #%lu] ENTER  Side=%c Qty=%u Price=$%.2f Sym=%s\n",
+               count, ouch[5], RD32(ouch,6), RD64(ouch,18)/100.0, sym0);
+    } else {                /* REPLACE ORDER: type, orig[1-4], new[5-8], qty[9-12], price[13-20] */
+        printf("[OUCH OUT #%lu] REPLACE OrigRef=%u NewRef=%u Qty=%u Price=$%.2f\n",
+               count, RD32(ouch,1), RD32(ouch,5), RD32(ouch,9), RD64(ouch,13)/100.0);
+    }
+
+    /* --- Second order (slot 1, bytes 47-93) --- */
+    memcpy(&frame[3], ouch + 47, 47);
+    send(sock, frame, 50, 0);
+
+    if (ouch[47] == 0x4F) { /* ENTER ORDER */
+        char sym1[9]; memcpy(sym1, &ouch[47+10], 8); sym1[8] = '\0';
+        printf("[OUCH OUT #%lu] ENTER  Side=%c Qty=%u Price=$%.2f Sym=%s\n",
+               count, ouch[47+5], RD32(ouch,47+6), RD64(ouch,47+18)/100.0, sym1);
+    } else {                /* REPLACE ORDER */
+        printf("[OUCH OUT #%lu] REPLACE OrigRef=%u NewRef=%u Qty=%u Price=$%.2f\n",
+               count, RD32(ouch,47+1), RD32(ouch,47+5), RD32(ouch,47+9), RD64(ouch,47+13)/100.0);
+    }
+
+    #undef RD32
+    #undef RD64
 }
 
 int extract_last_integer(const char* str) {
@@ -160,6 +254,12 @@ int main(int argc, char **argv) {
         int cached_packet_len = 0;
         int cached_packet_ptr = 0;
 
+        // Seed from the live hardware counter so we do not replay payloads
+        // that were generated during a previous client session.
+        unsigned long last_seen_order_count = *(h2p_lw_parser_addr + 58);
+        unsigned long last_rx_bytes = 0;
+        printf("[INFO] Seeding OUCH order count from hardware: %lu\n", last_seen_order_count);
+
         while (1) {
             // 1. Check for incoming network data
             unsigned char temp_buffer[8192];
@@ -179,33 +279,53 @@ int main(int argc, char **argv) {
                      cached_packet_len += valread;
                 }
                 
-                // Display the new packet length on the HEX display
-                SEG7_Decimal(valread);
-                // Optional: set LED based on the length
+                // Display: upper HEX digits = OUCH count, lower = rx bytes
+                last_rx_bytes = valread;
+                SEG7_Split(last_seen_order_count, last_rx_bytes);
                 LED_Set(valread);
             } else if (valread == 0) {
                 printf("[INFO] Client disconnected.\n");
                 break;
             }
 
-            // 2. Poll FPGA Physical Buttons
+            // 2. Poll FPGA Physical Buttons and Switches
             unsigned long current_button_state = *h2p_lw_button_addr & 0xF;
-            
-            // Edge detection (only trigger once per press)
-            if (current_button_state != last_button_state) {
-                for (int i=0; i<4; i++) {
-                    // Active low: Went from 1 (unpressed) to 0 (pressed)
-                    if (((last_button_state >> i) & 1) && !((current_button_state >> i) & 1)) {
-                        if (cached_packet_ptr < cached_packet_len) {
-                            // Extract SoupBinTCP 2-byte length
-                            int msg_len = (cached_packet[cached_packet_ptr] << 8) | cached_packet[cached_packet_ptr+1];
-                            int total_len = msg_len + 2;
-                            
-                            // Bounds check
-                            if (cached_packet_ptr + total_len <= cached_packet_len) {
-                                printf("\n======================================================\n");
-                                printf("[EVENT] FPGA KEY%d Pressed! Feeding packet to HW PARSER...\n", i);
-                                
+            int auto_mode = (current_button_state & 0x08) ? 1 : 0;
+            int packets_to_process = 0;
+            int triggered_by = -1;
+
+            if (auto_mode) {
+                packets_to_process = 999999; // Drain cache
+            } else {
+                // Edge detection (only trigger once per press for manual mode)
+                if ((current_button_state & 0x7) != (last_button_state & 0x7)) {
+                    for (int i=0; i<3; i++) {
+                        // Active low: Went from 1 (unpressed) to 0 (pressed)
+                        if (((last_button_state >> i) & 1) && !((current_button_state >> i) & 1)) {
+                            packets_to_process = 1;
+                            triggered_by = i;
+                        }
+                    }
+                }
+            }
+            last_button_state = current_button_state;
+
+            while (packets_to_process > 0) {
+                if (cached_packet_ptr < cached_packet_len) {
+                    if (triggered_by != -1) {
+                        printf("\n======================================================\n");
+                        printf("[EVENT] FPGA KEY%d Pressed! Feeding packet to HW PARSER...\n", triggered_by);
+                        triggered_by = -1; // Only print once per press
+                    } else if (!auto_mode) {
+                        // No print needed
+                    }
+                    
+                    // Extract SoupBinTCP 2-byte length
+                    int msg_len = (cached_packet[cached_packet_ptr] << 8) | cached_packet[cached_packet_ptr+1];
+                    int total_len = msg_len + 2;
+                    
+                    // Bounds check
+                    if (cached_packet_ptr + total_len <= cached_packet_len) {
                                 // Strip the 3-byte SoupBinTCP framing
                                 if (msg_len >= 1) {
                                     int payload_len = msg_len - 1; // subtract 'S' byte
@@ -372,6 +492,18 @@ int main(int argc, char **argv) {
                                     printf("   -> OUCH order payloads : %lu\n", order_payload_count);
                                     printf("   -> Executions tracked  : %lu\n", exec_count);
                                     printf("   -> Risk rejects        : bid=%lu ask=%lu\n", bid_reject_count, ask_reject_count);
+                                     // ---- Per-packet OUCH poll ----
+                                     // Inside loop so auto-mode catches each order individually.
+                                     usleep(10);
+                                     unsigned long cur_ouch = *(h2p_lw_parser_addr + 58);
+                                     if (cur_ouch != last_seen_order_count) {
+                                         printf("\n[OUCH OUT] %lu new order(s) generated (total=%lu)\n",
+                                                cur_ouch - last_seen_order_count, cur_ouch);
+                                         Send_OUCH_Payload(new_socket, cur_ouch);
+                                         last_seen_order_count = cur_ouch;
+                                         SEG7_Split(last_seen_order_count, last_rx_bytes);
+                                         LED_Set(0x200 | (last_seen_order_count & 0x1FF));
+                                     }
 
                                 }
 
@@ -380,17 +512,39 @@ int main(int argc, char **argv) {
                                 cached_packet_ptr += total_len;
                             } else {
                                 printf("[ERROR] Malformed length or incomplete packet in cache.\n");
+                                break;
                             }
-                        } else {
-                            printf("[EVENT] FPGA KEY%d Pressed! No more packets to echo.\n", i);
-                        }
+                } else {
+                    if (!auto_mode && triggered_by != -1) {
+                        printf("[EVENT] FPGA KEY%d Pressed! No more packets to echo.\n", triggered_by);
                     }
+                    break;
                 }
-                last_button_state = current_button_state;
+                packets_to_process--;
             }
             
-            // Prevent 100% CPU usage
-            usleep(10000); // 10ms
+            // (OUCH poll is now handled inside the packet loop above.
+            //  This outer check is a fallback for any orders generated
+            //  outside of packet processing, e.g. on session start.)
+            {
+                unsigned long current_order_count = *(h2p_lw_parser_addr + 58);
+                if (current_order_count != last_seen_order_count) {
+                    printf("\n[OUCH OUT fallback] %lu order(s) caught (total=%lu)\n",
+                           current_order_count - last_seen_order_count,
+                           current_order_count);
+                    Send_OUCH_Payload(new_socket, current_order_count);
+                    last_seen_order_count = current_order_count;
+                    SEG7_Split(last_seen_order_count, last_rx_bytes);
+                    LED_Set(0x200 | (last_seen_order_count & 0x1FF));
+                }
+            }
+
+            // Prevent 100% CPU usage, lower latency slightly if in auto mode
+            if (auto_mode) {
+                usleep(1000); // 1ms
+            } else {
+                usleep(10000); // 10ms
+            }
         }
         close(new_socket);
     }
