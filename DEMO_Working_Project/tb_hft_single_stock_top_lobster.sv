@@ -80,6 +80,7 @@ module tb_hft_single_stock_top_lobster;
     logic                           price_band_enable;
     logic                           pnl_check_enable;
 
+    logic [STOCK_LEN-1:0]           stock_id_i;
     logic [STOCK_LEN-1:0]           stock_id;
     logic [FULL_PRICE_LEN-1:0]           best_bid_price;
     logic [FULL_PRICE_LEN-1:0]           best_ask_price;
@@ -196,7 +197,7 @@ module tb_hft_single_stock_top_lobster;
         .i_side              (parser_side),
         .i_price             (parser_price_book),
         .i_action            (parser_action),
-        .i_valid             (parser_valid),
+        .i_valid             (parser_valid && parser_stock_id == STOCK_LEN'(1)),
         .i_stock_id          (parser_stock_id),
         .i_timestamp         (parser_timestamp),
 
@@ -572,9 +573,9 @@ module tb_hft_single_stock_top_lobster;
                 continue;
 
             row_count = row_count + 1;
-            scan_items = $sscanf(line, "%f,%d,%d,%d,%d,%d",
-                                 ts_seconds, msg_type, raw_order_id, shares, price, direction);
-            if (scan_items != 6) begin
+            scan_items = $sscanf(line, "%f,%d,%d,%d,%d,%d,%d",
+                                 ts_seconds, msg_type, stock_id_i, raw_order_id, shares, price, direction);
+            if (scan_items != 7) begin
                 $display("Skipping row %0d: could not parse -> %s", row_count, line);
                 continue;
             end
@@ -586,7 +587,7 @@ module tb_hft_single_stock_top_lobster;
                     sent_count = sent_count + 1;
                     drive_payload(
                         build_add_payload(
-                            STOCK_ID,
+                            stock_id_i,
                             get_mapped_order_id(raw_order_id, msg_type),
                             (direction == -1),
                             shares[31:0],
@@ -603,7 +604,7 @@ module tb_hft_single_stock_top_lobster;
                         sent_count = sent_count + 1;
                         drive_payload(
                         build_cancel_payload(
-                            STOCK_ID,
+                            stock_id_i,
                             get_mapped_order_id(raw_order_id, msg_type),
                             (direction == -1),
                             shares[31:0],
@@ -624,7 +625,7 @@ module tb_hft_single_stock_top_lobster;
                         sent_count = sent_count + 1;
                         drive_payload(
                             build_delete_payload(
-                                STOCK_ID,
+                                stock_id_i,
                                 get_mapped_order_id(raw_order_id, msg_type),
                                 (direction == -1),
                                 shares[31:0],
@@ -645,7 +646,7 @@ module tb_hft_single_stock_top_lobster;
                         sent_count = sent_count + 1;
                         drive_payload(
                             build_execute_payload(
-                                STOCK_ID,
+                                stock_id_i,
                                 get_mapped_order_id(raw_order_id, msg_type),
                                 (direction == -1),
                                 shares[31:0],
