@@ -1,5 +1,5 @@
 Assembler report for tcp_packet_receiver_redo
-Sun Apr 26 00:52:11 2026
+Mon Apr 27 17:57:16 2026
 Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 
 
@@ -40,7 +40,7 @@ on the Quartus Prime software download page.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Sun Apr 26 00:52:11 2026 ;
+; Assembler Status      ; Successful - Mon Apr 27 17:57:16 2026 ;
 ; Revision Name         ; tcp_packet_receiver_redo              ;
 ; Top-level Entity Name ; tcp_packet_receiver_redo              ;
 ; Family                ; Cyclone V                             ;
@@ -80,8 +80,8 @@ on the Quartus Prime software download page.
 +----------------+-----------------------------------------------------------------------------------------------------------------------------+
 ; Option         ; Setting                                                                                                                     ;
 +----------------+-----------------------------------------------------------------------------------------------------------------------------+
-; JTAG usercode  ; 0x07C3C37D                                                                                                                  ;
-; Checksum       ; 0x07C3C37D                                                                                                                  ;
+; JTAG usercode  ; 0x07B33491                                                                                                                  ;
+; Checksum       ; 0x07B33491                                                                                                                  ;
 +----------------+-----------------------------------------------------------------------------------------------------------------------------+
 
 
@@ -101,16 +101,16 @@ on the Quartus Prime software download page.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
-    Info: Processing started: Sun Apr 26 00:51:49 2026
+    Info: Processing started: Mon Apr 27 17:56:44 2026
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off tcp_packet_receiver_redo -c tcp_packet_receiver_redo
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (115030): Assembler is generating device programming files
 Warning (12914): The file, C:/Users/sellb/ECE554/curr_quartus_tester20/soc_system.sopcinfo, is not embedded into sof file as expected.  Some tools, such as System Console, may not function fully.
 Info (11878): Hard Processor Subsystem configuration has not changed and a Preloader software update is not required
 Info: Quartus Prime Assembler was successful. 0 errors, 2 warnings
-    Info: Peak virtual memory: 5527 megabytes
-    Info: Processing ended: Sun Apr 26 00:52:11 2026
-    Info: Elapsed time: 00:00:22
-    Info: Total CPU time (on all processors): 00:00:21
+    Info: Peak virtual memory: 5519 megabytes
+    Info: Processing ended: Mon Apr 27 17:57:17 2026
+    Info: Elapsed time: 00:00:33
+    Info: Total CPU time (on all processors): 00:00:25
 
 

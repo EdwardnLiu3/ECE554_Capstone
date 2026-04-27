@@ -314,7 +314,22 @@ int main(int argc, char **argv) {
                                     
                                     // 3. Strobe Valid signal (address 9)
                                     *(h2p_lw_parser_addr + 9) = 1;
-                                    
+
+                                    // Print what was sent to the parser
+                                    printf("[PARSER INPUT] %d bytes\n", payload_len);
+                                    printf("   -> Msg Type : 0x%02X", payload[0]);
+                                    switch(payload[0]) {
+                                        case 0x41: printf(" (Add Order)\n"); break;
+                                        case 0x58: printf(" (Order Cancel)\n"); break;
+                                        case 0x44: printf(" (Order Delete)\n"); break;
+                                        case 0x45: printf(" (Order Executed)\n"); break;
+                                        default:   printf(" (Other/Ignored)\n"); break;
+                                    }
+                                    printf("   -> Raw Hex  :");
+                                    for(int b=0; b < payload_len && b < 36; b++)
+                                        printf(" %02X", payload[b]);
+                                    printf("\n");
+
                                     // Give FPGA pipeline time to finish (8+ clock cycles)
                                     usleep(1);
                                     

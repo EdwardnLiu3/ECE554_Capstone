@@ -209,7 +209,7 @@ module parser_avalon_wrapper #(
         
     parser ps(
         .i_clk(clk),
-        .i_rst_n(rst_n),
+        .i_rst_n(combined_rst_n),
         .i_payload(market_payload_reg),
         .i_valid(market_valid_pulse),
         .o_order_id(parser_order_id),
@@ -401,14 +401,14 @@ module parser_avalon_wrapper #(
             end
 
             if (market_valid_pulse_d1) begin
-                last_parser_order_id  <= debug_parser_order_id;
-                last_parser_quantity  <= debug_parser_quantity;
-                last_parser_side      <= debug_parser_side;
-                last_parser_price     <= debug_parser_price;
-                last_parser_action    <= debug_parser_action;
-                last_parser_valid     <= debug_parser_valid;
-                last_parser_stock_id  <= debug_parser_stock_id;
-                last_parser_timestamp <= debug_parser_timestamp;
+                last_parser_order_id  <= parser_order_id;
+                last_parser_quantity  <= parser_quantity;
+                last_parser_side      <= parser_side;
+                last_parser_price     <= parser_price;
+                last_parser_action    <= parser_action;
+                last_parser_valid     <= parser_valid;
+                last_parser_stock_id  <= parser_stock_id;
+                last_parser_timestamp <= parser_timestamp;
                 last_ob_in_order_id   <= debug_ob_in_order_id;
                 last_ob_in_price      <= debug_ob_in_price;
                 last_ob_in_quantity   <= debug_ob_in_quantity;
