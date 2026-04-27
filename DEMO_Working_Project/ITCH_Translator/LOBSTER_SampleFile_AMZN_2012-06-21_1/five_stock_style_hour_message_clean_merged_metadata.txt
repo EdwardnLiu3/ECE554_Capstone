@@ -1,0 +1,11 @@
+Merged five-stock clean hour replay
+rows=324748
+start_time=34200.000000000
+end_time=37799.999908402
+columns=time,type,order_id,size,price,direction,stock_id
+stock_id_1=AAPL
+stock_id_2=AMZN
+stock_id_3=GOOG
+stock_id_4=INTC
+stock_id_5=MSFT
+timestamp_epsilon_seconds=0.000000001
