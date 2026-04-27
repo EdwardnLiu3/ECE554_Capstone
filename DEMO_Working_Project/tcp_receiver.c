@@ -325,6 +325,7 @@ int main(int argc, char **argv) {
                                     unsigned long out_qty         = Parser_Debug_Read(3);
                                     unsigned long out_price       = Parser_Debug_Read(4);
                                     unsigned long out_flags       = Parser_Debug_Read(5);
+                                    unsigned long out_stock_id    = Parser_Debug_Read(6);
                                     unsigned long out_ts_lo       = Parser_Debug_Read(7);
                                     unsigned long out_ts_hi       = Parser_Debug_Read(8);
 
@@ -361,6 +362,7 @@ int main(int argc, char **argv) {
                                     printf("[HW PARSER OUTPUT] Valid? %s (latched)\n", is_valid ? "YES" : "NO");
 
                                     printf("   -> Order ID : %llu\n", out_order_id);
+                                    printf("   -> Stock ID : %lu\n", out_stock_id);
                                     printf("   -> Action   : ");
                                     switch(action) {
                                         case 0: printf("ADD\n"); break;
