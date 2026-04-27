@@ -277,11 +277,11 @@ class ExecutionTrackers:
         value = self._payload_to_int(payload)
 
         lower_is_enter = self._bits(value, 375, 368) == MSG_ENTER
-        lower_is_replace = self._bits(value, 319, 312) == MSG_REPLACE
-        upper_base = 376 if lower_is_enter else 320 if lower_is_replace else 376
+        lower_is_replace = self._bits(value, 375, 368) == MSG_REPLACE
+        upper_base = 376
 
         upper_is_enter = self._bits(value, upper_base + 375, upper_base + 368) == MSG_ENTER
-        upper_is_replace = self._bits(value, upper_base + 319, upper_base + 312) == MSG_REPLACE
+        upper_is_replace = self._bits(value, upper_base + 375, upper_base + 368) == MSG_REPLACE
 
         if upper_is_enter:
             side, quote, symbol = self._decode_enter(value, upper_base)
@@ -484,11 +484,11 @@ class ExecutionTrackers:
         return side, quote, symbol
 
     def _decode_replace(self, value: int, base: int, side: int) -> tuple[int, LiveQuote]:
-        """Decode one 320-bit OUCH replace message from the payload."""
-        old_id = self._bits(value, base + 311, base + 280)
-        new_id = self._bits(value, base + 279, base + 248)
-        quantity = self._bits(value, base + 247, base + 216)
-        price = self._bits(value, base + 215, base + 152)
+        """Decode one 376-bit OUCH replace message from the payload."""
+        old_id = self._bits(value, base + 367, base + 336)
+        new_id = self._bits(value, base + 335, base + 304)
+        quantity = self._bits(value, base + 303, base + 272)
+        price = self._bits(value, base + 271, base + 208)
         quote = LiveQuote(active=True, order_id=new_id, price=price, quantity=quantity)
         return old_id, quote
 
@@ -550,7 +550,7 @@ def build_replace_message(old_id: int, new_id: int, price: int, quantity: int) -
     value = (value << 32) | new_id
     value = (value << 32) | quantity
     value = (value << 64) | price
-    value = (value << 152)
+    value = (value << 208)
     return value
 
 
@@ -582,4 +582,4 @@ def build_both_replace_payload(
     """Build the two-replace payload with the same zero-extension style."""
     upper = build_replace_message(old_bid_id, new_bid_id, bid_price, bid_quantity)
     lower = build_replace_message(old_ask_id, new_ask_id, ask_price, ask_quantity)
-    return (upper << 320) | lower
+    return (upper << 376) | lower

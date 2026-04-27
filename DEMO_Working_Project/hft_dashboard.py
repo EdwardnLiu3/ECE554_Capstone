@@ -110,28 +110,39 @@ def _bits(value: int, msb: int, lsb: int) -> int:
 
 def decode_ouch_enters(value: int) -> list[tuple[int, int, int, int, str]]:
     """
-    Decode OUCH 'O' (Enter Order) messages packed in a Order_Generator payload.
+    Decode OUCH 'O' (Enter Order) and 'U' (Replace Order) messages packed in
+    an Order_Generator payload.
 
     Mirrors the bit layout used by execution_trackers._apply_order_payload but
-    returns the parsed fields instead of mutating tracker state. Replace
-    messages are skipped here - the tracker handles them when we hand it the
-    full payload via process_order_payload.
+    returns the parsed fields instead of mutating tracker state.  Replace
+    messages are included now so that the bid/ask scatter points continue to
+    be recorded after the FPGA switches from Enter to Replace mode.
 
     Returns a list of (side, price_cents, quantity, order_id, symbol).
+    The symbol field is empty string for Replace messages (no symbol field in
+    the Replace format).
     """
-    enters: list[tuple[int, int, int, int, str]] = []
-    lower_kind = _bits(value, 375, 368)
-    if lower_kind == MSG_ENTER:
-        enters.append(_decode_enter_at(value, 0))
-        upper_base = 376
-    elif lower_kind == MSG_REPLACE:
-        upper_base = 320
-    else:
-        upper_base = 376
+    events: list[tuple[int, int, int, int, str]] = []
 
-    if _bits(value, upper_base + 375, upper_base + 368) == MSG_ENTER:
-        enters.append(_decode_enter_at(value, upper_base))
-    return enters
+    lower_is_enter = _bits(value, 375, 368) == MSG_ENTER
+    lower_is_replace = _bits(value, 375, 368) == MSG_REPLACE
+    
+    if lower_is_enter:
+        events.append(_decode_enter_at(value, 0))
+    elif lower_is_replace:
+        events.append(_decode_replace_at(value, 0, QUOTE_ASK))
+
+    upper_base = 376
+
+    upper_is_enter = _bits(value, upper_base + 375, upper_base + 368) == MSG_ENTER
+    upper_is_replace = _bits(value, upper_base + 375, upper_base + 368) == MSG_REPLACE
+
+    if upper_is_enter:
+        events.append(_decode_enter_at(value, upper_base))
+    elif upper_is_replace:
+        events.append(_decode_replace_at(value, upper_base, QUOTE_BID))
+
+    return events
 
 
 def _decode_enter_at(value: int, base: int) -> tuple[int, int, int, int, str]:
@@ -143,6 +154,14 @@ def _decode_enter_at(value: int, base: int) -> tuple[int, int, int, int, str]:
     side = QUOTE_BID if side_byte == 0x42 else QUOTE_ASK
     symbol = symbol_raw.to_bytes(8, "big").decode("ascii", errors="ignore").strip()
     return side, price_cents, quantity, order_id, symbol
+
+
+def _decode_replace_at(value: int, base: int, side: int) -> tuple[int, int, int, int, str]:
+    """Extract (side, price_cents, quantity, new_order_id, '') from a 376-bit Replace slot."""
+    new_id   = _bits(value, base + 335, base + 304)
+    quantity = _bits(value, base + 303, base + 272)
+    price    = _bits(value, base + 271, base + 208)
+    return side, price, quantity, new_id, ""
 
 
 def _midpoint_cents(tracker: ExecutionTrackers) -> float | None:
@@ -197,17 +216,24 @@ class TrackerHub:
         Consume one raw OUCH/Order_Generator payload from the FPGA.
 
         The tracker decodes and applies the payload itself; this method also
-        decodes the contained Enter messages so it can append bid/ask scatter
-        points and route the payload to the right per-ticker tracker.
+        decodes the contained Enter *and* Replace messages so it can append
+        bid/ask scatter points and route the payload to the right per-ticker
+        tracker.  Replace messages carry an updated price/quantity for each
+        side and must be visualised just like Enter messages.
         """
         if len(payload) < OUCH_PAYLOAD_BYTES:
             return
         value = int.from_bytes(payload[:OUCH_PAYLOAD_BYTES], "big")
-        enters = decode_ouch_enters(value)
-        if not enters:
-            return
+        events = decode_ouch_enters(value)   # returns Enter AND Replace events
 
-        ticker = (enters[0][4] or fallback_ticker or "").strip()
+        # Resolve the ticker from the first event that carries a symbol (Enters
+        # do; Replaces don't), then fall back to the CLI --ticker argument.
+        ticker = fallback_ticker or ""
+        for _side, _price, _qty, _oid, sym in events:
+            if sym:
+                ticker = sym.strip()
+                break
+
         stock = self.stocks.get(ticker)
         if stock is None and fallback_ticker is not None:
             stock = self.stocks.get(fallback_ticker)
@@ -217,10 +243,10 @@ class TrackerHub:
         with stock.lock:
             stock.tracker.process_order_payload(value)
             t = time.monotonic() - self.start_wall
-            for side, price_cents, _qty, _oid, _sym in enters:
+            for side, price_cents, _qty, _oid, _sym in events:
                 price_dollars = price_cents / 100.0
                 target = stock.bid_events if side == QUOTE_BID else stock.ask_events
-                if price_dollars>200:
+                if price_dollars > 200:
                     target.append((t, price_dollars))
 
     def snapshot(self, ticker: str) -> dict:
