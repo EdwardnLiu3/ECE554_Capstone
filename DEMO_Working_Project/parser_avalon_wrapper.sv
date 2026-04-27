@@ -209,7 +209,7 @@ module parser_avalon_wrapper #(
         
     parser ps(
         .i_clk(clk),
-        .i_rst_n(rst_n),
+        .i_rst_n(combined_rst_n),
         .i_payload(market_payload_reg),
         .i_valid(market_valid_pulse),
         .o_order_id(parser_order_id),
