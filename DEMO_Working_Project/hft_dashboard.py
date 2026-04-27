@@ -220,7 +220,8 @@ class TrackerHub:
             for side, price_cents, _qty, _oid, _sym in enters:
                 price_dollars = price_cents / 100.0
                 target = stock.bid_events if side == QUOTE_BID else stock.ask_events
-                target.append((t, price_dollars))
+                if price_dollars>200:
+                    target.append((t, price_dollars))
 
     def snapshot(self, ticker: str) -> dict:
         stock = self.stocks.get(ticker)
@@ -542,6 +543,7 @@ def spawn_offline(
 ) -> None:
     for ticker in tickers:
         path = TICKER_CSV.get(ticker)
+        print({path})
         if path is None or not path.exists():
             print(f"[OFFLINE] no CSV for {ticker}, tab will stay empty")
             continue

@@ -108,48 +108,12 @@ static void Send_OUCH_Payload(int sock, unsigned long count) {
         ouch[base + 3] =  words[i]         & 0xFF;
     }
 
-    /* SoupBinTCP frame: [2-byte len=48][1-byte 'S'][47-byte OUCH order] */
-    uint8_t frame[50];
-    frame[0] = 0x00;
-    frame[1] = 0x30;  /* 48 = 1 ('S') + 47 (OUCH half-payload) */
-    frame[2] = 'S';
+    /* Send raw 94-byte OUCH payload. The dashboard reads exactly 94 bytes at a
+     * time in _drain_payloads and interprets the full 752-bit value directly. */
+    send(sock, ouch, 94, 0);
 
-    /* Helper macro: read a 32-bit big-endian value from byte array */
-    #define RD32(b, off) (((uint32_t)(b)[(off)]<<24)|((uint32_t)(b)[(off)+1]<<16)|\
-                          ((uint32_t)(b)[(off)+2]<<8)|(uint32_t)(b)[(off)+3])
-    #define RD64(b, off) (((uint64_t)(b)[(off)]<<56)|((uint64_t)(b)[(off)+1]<<48)|\
-                          ((uint64_t)(b)[(off)+2]<<40)|((uint64_t)(b)[(off)+3]<<32)|\
-                          ((uint64_t)(b)[(off)+4]<<24)|((uint64_t)(b)[(off)+5]<<16)|\
-                          ((uint64_t)(b)[(off)+6]<<8)|(uint64_t)(b)[(off)+7])
-
-    /* --- First order (slot 0, bytes 0-46) --- */
-    memcpy(&frame[3], ouch, 47);
-    send(sock, frame, 50, 0);
-
-    if (ouch[0] == 0x4F) {  /* ENTER ORDER: type, refnum[1-4], side[5], qty[6-9], sym[10-17], price[18-25] */
-        char sym0[9]; memcpy(sym0, &ouch[10], 8); sym0[8] = '\0';
-        printf("[OUCH OUT #%lu] ENTER  Side=%c Qty=%u Price=$%.2f Sym=%s\n",
-               count, ouch[5], RD32(ouch,6), RD64(ouch,18)/100.0, sym0);
-    } else {                /* REPLACE ORDER: type, orig[1-4], new[5-8], qty[9-12], price[13-20] */
-        printf("[OUCH OUT #%lu] REPLACE OrigRef=%u NewRef=%u Qty=%u Price=$%.2f\n",
-               count, RD32(ouch,1), RD32(ouch,5), RD32(ouch,9), RD64(ouch,13)/100.0);
-    }
-
-    /* --- Second order (slot 1, bytes 47-93) --- */
-    memcpy(&frame[3], ouch + 47, 47);
-    send(sock, frame, 50, 0);
-
-    if (ouch[47] == 0x4F) { /* ENTER ORDER */
-        char sym1[9]; memcpy(sym1, &ouch[47+10], 8); sym1[8] = '\0';
-        printf("[OUCH OUT #%lu] ENTER  Side=%c Qty=%u Price=$%.2f Sym=%s\n",
-               count, ouch[47+5], RD32(ouch,47+6), RD64(ouch,47+18)/100.0, sym1);
-    } else {                /* REPLACE ORDER */
-        printf("[OUCH OUT #%lu] REPLACE OrigRef=%u NewRef=%u Qty=%u Price=$%.2f\n",
-               count, RD32(ouch,47+1), RD32(ouch,47+5), RD32(ouch,47+9), RD64(ouch,47+13)/100.0);
-    }
-
-    #undef RD32
-    #undef RD64
+    printf("[OUCH OUT #%lu] sent 94-byte payload (order 0 type=0x%02X, order 1 type=0x%02X)\n",
+           count, ouch[0], ouch[47]);
 }
 
 int extract_last_integer(const char* str) {
@@ -507,8 +471,6 @@ int main(int argc, char **argv) {
 
                                 }
 
-                                // We still send the raw data to Python client just to clear queue 
-                                send(new_socket, cached_packet + cached_packet_ptr, total_len, 0);
                                 cached_packet_ptr += total_len;
                             } else {
                                 printf("[ERROR] Malformed length or incomplete packet in cache.\n");
