@@ -187,6 +187,7 @@ class TrackerHub:
 
     def __init__(self, tickers: list[str]) -> None:
         self.start_wall = time.monotonic()
+        self.paused = threading.Event()
         self.stocks: dict[str, StockState] = {}
         for ticker in tickers:
             self.stocks[ticker] = StockState(
@@ -278,6 +279,12 @@ def lobster_replay(
             ts = float(row[0])
             if last_ts is not None and ts > last_ts:
                 time.sleep(min((ts - last_ts) / speed, 5.0))
+            
+            while hub.paused.is_set():
+                if stop.is_set():
+                    break
+                time.sleep(0.1)
+                
             last_ts = ts
             if on_send is not None:
                 try:
@@ -504,6 +511,10 @@ class Dashboard:
     def _toggle(self) -> None:
         self.running = not self.running
         self.btn_toggle.configure(text="Resume" if not self.running else "Pause")
+        if self.running:
+            self.hub.paused.clear()
+        else:
+            self.hub.paused.set()
 
     def _tick(self, _frame):
         if not self.running:
