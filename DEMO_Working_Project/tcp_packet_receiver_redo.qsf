@@ -957,10 +957,34 @@ set_global_assignment -name ACTIVE_SERIAL_CLOCK FREQ_100MHZ
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+
+set_global_assignment -name SYSTEMVERILOG_FILE volatility.sv
+set_global_assignment -name SYSTEMVERILOG_FILE tl_top.sv
+set_global_assignment -name SYSTEMVERILOG_FILE tl_time.sv
+set_global_assignment -name SYSTEMVERILOG_FILE tl_inventory.sv
+set_global_assignment -name SYSTEMVERILOG_FILE risk_tester.sv
+set_global_assignment -name SYSTEMVERILOG_FILE pe_msb32.sv
+set_global_assignment -name SYSTEMVERILOG_FILE pe_msb128.sv
+set_global_assignment -name SYSTEMVERILOG_FILE pe_lsb32.sv
+set_global_assignment -name SYSTEMVERILOG_FILE pe_lsb128.sv
+set_global_assignment -name SYSTEMVERILOG_FILE parser_tb.sv
+set_global_assignment -name SYSTEMVERILOG_FILE parser_avalon_wrapper.sv
+set_global_assignment -name SYSTEMVERILOG_FILE parser.sv
+set_global_assignment -name SYSTEMVERILOG_FILE orderbook.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ob_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ob_opb.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ob_flb_bid.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ob_flb_ask.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hft_single_stock_top.sv
+set_global_assignment -name SYSTEMVERILOG_FILE flb_refill_engine_bid_1024.sv
+set_global_assignment -name SYSTEMVERILOG_FILE flb_refill_engine_bid.sv
+set_global_assignment -name SYSTEMVERILOG_FILE flb_refill_engine_ask_1024.sv
+set_global_assignment -name SYSTEMVERILOG_FILE flb_refill_engine_ask.sv
+set_global_assignment -name SYSTEMVERILOG_FILE divider_tb.sv
+set_global_assignment -name SYSTEMVERILOG_FILE divider.sv
 set_global_assignment -name QSYS_FILE soc_system.qsys
 set_global_assignment -name SDC_FILE tcp_packet_receiver_redo.sdc
 set_global_assignment -name VERILOG_FILE tcp_packet_receiver_redo.v
 set_global_assignment -name VERILOG_FILE rom.v
 set_global_assignment -name VERILOG_FILE memory.v
-
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
