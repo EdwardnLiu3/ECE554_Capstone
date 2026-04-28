@@ -77,20 +77,16 @@ LOBSTER_DIR = HERE / "ITCH_Translator" / "LOBSTER_SampleFile_AMZN_2012-06-21_1"
 # Merged multi-stock LOBSTER replay. Columns:
 #   time, type, order_id, size, price, direction, stock_id
 # stock_id is a 1-based index into STOCK_ID_TO_TICKER (see metadata file).
-MERGED_CSV = LOBSTER_DIR / "five_stock_style_hour_message_clean_merged.csv"
+MERGED_CSV = LOBSTER_DIR / "two_stock_style_hour_message_clean_merged.csv"
 STOCK_ID_TO_TICKER: dict[int, str] = {
     1: "AAPL",
     2: "AMZN",
-    3: "GOOG",
-    4: "INTC",
-    5: "MSFT",
 }
 
-DEFAULT_TICKERS = ["AAPL", "AMZN", "GOOG", "INTC", "MSFT"]
+DEFAULT_TICKERS = ["AAPL", "AMZN"]
 TICKER_CSV: dict[str, Path] = {
     "AMZN": LOBSTER_DIR / "amzn_style_hour_message_clean.csv",
     "AAPL": LOBSTER_DIR / "aapl_style_hour_message_clean.csv",
-    "GOOG": LOBSTER_DIR / "goog_style_hour_message_clean.csv",
 }
 
 PRICE_DIVISOR = 100        # tracker stores prices in cents (LOBSTER raw / 100)
@@ -464,7 +460,7 @@ class TcpDuplex:
 
 
 class Dashboard:
-    """Five-tab CustomTkinter dashboard rendering each stock's tracker state."""
+    """Two-tab CustomTkinter dashboard rendering each stock's tracker state."""
 
     PALETTE = {
         "bg": "#1c1c1c",
