@@ -53,8 +53,8 @@ module parser_avalon_wrapper #(
     logic [3:0]                    bid_reject_reason;
     logic                          ask_reject_valid;
     logic [3:0]                    ask_reject_reason;
-    logic                          order_payload_valid;
-    logic [OUCH_PAYLOAD_LEN-1:0]   order_payload;
+    logic                          order_payload_valid_amzn, order_payload_valid_aapl;
+    logic [OUCH_PAYLOAD_LEN-1:0]   order_payload_amzn, order_payload_amzn_aapl;
     logic                          exec_valid;
     logic                          exec_side;
     logic [FULL_PRICE_LEN-1:0]     exec_price;
@@ -233,7 +233,8 @@ module parser_avalon_wrapper #(
         .PNL_LEN            (PNL_LEN),
         .STOCK_LEN          (STOCK_LEN),
         .MARKET_QTY_LEN     (MARKET_QTY_LEN),
-        .BOOK_BASE_PRICE    (BOOK_BASE_PRICE)
+        .BOOK_BASE_PRICE    (BOOK_BASE_PRICE),
+        .STOCK_ID_SET       (SYMBOL_LEN'(1))
     ) dut (
         .i_clk               (clk),
         .i_rst_n             (combined_rst_n),
@@ -251,51 +252,125 @@ module parser_avalon_wrapper #(
         .i_kill_switch       (kill_switch_reg),
         .i_price_band_enable (price_band_enable_reg),
         .i_pnl_check_enable  (pnl_check_enable_reg),
+        .o_stock_id          (),
+        .o_best_bid_price    (),
+        .o_best_ask_price    (),
+        .o_best_bid_valid    (),
+        .o_best_ask_valid    (),
+        .o_trading_bid_price (),
+        .o_trading_ask_price (),
+        .o_trading_order_type(),
+        .o_trading_valid     (),
+        .o_bid_reject_valid  (),
+        .o_bid_reject_reason (),
+        .o_ask_reject_valid  (),
+        .o_ask_reject_reason (),
+        .o_order_payload_valid(order_payload_valid_aapl),
+        .o_order_payload     (order_payload_aapl),
+        .o_exec_valid        (),
+        .o_exec_side         (),
+        .o_exec_price        (),
+        .o_exec_quantity     (),
+        .o_exec_order_id     (),
+        .o_position          (),
+        .o_day_pnl           (),
+        .o_live_bid_qty      (),
+        .o_live_ask_qty      (),
+        .o_debug_parser_order_id(),
+        .o_debug_parser_quantity(),
+        .o_debug_parser_side (),
+        .o_debug_parser_price(),
+        .o_debug_parser_action(),
+        .o_debug_parser_valid(),
+        .o_debug_parser_stock_id(),
+        .o_debug_parser_timestamp(),
+        .o_debug_ob_in_order_id(),
+        .o_debug_ob_in_price(),
+        .o_debug_ob_in_quantity(),
+        .o_debug_ob_in_action(),
+        .o_debug_ob_in_valid(),
+        .o_debug_ob_in_side(),
+        .o_debug_ob_event_action(),
+        .o_debug_ob_event_price(),
+        .o_debug_ob_event_quantity(),
+        .o_debug_ob_event_valid(),
+        .o_debug_ob_event_side(),
+        .o_debug_best_bid_quantity(),
+        .o_debug_best_ask_quantity()
+    );
+
+    hft_single_stock_top #(
+        .MARKET_PAYLOAD_LEN (MARKET_PAYLOAD_LEN),
+        .OUCH_PAYLOAD_LEN   (OUCH_PAYLOAD_LEN),
+        .SYMBOL_LEN         (SYMBOL_LEN),
+        .POSITION_LEN       (POSITION_LEN),
+        .PNL_LEN            (PNL_LEN),
+        .STOCK_LEN          (STOCK_LEN),
+        .MARKET_QTY_LEN     (MARKET_QTY_LEN),
+        .BOOK_BASE_PRICE    (BOOK_BASE_PRICE),
+        .STOCK_ID_SET       (SYMBOL_LEN'(2))
+    ) amzn (
+        .i_clk               (clk),
+        .i_rst_n             (combined_rst_n),
+        .i_order_id          (parser_order_id[ORDERID_LEN-1:0]),
+        .i_quantity          (parser_quantity_book),
+        .i_side              (parser_side),
+        .i_price             (parser_price_book),
+        .i_action            (parser_action),
+        .i_valid             (parser_valid && parser_stock_id == STOCK_LEN'(2)),
+        .i_stock_id          (parser_stock_id),
+        .i_timestamp         (parser_timestamp),
+        .i_bid_quote_quantity(bid_quote_qty_reg),
+        .i_ask_quote_quantity(ask_quote_qty_reg),
+        .i_trading_enable    (trading_enable_reg),
+        .i_kill_switch       (kill_switch_reg),
+        .i_price_band_enable (price_band_enable_reg),
+        .i_pnl_check_enable  (pnl_check_enable_reg),
         .o_stock_id          (stock_id),
         .o_best_bid_price    (best_bid_price),
         .o_best_ask_price    (best_ask_price),
         .o_best_bid_valid    (best_bid_valid),
         .o_best_ask_valid    (best_ask_valid),
-        .o_trading_bid_price (trading_bid_price),
-        .o_trading_ask_price (trading_ask_price),
-        .o_trading_order_type(trading_order_type),
-        .o_trading_valid     (trading_valid),
-        .o_bid_reject_valid  (bid_reject_valid),
-        .o_bid_reject_reason (bid_reject_reason),
-        .o_ask_reject_valid  (ask_reject_valid),
-        .o_ask_reject_reason (ask_reject_reason),
-        .o_order_payload_valid(order_payload_valid),
-        .o_order_payload     (order_payload),
-        .o_exec_valid        (exec_valid),
-        .o_exec_side         (exec_side),
-        .o_exec_price        (exec_price),
-        .o_exec_quantity     (exec_quantity),
-        .o_exec_order_id     (exec_order_id),
-        .o_position          (position),
-        .o_day_pnl           (day_pnl),
-        .o_live_bid_qty      (live_bid_qty),
-        .o_live_ask_qty      (live_ask_qty),
-        .o_debug_parser_order_id(debug_parser_order_id),
-        .o_debug_parser_quantity(debug_parser_quantity),
-        .o_debug_parser_side (debug_parser_side),
-        .o_debug_parser_price(debug_parser_price),
-        .o_debug_parser_action(debug_parser_action),
-        .o_debug_parser_valid(debug_parser_valid),
-        .o_debug_parser_stock_id(debug_parser_stock_id),
-        .o_debug_parser_timestamp(debug_parser_timestamp),
-        .o_debug_ob_in_order_id(debug_ob_in_order_id),
-        .o_debug_ob_in_price(debug_ob_in_price),
-        .o_debug_ob_in_quantity(debug_ob_in_quantity),
-        .o_debug_ob_in_action(debug_ob_in_action),
-        .o_debug_ob_in_valid(debug_ob_in_valid),
-        .o_debug_ob_in_side(debug_ob_in_side),
-        .o_debug_ob_event_action(debug_ob_event_action),
-        .o_debug_ob_event_price(debug_ob_event_price),
-        .o_debug_ob_event_quantity(debug_ob_event_quantity),
-        .o_debug_ob_event_valid(debug_ob_event_valid),
-        .o_debug_ob_event_side(debug_ob_event_side),
-        .o_debug_best_bid_quantity(debug_best_bid_quantity),
-        .o_debug_best_ask_quantity(debug_best_ask_quantity)
+        .o_trading_bid_price (),
+        .o_trading_ask_price (),
+        .o_trading_order_type(),
+        .o_trading_valid     (),
+        .o_bid_reject_valid  (),
+        .o_bid_reject_reason (),
+        .o_ask_reject_valid  (),
+        .o_ask_reject_reason (),
+        .o_order_payload_valid(order_payload_valid_amzn),
+        .o_order_payload     (order_payload_amzn),
+        .o_exec_valid        (),
+        .o_exec_side         (),
+        .o_exec_price        (),
+        .o_exec_quantity     (),
+        .o_exec_order_id     (),
+        .o_position          (),
+        .o_day_pnl           (),
+        .o_live_bid_qty      (),
+        .o_live_ask_qty      (),
+        .o_debug_parser_order_id(),
+        .o_debug_parser_quantity(),
+        .o_debug_parser_side (),
+        .o_debug_parser_price(),
+        .o_debug_parser_action(),
+        .o_debug_parser_valid(),
+        .o_debug_parser_stock_id(),
+        .o_debug_parser_timestamp(),
+        .o_debug_ob_in_order_id(),
+        .o_debug_ob_in_price(),
+        .o_debug_ob_in_quantity(),
+        .o_debug_ob_in_action(),
+        .o_debug_ob_in_valid(),
+        .o_debug_ob_in_side(),
+        .o_debug_ob_event_action(),
+        .o_debug_ob_event_price(),
+        .o_debug_ob_event_quantity(),
+        .o_debug_ob_event_valid(),
+        .o_debug_ob_event_side(),
+        .o_debug_best_bid_quantity(),
+        .o_debug_best_ask_quantity()
     );
 
     // Register map summary:
@@ -399,101 +474,20 @@ module parser_avalon_wrapper #(
                     default: begin end
                 endcase
             end
-
-            if (market_valid_pulse_d1) begin
-                last_parser_order_id  <= parser_order_id;
-                last_parser_quantity  <= parser_quantity;
-                last_parser_side      <= parser_side;
-                last_parser_price     <= parser_price;
-                last_parser_action    <= parser_action;
-                last_parser_valid     <= parser_valid;
-                last_parser_stock_id  <= parser_stock_id;
-                last_parser_timestamp <= parser_timestamp;
-                last_ob_in_order_id   <= debug_ob_in_order_id;
-                last_ob_in_price      <= debug_ob_in_price;
-                last_ob_in_quantity   <= debug_ob_in_quantity;
-                last_ob_in_action     <= debug_ob_in_action;
-                last_ob_in_valid      <= debug_ob_in_valid;
-                last_ob_in_side       <= debug_ob_in_side;
-            end
-
-            if (debug_ob_event_valid) begin
-                last_ob_event_action   <= debug_ob_event_action;
-                last_ob_event_price    <= debug_ob_event_price;
-                last_ob_event_quantity <= debug_ob_event_quantity;
-                last_ob_event_valid    <= 1'b1;
-                last_ob_event_side     <= debug_ob_event_side;
-            end
-
-            if (order_payload_valid) begin
-                last_order_payload       <= order_payload;
-                last_order_payload_valid <= 1'b1;
+            if (order_payload_valid_amzn) begin
+                last_order_payload       <= order_payload_amzn;
+                order_payload_count      <= order_payload_count + 32'd1;
+            end else if (order_payload_valid_aapl) begin
+                last_order_payload       <= order_payload_aapl;
                 order_payload_count      <= order_payload_count + 32'd1;
             end
 
-            if (exec_valid) begin
-                last_exec_valid     <= 1'b1;
-                last_exec_side      <= exec_side;
-                last_exec_price     <= exec_price;
-                last_exec_quantity  <= exec_quantity;
-                last_exec_order_id  <= exec_order_id;
-                exec_count          <= exec_count + 32'd1;
-            end
-
-            if (bid_reject_valid) begin
-                last_bid_reject_valid  <= 1'b1;
-                last_bid_reject_reason <= bid_reject_reason;
-                bid_reject_count       <= bid_reject_count + 32'd1;
-            end
-
-            if (ask_reject_valid) begin
-                last_ask_reject_valid  <= 1'b1;
-                last_ask_reject_reason <= ask_reject_reason;
-                ask_reject_count       <= ask_reject_count + 32'd1;
-            end
-        end
     end
 
     always_comb begin
         avs_readdata = 32'h0;
         if (avs_read) begin
             case (avs_address)
-                6'd0:  avs_readdata = market_payload_reg[31:0];
-                6'd1:  avs_readdata = market_payload_reg[63:32];
-                6'd2:  avs_readdata = market_payload_reg[95:64];
-                6'd3:  avs_readdata = market_payload_reg[127:96];
-                6'd4:  avs_readdata = market_payload_reg[159:128];
-                6'd5:  avs_readdata = market_payload_reg[191:160];
-                6'd6:  avs_readdata = market_payload_reg[223:192];
-                6'd7:  avs_readdata = market_payload_reg[255:224];
-                6'd8:  avs_readdata = market_payload_reg[287:256];
-                6'd9:  avs_readdata = {31'd0, market_valid_pulse};
-                6'd10: avs_readdata = symbol_reg[31:0];
-                6'd11: avs_readdata = symbol_reg[63:32];
-                6'd12: avs_readdata = {{(32-TOT_QUATITY_LEN){1'b0}}, bid_quote_qty_reg};
-                6'd13: avs_readdata = {{(32-TOT_QUATITY_LEN){1'b0}}, ask_quote_qty_reg};
-                6'd14: avs_readdata = {28'd0, pnl_check_enable_reg, price_band_enable_reg, kill_switch_reg, trading_enable_reg};
-                6'd15: avs_readdata = sw_order_time_reg[31:0];
-                6'd16: avs_readdata = {16'd0, sw_order_time_reg[47:32]};
-                6'd17: avs_readdata = best_bid_price;
-                6'd18: avs_readdata = best_ask_price;
-                6'd19: avs_readdata = {16'd0, stock_id,
-                                       ask_reject_reason, bid_reject_reason,
-                                       ask_reject_valid, bid_reject_valid,
-                                       exec_valid, order_payload_valid,
-                                       trading_valid, best_ask_valid, best_bid_valid};
-                6'd20: avs_readdata = trading_bid_price;
-                6'd21: avs_readdata = trading_ask_price;
-                6'd22: avs_readdata = mark_price;
-                6'd23: avs_readdata = {{(32-POSITION_LEN){position[POSITION_LEN-1]}}, position};
-                6'd24: avs_readdata = day_pnl[31:0];
-                6'd25: avs_readdata = day_pnl[63:32];
-                6'd26: avs_readdata = mtm_total_pnl[31:0];
-                6'd27: avs_readdata = mtm_total_pnl[63:32];
-                6'd28: avs_readdata = inventory_value[31:0];
-                6'd29: avs_readdata = inventory_value[63:32];
-                6'd30: avs_readdata = {live_ask_qty, live_bid_qty};
-                6'd31: avs_readdata = exec_price;
                 6'd32: avs_readdata = last_order_payload[31:0];
                 6'd33: avs_readdata = last_order_payload[63:32];
                 6'd34: avs_readdata = last_order_payload[95:64];
@@ -518,40 +512,7 @@ module parser_avalon_wrapper #(
                 6'd53: avs_readdata = last_order_payload[703:672];
                 6'd54: avs_readdata = last_order_payload[735:704];
                 6'd55: avs_readdata = {16'd0, last_order_payload[751:736]};
-                6'd56: avs_readdata = {14'd0, last_order_payload_valid, last_exec_valid, last_exec_side, last_exec_quantity};
-                6'd57: avs_readdata = last_exec_order_id;
                 6'd58: avs_readdata = order_payload_count;
-                6'd59: avs_readdata = exec_count;
-                6'd60: avs_readdata = bid_reject_count;
-                6'd61: avs_readdata = ask_reject_count;
-                6'd62: avs_readdata = {22'd0,
-                                       last_ask_reject_valid, last_bid_reject_valid,
-                                       last_ask_reject_reason, last_bid_reject_reason};
-                6'd63: begin
-                    case (debug_select_reg)
-                        6'd0:  avs_readdata = BOOK_BASE_PRICE;
-                        6'd1:  avs_readdata = last_parser_order_id[31:0];
-                        6'd2:  avs_readdata = last_parser_order_id[63:32];
-                        6'd3:  avs_readdata = last_parser_quantity;
-                        6'd4:  avs_readdata = last_parser_price;
-                        6'd5:  avs_readdata = {27'd0, last_parser_action, last_parser_side, last_parser_valid};
-                        6'd6:  avs_readdata = {{(32-STOCK_LEN){1'b0}}, last_parser_stock_id};
-                        6'd7:  avs_readdata = last_parser_timestamp[31:0];
-                        6'd8:  avs_readdata = {16'd0, last_parser_timestamp[47:32]};
-                        6'd9:  avs_readdata = {{(32-ORDERID_LEN){1'b0}}, last_ob_in_order_id};
-                        6'd10: avs_readdata = {{(32-PRICE_LEN){1'b0}}, last_ob_in_price};
-                        6'd11: avs_readdata = {{(32-QUANTITY_LEN){1'b0}}, last_ob_in_quantity};
-                        6'd12: avs_readdata = {27'd0, last_ob_in_action, last_ob_in_side, last_ob_in_valid};
-                        6'd13: avs_readdata = {{(32-PRICE_LEN){1'b0}}, last_ob_event_price};
-                        6'd14: avs_readdata = {{(32-QUANTITY_LEN){1'b0}}, last_ob_event_quantity};
-                        6'd15: avs_readdata = {27'd0, last_ob_event_action, last_ob_event_side, last_ob_event_valid};
-                        6'd16: avs_readdata = {{(32-TOT_QUATITY_LEN){1'b0}}, debug_best_bid_quantity};
-                        6'd17: avs_readdata = {{(32-TOT_QUATITY_LEN){1'b0}}, debug_best_ask_quantity};
-                        6'd18: avs_readdata = order_payload_count;
-                        6'd19: avs_readdata = exec_count;
-                        default: avs_readdata = 32'h0;
-                    endcase
-                end
                 default: avs_readdata = 32'h0;
             endcase
         end

@@ -10,6 +10,7 @@ package ob_pkg;
     parameter int V_TABLE_IDX = $clog2(NUM_LEVELS);
     parameter int FULL_PRICE_LEN = 32;
 
+
     // action
     parameter ADD = 2'b00;
     parameter CANCEL = 2'b01;

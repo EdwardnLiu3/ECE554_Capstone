@@ -8,7 +8,7 @@ module hft_single_stock_top #(
     parameter int STOCK_LEN          = 16,
     parameter int MARKET_QTY_LEN     = 32,
     parameter int BOOK_BASE_PRICE    = 32'd2_200_000,
-    parameter logic [SYMBOL_LEN-1:0] stock_id_set = '0
+    parameter logic [SYMBOL_LEN-1:0] STOCK_ID_SET = '0
 ) (
     input  logic                            i_clk,
     input  logic                            i_rst_n,
@@ -281,13 +281,13 @@ risk_managers ask_risk_inst (
 Order_Generator ogen_inst (
     .i_clk                  (i_clk),
     .i_rst_n                (i_rst_n),
-    .i_symbol               (stock_id_set),
+    .i_symbol               (STOCK_ID_SET),
     .i_old_order_num_buy    (exec_oldest_bid_order_id),
     .i_old_order_num_sell   (exec_oldest_ask_order_id),
     .i_old_order_executed_buy(!exec_replace_bid_ready),
     .i_old_order_executed_sell(!exec_replace_ask_ready),
-    .i_old_symbol_buy       (stock_id_set),
-    .i_old_symbol_sell      (stock_id_set),
+    .i_old_symbol_buy       (STOCK_ID_SET),
+    .i_old_symbol_sell      (STOCK_ID_SET),
     .i_price_buy            (bid_quote_price),
     .i_price_sell           (ask_quote_price),
     .i_quantity_buy         (bid_quote_quantity),
