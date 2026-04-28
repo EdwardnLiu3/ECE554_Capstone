@@ -1,0 +1,8 @@
+Merged two-stock clean hour replay
+rows=198893
+start_time=34200.000000000
+end_time=37799.956652063
+columns=time,type,order_id,size,price,direction,stock_id
+stock_id_1=INTC
+stock_id_2=MSFT
+timestamp_epsilon_seconds=0.000000001
