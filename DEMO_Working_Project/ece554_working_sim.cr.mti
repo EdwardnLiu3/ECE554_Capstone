@@ -79,14 +79,12 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	ob_opb
 
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/flb_refill_engine_ask_1024.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/flb_refill_engine_ask_1024.sv
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/ob_pkg.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/ob_pkg.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling package flb_refill_engine_ask_1024_sv_unit
--- Importing package ob_pkg
--- Compiling module flb_refill_engine_ask_1024
+-- Compiling package ob_pkg
 
 Top level modules:
-	flb_refill_engine_ask_1024
+	--none--
 
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/flb_refill_engine_bid_1024.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/flb_refill_engine_bid_1024.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -97,19 +95,14 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	flb_refill_engine_bid_1024
 
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/ob_pkg.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/ob_pkg.sv
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/flb_refill_engine_ask_1024.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/flb_refill_engine_ask_1024.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling package ob_pkg
+-- Compiling package flb_refill_engine_ask_1024_sv_unit
+-- Importing package ob_pkg
+-- Compiling module flb_refill_engine_ask_1024
 
 Top level modules:
-	--none--
-
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_msb32.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_msb32.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module pe_msb32
-
-Top level modules:
-	pe_msb32
+	flb_refill_engine_ask_1024
 
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/rom.v {1 {vlog -work work -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/rom.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -118,21 +111,12 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	rom
 
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/divider_tb.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/divider_tb.sv
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_msb32.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_msb32.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module divider_q16_tb
+-- Compiling module pe_msb32
 
 Top level modules:
-	divider_q16_tb
-
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/flb_refill_engine_ask.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/flb_refill_engine_ask.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling package flb_refill_engine_ask_sv_unit
--- Importing package ob_pkg
--- Compiling module flb_refill_engine_ask
-
-Top level modules:
-	flb_refill_engine_ask
+	pe_msb32
 
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/flb_refill_engine_bid.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/flb_refill_engine_bid.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -143,21 +127,21 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	flb_refill_engine_bid
 
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_avalon_wrapper.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_avalon_wrapper.sv
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/flb_refill_engine_ask.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/flb_refill_engine_ask.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling package parser_avalon_wrapper_sv_unit
+-- Compiling package flb_refill_engine_ask_sv_unit
 -- Importing package ob_pkg
--- Compiling module parser_avalon_wrapper
+-- Compiling module flb_refill_engine_ask
 
 Top level modules:
-	parser_avalon_wrapper
+	flb_refill_engine_ask
 
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser.sv
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/divider_tb.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/divider_tb.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module parser
+-- Compiling module divider_q16_tb
 
 Top level modules:
-	parser
+	divider_q16_tb
 
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/InventoryTracker/inventory_trackers.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/InventoryTracker/inventory_trackers.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -165,6 +149,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 
 Top level modules:
 	inventory_tracker
+
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module parser
+
+Top level modules:
+	parser
 
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/memory.v {1 {vlog -work work -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/memory.v
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -191,14 +182,41 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	hft_single_stock_top
 
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/ob_flb_ask.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/ob_flb_ask.sv
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/RiskManager/risk_tester.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/RiskManager/risk_tester.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling package ob_flb_ask_sv_unit
--- Importing package ob_pkg
--- Compiling module ob_flb_ask
+-- Compiling module risk_managers
 
 Top level modules:
-	ob_flb_ask
+	risk_managers
+
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/Trading_Logic/ln/ln_calc.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/Trading_Logic/ln/ln_calc.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module ln_calc
+
+Top level modules:
+	ln_calc
+
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tl_top.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tl_top.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module tl_top
+-- Importing package ob_pkg
+
+Top level modules:
+	tl_top
+
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_lsb32.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_lsb32.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module pe_lsb32
+
+Top level modules:
+	pe_lsb32
+
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_tb.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_tb.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module parser_tb
+
+Top level modules:
+	parser_tb
 
 } {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/ob_flb_bid.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/ob_flb_bid.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
@@ -209,40 +227,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 
 Top level modules:
 	ob_flb_bid
 
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_tb.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/parser_tb.sv
+} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/ob_flb_ask.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/ob_flb_ask.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module parser_tb
-
-Top level modules:
-	parser_tb
-
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_lsb32.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/pe_lsb32.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module pe_lsb32
-
-Top level modules:
-	pe_lsb32
-
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tl_top.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/tl_top.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module tl_top
+-- Compiling package ob_flb_ask_sv_unit
 -- Importing package ob_pkg
+-- Compiling module ob_flb_ask
 
 Top level modules:
-	tl_top
-
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/Trading_Logic/ln/ln_calc.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/Trading_Logic/ln/ln_calc.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module ln_calc
-
-Top level modules:
-	ln_calc
-
-} {} {}} C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/RiskManager/risk_tester.sv {1 {vlog -work work -sv -stats=none C:/Users/tyler_hyposvu/UW/ECE554/ECE554_Capstone/DEMO_Working_Project/RiskManager/risk_tester.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
--- Compiling module risk_managers
-
-Top level modules:
-	risk_managers
+	ob_flb_ask
 
 } {} {}}

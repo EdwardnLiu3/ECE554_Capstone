@@ -481,6 +481,7 @@ module parser_avalon_wrapper #(
                 last_order_payload       <= order_payload_aapl;
                 order_payload_count      <= order_payload_count + 32'd1;
             end
+        end
 
     end
 
