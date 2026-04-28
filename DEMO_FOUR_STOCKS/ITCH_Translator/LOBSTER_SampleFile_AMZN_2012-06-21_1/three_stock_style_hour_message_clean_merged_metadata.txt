@@ -1,0 +1,9 @@
+Merged three-stock clean hour replay
+rows=477069
+start_time=34200.000000000
+end_time=37799.999949263
+columns=time,type,order_id,size,price,direction,stock_id
+stock_id_1=INTC
+stock_id_2=MSFT
+stock_id_3=AMZN
+timestamp_epsilon_seconds=0.000000001

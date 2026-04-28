@@ -1,0 +1,203 @@
+C:/Users/sellb/ECE554/curr_quartus_tester20/parser_tb.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/parser_tb.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module parser_tb
+
+Top level modules:
+	parser_tb
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/ob_pkg.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/ob_pkg.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package ob_pkg
+
+Top level modules:
+	--none--
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/flb_refill_engine_ask_1024.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/flb_refill_engine_ask_1024.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package flb_refill_engine_ask_1024_sv_unit
+-- Importing package ob_pkg
+-- Compiling module flb_refill_engine_ask_1024
+
+Top level modules:
+	flb_refill_engine_ask_1024
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/flb_refill_engine_bid_1024.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/flb_refill_engine_bid_1024.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package flb_refill_engine_bid_1024_sv_unit
+-- Importing package ob_pkg
+-- Compiling module flb_refill_engine_bid_1024
+
+Top level modules:
+	flb_refill_engine_bid_1024
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/rom.v {1 {vlog -work work -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/rom.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module rom
+
+Top level modules:
+	rom
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/pe_msb32.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/pe_msb32.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module pe_msb32
+
+Top level modules:
+	pe_msb32
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/divider_tb.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/divider_tb.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module divider_q16_tb
+
+Top level modules:
+	divider_q16_tb
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/parser.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/parser.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module parser
+
+Top level modules:
+	parser
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/tl_time.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/tl_time.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module tl_time
+
+Top level modules:
+	tl_time
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/divider.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/divider.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module divider_q16
+
+Top level modules:
+	divider_q16
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/tcp_packet_receiver_redo.v {0 {vlog -work work -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/tcp_packet_receiver_redo.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module tcp_packet_receiver_redo
+** Error: (vlog-13069) C:/Users/sellb/ECE554/curr_quartus_tester20/tcp_packet_receiver_redo.v(310): near ")": syntax error, unexpected ')', expecting .* or '.'.
+
+
+} {4.0 5.0} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/pe_lsb128.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/pe_lsb128.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module pe_lsb128
+
+Top level modules:
+	pe_lsb128
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/hft_single_stock_top.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/hft_single_stock_top.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module hft_single_stock_top
+-- Importing package ob_pkg
+
+Top level modules:
+	hft_single_stock_top
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/pe_msb128.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/pe_msb128.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module pe_msb128
+
+Top level modules:
+	pe_msb128
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/tl_top.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/tl_top.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module tl_top
+-- Importing package ob_pkg
+
+Top level modules:
+	tl_top
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/pe_lsb32.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/pe_lsb32.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module pe_lsb32
+
+Top level modules:
+	pe_lsb32
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/ob_flb_ask.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/ob_flb_ask.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package ob_flb_ask_sv_unit
+-- Importing package ob_pkg
+-- Compiling module ob_flb_ask
+
+Top level modules:
+	ob_flb_ask
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/ob_flb_bid.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/ob_flb_bid.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package ob_flb_bid_sv_unit
+-- Importing package ob_pkg
+-- Compiling module ob_flb_bid
+
+Top level modules:
+	ob_flb_bid
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/flb_refill_engine_ask.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/flb_refill_engine_ask.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package flb_refill_engine_ask_sv_unit
+-- Importing package ob_pkg
+-- Compiling module flb_refill_engine_ask
+
+Top level modules:
+	flb_refill_engine_ask
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/flb_refill_engine_bid.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/flb_refill_engine_bid.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package flb_refill_engine_bid_sv_unit
+-- Importing package ob_pkg
+-- Compiling module flb_refill_engine_bid
+
+Top level modules:
+	flb_refill_engine_bid
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/tl_inventory.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/tl_inventory.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module inventory
+
+Top level modules:
+	inventory
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/parser_avalon_wrapper.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/parser_avalon_wrapper.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module parser_avalon_wrapper
+-- Importing package ob_pkg
+
+Top level modules:
+	parser_avalon_wrapper
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/memory.v {1 {vlog -work work -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/memory.v
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module mem_wrapper
+
+Top level modules:
+	mem_wrapper
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/orderbook.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/orderbook.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package orderbook_sv_unit
+-- Importing package ob_pkg
+-- Compiling module orderbook
+
+Top level modules:
+	orderbook
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/volatility.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/volatility.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package volatility_sv_unit
+-- Importing package ob_pkg
+-- Compiling module volatility_ewma
+
+Top level modules:
+	volatility_ewma
+
+} {} {}} C:/Users/sellb/ECE554/curr_quartus_tester20/ob_opb.sv {1 {vlog -work work -sv -stats=none C:/Users/sellb/ECE554/curr_quartus_tester20/ob_opb.sv
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package ob_opb_sv_unit
+-- Importing package ob_pkg
+-- Compiling module ob_opb
+
+Top level modules:
+	ob_opb
+
+} {} {}}
