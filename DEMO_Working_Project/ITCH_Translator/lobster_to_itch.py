@@ -33,7 +33,13 @@ from pathlib import Path
 # Each returns raw bytes for the ITCH message body (no length prefix).
 # ---------------------------------------------------------------------------
 #Todo: hashtable for orderID  key: Order ID, value: numerical numbers (1,2,3,4....)
-STOCK_LOCATE  = 1     # Todo: implement 1 hot for multiple stocks
+STOCK_LOCATE: dict[int, str] = {
+    1: "AAPL",
+    2: "AMZN",
+    3: "GOOG",
+    4: "INTC",
+    5: "MSFT",
+}     # Todo: implement 1 hot for multiple stocks
 TRACKING_NUM  = 0     # Arbitrary
 
 
@@ -67,7 +73,7 @@ def encode_add_order(ts: float, order_id: int, side: int,
     buy_sell = b'B' if side == 1 else b'S'
     body = (
         b'A'
-        + struct.pack(">HH", STOCK_LOCATE, TRACKING_NUM)
+        + struct.pack(">HH", STOCK_LOCATE.get(ticker), TRACKING_NUM)
         + _pack_timestamp(ts)
         + struct.pack(">Q", order_id)
         + buy_sell
@@ -79,7 +85,7 @@ def encode_add_order(ts: float, order_id: int, side: int,
     return body
 
 
-def encode_order_cancel(ts: float, order_id: int, cancelled_shares: int) -> bytes:
+def encode_order_cancel(ts: float, order_id: int, cancelled_shares: int, ticker: str) -> bytes:
     """
     ITCH 'X' - Order Cancel
     Total: 23 bytes
@@ -92,7 +98,7 @@ def encode_order_cancel(ts: float, order_id: int, cancelled_shares: int) -> byte
     """
     body = (
         b'X'
-        + struct.pack(">HH", STOCK_LOCATE, TRACKING_NUM)
+        + struct.pack(">HH", STOCK_LOCATE.get(ticker), TRACKING_NUM)
         + _pack_timestamp(ts)
         + struct.pack(">Q", order_id)
         + struct.pack(">I", cancelled_shares)
@@ -101,7 +107,7 @@ def encode_order_cancel(ts: float, order_id: int, cancelled_shares: int) -> byte
     return body
 
 
-def encode_order_delete(ts: float, order_id: int) -> bytes:
+def encode_order_delete(ts: float, order_id: int, ticker: str) -> bytes:
     """
     ITCH 'D' - Order Delete
     Total: 19 bytes
@@ -113,7 +119,7 @@ def encode_order_delete(ts: float, order_id: int) -> bytes:
     """
     body = (
         b'D'
-        + struct.pack(">HH", STOCK_LOCATE, TRACKING_NUM)
+        + struct.pack(">HH", STOCK_LOCATE.get(ticker), TRACKING_NUM)
         + _pack_timestamp(ts)
         + struct.pack(">Q", order_id)
     )
@@ -122,7 +128,7 @@ def encode_order_delete(ts: float, order_id: int) -> bytes:
 
 
 def encode_order_executed(ts: float, order_id: int,
-                           executed_shares: int, match_number: int) -> bytes:
+                           executed_shares: int, match_number: int, ticker: str) -> bytes:
     """
     ITCH 'E' - Order Executed
     Total: 31 bytes
@@ -136,7 +142,7 @@ def encode_order_executed(ts: float, order_id: int,
     """
     body = (
         b'E'
-        + struct.pack(">HH", STOCK_LOCATE, TRACKING_NUM)
+        + struct.pack(">HH", STOCK_LOCATE.get(ticker), TRACKING_NUM)
         + _pack_timestamp(ts)
         + struct.pack(">Q", order_id)
         + struct.pack(">I", executed_shares)
@@ -165,7 +171,7 @@ def encode_trade(ts: float, order_id: int, side: int,
     buy_sell = b'B' if side == 1 else b'S'
     body = (
         b'P'
-        + struct.pack(">HH", STOCK_LOCATE, TRACKING_NUM)
+        + struct.pack(">HH", STOCK_LOCATE.get(ticker), TRACKING_NUM)
         + _pack_timestamp(ts)
         + struct.pack(">Q", order_id)
         + buy_sell
@@ -205,7 +211,7 @@ def encode_trading_action(ts: float, price: int, ticker: str) -> bytes:
 
     body = (
         b'H'
-        + struct.pack(">HH", STOCK_LOCATE, TRACKING_NUM)
+        + struct.pack(">HH", STOCK_LOCATE.get(ticker), TRACKING_NUM)
         + _pack_timestamp(ts)
         + _pack_stock(ticker)
         + state
@@ -285,14 +291,14 @@ def translate_row(row: list[str], ticker: str, match_counter: list[int],
         body = encode_add_order(ts, mapped_oid, direction, size, price, ticker)
 
     elif msg_type == 2:
-        body = encode_order_cancel(ts, mapped_oid, size)
+        body = encode_order_cancel(ts, mapped_oid, size, ticker)
 
     elif msg_type == 3:
-        body = encode_order_delete(ts, mapped_oid)
+        body = encode_order_delete(ts, mapped_oid, ticker)
 
     elif msg_type == 4:
         match_counter[0] += 1
-        body = encode_order_executed(ts, mapped_oid, size, match_counter[0])
+        body = encode_order_executed(ts, mapped_oid, size, match_counter[0], ticker)
 
     elif msg_type == 5:
         match_counter[0] += 1
