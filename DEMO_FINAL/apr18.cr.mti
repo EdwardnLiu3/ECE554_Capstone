@@ -1,0 +1,303 @@
+{C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tl_inventory.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tl_inventory.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module inventory
+
+Top level modules:
+	inventory
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tl_time.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tl_time.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module tl_time
+
+Top level modules:
+	tl_time
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tb_ob_opb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tb_ob_opb.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package tb_ob_opb_sv_unit
+-- Importing package ob_pkg
+-- Compiling module tb_ob_opb
+
+Top level modules:
+	tb_ob_opb
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/divider.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/divider.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module divider_q16
+
+Top level modules:
+	divider_q16
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/pe_lsb128.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/pe_lsb128.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module pe_lsb128
+
+Top level modules:
+	pe_lsb128
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/volatility.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/volatility.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package volatility_sv_unit
+-- Importing package ob_pkg
+-- Compiling module volatility_ewma
+
+Top level modules:
+	volatility_ewma
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/ob_opb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/ob_opb.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package ob_opb_sv_unit
+-- Importing package ob_pkg
+-- Compiling module ob_opb
+
+Top level modules:
+	ob_opb
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/pe_msb128.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/pe_msb128.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module pe_msb128
+
+Top level modules:
+	pe_msb128
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/hft_multi_stock_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/hft_multi_stock_top.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module hft_multi_stock_top
+
+Top level modules:
+	hft_multi_stock_top
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/ob_pkg.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/ob_pkg.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package ob_pkg
+
+Top level modules:
+	--none--
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/RiskXExecutionPath.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/RiskXExecutionPath.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module RiskXExecutionPath
+
+Top level modules:
+	RiskXExecutionPath
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/flb_refill_engine_bid_1024.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/flb_refill_engine_bid_1024.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package flb_refill_engine_bid_1024_sv_unit
+-- Importing package ob_pkg
+-- Compiling module flb_refill_engine_bid_1024
+
+Top level modules:
+	flb_refill_engine_bid_1024
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/flb_refill_engine_ask_1024.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/flb_refill_engine_ask_1024.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package flb_refill_engine_ask_1024_sv_unit
+-- Importing package ob_pkg
+-- Compiling module flb_refill_engine_ask_1024
+
+Top level modules:
+	flb_refill_engine_ask_1024
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tl_inventory_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tl_inventory_tb.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module tb_inventory
+
+Top level modules:
+	tb_inventory
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/pe_msb32.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/pe_msb32.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module pe_msb32
+
+Top level modules:
+	pe_msb32
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/rom.v} {1 {vlog -work work -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/rom.v}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module rom
+
+Top level modules:
+	rom
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/flb_refill_engine_bid.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/flb_refill_engine_bid.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package flb_refill_engine_bid_sv_unit
+-- Importing package ob_pkg
+-- Compiling module flb_refill_engine_bid
+
+Top level modules:
+	flb_refill_engine_bid
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/flb_refill_engine_ask.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/flb_refill_engine_ask.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package flb_refill_engine_ask_sv_unit
+-- Importing package ob_pkg
+-- Compiling module flb_refill_engine_ask
+
+Top level modules:
+	flb_refill_engine_ask
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/divider_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/divider_tb.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module divider_q16_tb
+
+Top level modules:
+	divider_q16_tb
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/parser.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/parser.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module parser
+
+Top level modules:
+	parser
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/Parser_Orderbook_int.sv} {0 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/Parser_Orderbook_int.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+** Error: (vlog-13069) C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/Parser_Orderbook_int.sv(86): near "always_ff": syntax error, unexpected always_ff, expecting ';' or ','.
+
+** Error: C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/Parser_Orderbook_int.sv(130): (vlog-2730) Undefined variable: 'o_bid_best_valid'.
+
+** Error: C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/Parser_Orderbook_int.sv(155): (vlog-2730) Undefined variable: 'o_bid_best_valid'.
+
+** Error: C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/Parser_Orderbook_int.sv(180): (vlog-2730) Undefined variable: 'o_bid_best_valid'.
+
+** Error: C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/Parser_Orderbook_int.sv(205): (vlog-2730) Undefined variable: 'o_bid_best_valid'.
+
+** Error: C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/Parser_Orderbook_int.sv(230): (vlog-2730) Undefined variable: 'o_bid_best_valid'.
+
+
+} {3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0 11.0 12.0 13.0 14.0} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/memory.v} {1 {vlog -work work -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/memory.v}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module mem_wrapper
+
+Top level modules:
+	mem_wrapper
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/volatility_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/volatility_tb.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module volatility_ewma_tb
+
+Top level modules:
+	volatility_ewma_tb
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/orderbook.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/orderbook.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package orderbook_sv_unit
+-- Importing package ob_pkg
+-- Compiling module orderbook
+
+Top level modules:
+	orderbook
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tl_top_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tl_top_tb.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module tl_top_tb
+-- Importing package ob_pkg
+
+Top level modules:
+	tl_top_tb
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/hft_single_stock_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/hft_single_stock_top.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module hft_single_stock_top
+-- Importing package ob_pkg
+
+Top level modules:
+	hft_single_stock_top
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tb_refill_engine.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tb_refill_engine.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package tb_refill_engine_sv_unit
+-- Importing package ob_pkg
+-- Compiling module tb_refill_engine
+
+Top level modules:
+	tb_refill_engine
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/Orderbook_int.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/Orderbook_int.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package Orderbook_int_sv_unit
+-- Importing package ob_pkg
+-- Compiling module Orderbook_int
+
+Top level modules:
+	Orderbook_int
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tb_ob_flb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tb_ob_flb.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package tb_ob_flb_sv_unit
+-- Importing package ob_pkg
+-- Compiling module tb_ob_flb
+
+Top level modules:
+	tb_ob_flb
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tb_ParserXOrderbook.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tb_ParserXOrderbook.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package tb_ParserXOrderbook_sv_unit
+-- Importing package ob_pkg
+-- Compiling module tb_ParserXOrderbook
+
+Top level modules:
+	tb_ParserXOrderbook
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tl_top.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tl_top.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module tl_top
+-- Importing package ob_pkg
+
+Top level modules:
+	tl_top
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/ob_flb_bid.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/ob_flb_bid.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package ob_flb_bid_sv_unit
+-- Importing package ob_pkg
+-- Compiling module ob_flb_bid
+
+Top level modules:
+	ob_flb_bid
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/parser_tb.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/parser_tb.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module parser_tb
+
+Top level modules:
+	parser_tb
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/pe_lsb32.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/pe_lsb32.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling module pe_lsb32
+
+Top level modules:
+	pe_lsb32
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/ob_flb_ask.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/ob_flb_ask.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package ob_flb_ask_sv_unit
+-- Importing package ob_pkg
+-- Compiling module ob_flb_ask
+
+Top level modules:
+	ob_flb_ask
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/ParserXOrderbook.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/ParserXOrderbook.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package ParserXOrderbook_sv_unit
+-- Importing package ob_pkg
+-- Compiling module ParserXOrderbook
+
+Top level modules:
+	ParserXOrderbook
+
+} {} {}} {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tb_orderbook.sv} {1 {vlog -work work -sv -stats=none {C:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy/tb_orderbook.sv}
+Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+-- Compiling package tb_orderbook_sv_unit
+-- Importing package ob_pkg
+-- Compiling module tb_orderbook
+
+Top level modules:
+	tb_orderbook
+
+} {} {}}

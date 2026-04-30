@@ -1,0 +1,686 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/sellb/ECE554/apr6_codex - modelsimtest416 - Copy
+vdivider_q16
+Z1 DXx6 sv_std 3 std 0 22 WmjPaeP=7F5?QFXzJ>D[Q2
+Z2 !s110 1776729221
+!i10b 1
+!s100 R0Y]ImViCbVhB3B9d[zF_3
+I=ja<JDM1?AWfhV=k]PGP]2
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+!s105 divider_sv_unit
+S1
+R0
+Z4 w1775596419
+8divider.sv
+Fdivider.sv
+L0 1
+Z5 OV;L;10.4d;61
+r1
+!s85 0
+31
+Z6 !s108 1776729221.000000
+Z7 !s107 parser_avalon_wrapper.sv|hft_single_stock_top.sv|Order_Generator/Order_Generator.sv|RiskManager/risk_tester.sv|InventoryTracker/inventory_trackers.sv|ExecutionTracker/execution_trackers.sv|tl_top.sv|tl_inventory.sv|volatility.sv|Trading_Logic/ln/ln_calc.sv|divider.sv|tl_time.sv|parser.sv|orderbook.sv|ob_flb_ask.sv|ob_flb_bid.sv|ob_opb.sv|flb_refill_engine_ask_1024.sv|flb_refill_engine_bid_1024.sv|pe_msb32.sv|pe_lsb32.sv|ob_pkg.sv|
+Z8 !s90 -work|work_wrapper|-sv|ob_pkg.sv|pe_lsb32.sv|pe_msb32.sv|flb_refill_engine_bid_1024.sv|flb_refill_engine_ask_1024.sv|ob_opb.sv|ob_flb_bid.sv|ob_flb_ask.sv|orderbook.sv|parser.sv|tl_time.sv|divider.sv|Trading_Logic/ln/ln_calc.sv|volatility.sv|tl_inventory.sv|tl_top.sv|ExecutionTracker/execution_trackers.sv|InventoryTracker/inventory_trackers.sv|RiskManager/risk_tester.sv|Order_Generator/Order_Generator.sv|hft_single_stock_top.sv|parser_avalon_wrapper.sv|
+!i113 1
+Z9 o-work work_wrapper -sv
+vexecution_trackers
+R1
+R2
+!i10b 1
+!s100 m4mUknIZUV:42nHMkbd;@1
+IGl<e2;5^:H@[BKzR:Tode2
+R3
+!s105 execution_trackers_sv_unit
+S1
+R0
+w1776198802
+8ExecutionTracker/execution_trackers.sv
+FExecutionTracker/execution_trackers.sv
+L0 3
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+vflb_refill_engine_ask_1024
+R1
+Z10 DXx4 work 6 ob_pkg 0 22 miEodDd;io7Oz8PD^BO7`3
+DXx4 work 34 flb_refill_engine_ask_1024_sv_unit 0 22 lK4mB[]`45j0<_1iXjb8z2
+R3
+r1
+!s85 0
+31
+!i10b 1
+!s100 BbT`UZkSh@Fi`669Lnfg83
+IO8M=onnjdh@JihWN1LCg_3
+!s105 flb_refill_engine_ask_1024_sv_unit
+S1
+R0
+Z11 w1776552574
+Z12 8flb_refill_engine_ask_1024.sv
+Z13 Fflb_refill_engine_ask_1024.sv
+L0 2
+R5
+R6
+R7
+R8
+!i113 1
+R9
+Xflb_refill_engine_ask_1024_sv_unit
+R1
+R10
+VlK4mB[]`45j0<_1iXjb8z2
+r1
+!s85 0
+31
+!i10b 1
+!s100 cXfXkC;MAbCO50L>aAFgN2
+IlK4mB[]`45j0<_1iXjb8z2
+!i103 1
+S1
+R0
+R11
+R12
+R13
+L0 1
+R5
+R6
+R7
+R8
+!i113 1
+R9
+vflb_refill_engine_bid_1024
+R1
+R10
+DXx4 work 34 flb_refill_engine_bid_1024_sv_unit 0 22 VB?4H01I>AM_lfQjHND@M2
+R3
+r1
+!s85 0
+31
+!i10b 1
+!s100 K`?JLdiQ[nVjglYggI6ZB0
+IoQo>1gA>U]C]hmKLTXjBY0
+!s105 flb_refill_engine_bid_1024_sv_unit
+S1
+R0
+R11
+Z14 8flb_refill_engine_bid_1024.sv
+Z15 Fflb_refill_engine_bid_1024.sv
+L0 2
+R5
+R6
+R7
+R8
+!i113 1
+R9
+Xflb_refill_engine_bid_1024_sv_unit
+R1
+R10
+VVB?4H01I>AM_lfQjHND@M2
+r1
+!s85 0
+31
+!i10b 1
+!s100 RmMOlj@^O7C:fbT91[So30
+IVB?4H01I>AM_lfQjHND@M2
+!i103 1
+S1
+R0
+R11
+R14
+R15
+L0 1
+R5
+R6
+R7
+R8
+!i113 1
+R9
+vhft_single_stock_top
+R1
+R10
+R2
+!i10b 1
+!s100 HN8NDd`Q_[0m[aV3H_4oZ2
+IBgbfBEi1TQKlOD?0X]QV=2
+R3
+!s105 hft_single_stock_top_sv_unit
+S1
+R0
+Z16 w1776728474
+8hft_single_stock_top.sv
+Fhft_single_stock_top.sv
+L0 1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+vinventory
+R1
+R2
+!i10b 1
+!s100 jMf;=MbAPiD90WIOEULek3
+I>[_X75iI@?97P4I:ZV:AS3
+R3
+!s105 tl_inventory_sv_unit
+S1
+R0
+R4
+8tl_inventory.sv
+Ftl_inventory.sv
+L0 1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+vinventory_tracker
+R1
+R2
+!i10b 1
+!s100 d9VfjHjYTcZKTfK;7jU1n3
+IiK<9cM:WIVjWlEEQ=;J>31
+R3
+!s105 inventory_trackers_sv_unit
+S1
+R0
+w1776655264
+8InventoryTracker/inventory_trackers.sv
+FInventoryTracker/inventory_trackers.sv
+L0 5
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+vln_calc
+R1
+R2
+!i10b 1
+!s100 8bg;UPU8h>[;1cA:5=Eel2
+IFK=OW2IF8F6omDW:`RF2U3
+R3
+!s105 ln_calc_sv_unit
+S1
+R0
+w1775511551
+8Trading_Logic/ln/ln_calc.sv
+FTrading_Logic/ln/ln_calc.sv
+L0 1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+vob_flb_ask
+R1
+R10
+DXx4 work 18 ob_flb_ask_sv_unit 0 22 4_M;M=Rn>hTgf<0ZMV<`z2
+R3
+r1
+!s85 0
+31
+!i10b 1
+!s100 T3l]?0]^Qnkl4?54nmOYD0
+I4_CAOX6hlg[kSa^Z?Pn0i2
+!s105 ob_flb_ask_sv_unit
+S1
+R0
+Z17 w1776727108
+Z18 8ob_flb_ask.sv
+Z19 Fob_flb_ask.sv
+L0 2
+R5
+R6
+R7
+R8
+!i113 1
+R9
+Xob_flb_ask_sv_unit
+R1
+R10
+V4_M;M=Rn>hTgf<0ZMV<`z2
+r1
+!s85 0
+31
+!i10b 1
+!s100 :6QXjOZN<>6ZU1of0S_A53
+I4_M;M=Rn>hTgf<0ZMV<`z2
+!i103 1
+S1
+R0
+R17
+R18
+R19
+L0 1
+R5
+R6
+R7
+R8
+!i113 1
+R9
+vob_flb_bid
+R1
+R10
+DXx4 work 18 ob_flb_bid_sv_unit 0 22 P@OmFdh1VLEP16a:zY>FH3
+R3
+r1
+!s85 0
+31
+!i10b 1
+!s100 1E?453:`T5@<`FDfWaVST0
+ICTRoF^KcAfMhdlaeVDTiI2
+!s105 ob_flb_bid_sv_unit
+S1
+R0
+Z20 w1776727101
+Z21 8ob_flb_bid.sv
+Z22 Fob_flb_bid.sv
+L0 2
+R5
+R6
+R7
+R8
+!i113 1
+R9
+Xob_flb_bid_sv_unit
+R1
+R10
+VP@OmFdh1VLEP16a:zY>FH3
+r1
+!s85 0
+31
+!i10b 1
+!s100 cb_?IWh1P:CI7IDNkNW9K2
+IP@OmFdh1VLEP16a:zY>FH3
+!i103 1
+S1
+R0
+R20
+R21
+R22
+L0 1
+R5
+R6
+R7
+R8
+!i113 1
+R9
+vob_opb
+R1
+R10
+DXx4 work 14 ob_opb_sv_unit 0 22 9HOGU;`43hW>T?SEGUKQB1
+R3
+r1
+!s85 0
+31
+!i10b 1
+!s100 ?R3[Zzb0bDo6chKBlSefJ3
+IC553WR>HoNLbP9zN]mX7[2
+!s105 ob_opb_sv_unit
+S1
+R0
+Z23 w1776554467
+Z24 8ob_opb.sv
+Z25 Fob_opb.sv
+L0 10
+R5
+R6
+R7
+R8
+!i113 1
+R9
+Xob_opb_sv_unit
+R1
+R10
+V9HOGU;`43hW>T?SEGUKQB1
+r1
+!s85 0
+31
+!i10b 1
+!s100 <zPQ:j`NZhkDHL1`_0H^=1
+I9HOGU;`43hW>T?SEGUKQB1
+!i103 1
+S1
+R0
+R23
+R24
+R25
+L0 9
+R5
+R6
+R7
+R8
+!i113 1
+R9
+Xob_pkg
+R1
+R2
+!i10b 1
+!s100 O48;bY5jg?kUeYQeJ_7em0
+ImiEodDd;io7Oz8PD^BO7`3
+VmiEodDd;io7Oz8PD^BO7`3
+S1
+R0
+w1776726637
+8ob_pkg.sv
+Fob_pkg.sv
+L0 1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+vOrder_Generator
+R1
+R2
+!i10b 1
+!s100 ln6UZ4^aQj81lcMWe7WeM2
+IT]Y2zPLkM?g8EET6=fl_f0
+R3
+!s105 Order_Generator_sv_unit
+S1
+R0
+w1775698390
+8Order_Generator/Order_Generator.sv
+FOrder_Generator/Order_Generator.sv
+L0 1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+n@order_@generator
+vorderbook
+R1
+R10
+DXx4 work 17 orderbook_sv_unit 0 22 Mk96KhTNLfga853LPTPiF2
+R3
+r1
+!s85 0
+31
+!i10b 1
+!s100 k^>Keb>b@3TeDE:QRVUU@1
+I]]=YCbQziLLiC@K5T>8ae0
+!s105 orderbook_sv_unit
+S1
+R0
+Z26 w1776530453
+Z27 8orderbook.sv
+Z28 Forderbook.sv
+L0 8
+R5
+R6
+R7
+R8
+!i113 1
+R9
+Xorderbook_sv_unit
+R1
+R10
+VMk96KhTNLfga853LPTPiF2
+r1
+!s85 0
+31
+!i10b 1
+!s100 5GOc=I_E17e[_Qck:Ej^K1
+IMk96KhTNLfga853LPTPiF2
+!i103 1
+S1
+R0
+R26
+R27
+R28
+L0 7
+R5
+R6
+R7
+R8
+!i113 1
+R9
+vparser
+R1
+R2
+!i10b 1
+!s100 @C:_LNgDlVaf400XFXS:N2
+InlVYSG0?SHU6i7R7`MVIV2
+R3
+!s105 parser_sv_unit
+S1
+R0
+w1776551590
+8parser.sv
+Fparser.sv
+L0 1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+vparser_avalon_wrapper
+R1
+R2
+!i10b 1
+!s100 Z3bATeJEz3[zjo7Y?llN53
+IKe20R^_0]HXCjbcee_>]C0
+R3
+!s105 parser_avalon_wrapper_sv_unit
+S1
+R0
+w1776729191
+8parser_avalon_wrapper.sv
+Fparser_avalon_wrapper.sv
+L0 1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+vpe_lsb32
+R1
+R2
+!i10b 1
+!s100 6VHZ]OG^^0WHSI0iZ?LiT0
+IH>bAQ<6Y6X7eBNJ8WRaj?1
+R3
+!s105 pe_lsb32_sv_unit
+S1
+R0
+R26
+8pe_lsb32.sv
+Fpe_lsb32.sv
+L0 1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+vpe_msb32
+R1
+R2
+!i10b 1
+!s100 elg@TIV_L[U`W4Iz6]7aj2
+IS0fJPLI:Hn=[OoUoWIco:0
+R3
+!s105 pe_msb32_sv_unit
+S1
+R0
+R26
+8pe_msb32.sv
+Fpe_msb32.sv
+L0 1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+vrisk_managers
+R1
+R2
+!i10b 1
+!s100 Q^aVXKbNKm3a=IR^1Qh8B1
+I>Kf:@z]^@zRzjP6TZm6gR0
+R3
+!s105 risk_tester_sv_unit
+S1
+R0
+w1776655647
+8RiskManager/risk_tester.sv
+FRiskManager/risk_tester.sv
+L0 4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+vtl_time
+R1
+R2
+!i10b 1
+!s100 VX;H7?mYO]759SlenPKe@3
+I5ci>kCzGHFE1_VhWW2EUf2
+R3
+!s105 tl_time_sv_unit
+S1
+R0
+w1776369970
+8tl_time.sv
+Ftl_time.sv
+L0 1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+vtl_top
+R1
+R10
+R2
+!i10b 1
+!s100 RD8YQ5b2NCPCjhFW>cOUj0
+I4ji:dbF`BY;73^bnP:Tm73
+R3
+!s105 tl_top_sv_unit
+S1
+R0
+R16
+8tl_top.sv
+Ftl_top.sv
+L0 1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+vvolatility_ewma
+R1
+R10
+DXx4 work 18 volatility_sv_unit 0 22 C@VjCQMTCJ00=1oLK2mLE0
+R3
+r1
+!s85 0
+31
+!i10b 1
+!s100 _SCnDDa:TBmZ>fY0zz^_<2
+InB;nFDFCh3DQKDaz<JV5e2
+!s105 volatility_sv_unit
+S1
+R0
+Z29 w1776727199
+Z30 8volatility.sv
+Z31 Fvolatility.sv
+L0 2
+R5
+R6
+R7
+R8
+!i113 1
+R9
+Xvolatility_sv_unit
+R1
+R10
+VC@VjCQMTCJ00=1oLK2mLE0
+r1
+!s85 0
+31
+!i10b 1
+!s100 GWCYYkXV06mRI6gS@5z;c2
+IC@VjCQMTCJ00=1oLK2mLE0
+!i103 1
+S1
+R0
+R29
+R30
+R31
+L0 1
+R5
+R6
+R7
+R8
+!i113 1
+R9

@@ -1,0 +1,21 @@
+Clean synthetic LOBSTER-style replay pair
+market_mode=volatile
+rows=278176
+duration_seconds=3600.000000000
+levels=10
+tick=100
+mid_seed=2226200
+spread_seed=1300
+targeted_event_prob=0.431222
+drift_step_prob=0.119784
+jump_prob=0.014374
+normal_rows=250780
+locked_rows=0
+crossed_rows=0
+message_in=ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/AMZN_2012-06-21_34200000_57600000_message_10.csv
+orderbook_in=ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/AMZN_2012-06-21_34200000_57600000_orderbook_1.csv
+source_change_rate=0.479136
+source_spread_q75=1700
+source_spread_q90=2100
+source_orderbook_levels=1
+anchor_basis=best_bid_ask_only

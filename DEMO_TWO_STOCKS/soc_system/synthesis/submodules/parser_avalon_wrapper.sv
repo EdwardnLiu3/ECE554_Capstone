@@ -7,9 +7,9 @@ module parser_avalon_wrapper #(
     parameter int PNL_LEN            = 64,
     parameter int STOCK_LEN          = 16,
     parameter int MARKET_QTY_LEN     = 32,
-    parameter int BOOK_BASE_PRICE    = 32'd270_000,
-    parameter int INTC_BOOK_BASE_PRICE = 32'd270_000,
-    parameter int MSFT_BOOK_BASE_PRICE = 32'd305_000,
+    parameter int BOOK_BASE_PRICE    = 32'd265_000,
+    parameter int INTC_BOOK_BASE_PRICE = 32'd265_000,
+    parameter int MSFT_BOOK_BASE_PRICE = 32'd302_000,
     parameter logic [SYMBOL_LEN-1:0] DEFAULT_SYMBOL = {"I","N","T","C"," "," "," "," "},
     parameter logic [TOT_QUATITY_LEN-1:0] DEFAULT_BID_QTY = 16'd5,
     parameter logic [TOT_QUATITY_LEN-1:0] DEFAULT_ASK_QTY = 16'd5

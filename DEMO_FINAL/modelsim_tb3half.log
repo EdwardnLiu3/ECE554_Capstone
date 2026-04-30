@@ -1,0 +1,155 @@
+# vsim -c work_tb3half.tb_hft_single_stock_top_lobster -l modelsim_tb3half.log -do "run -all; quit -f" 
+# Start time: 13:48:44 on Apr 28,2026
+# Loading sv_std.std
+# Loading work_tb3half.ob_pkg
+# Loading work_tb3half.tb_hft_single_stock_top_lobster_sv_unit
+# Loading work_tb3half.tb_hft_single_stock_top_lobster
+# Loading work_tb3half.parser
+# Loading work_tb3half.hft_multi_stock_top_sv_unit
+# Loading work_tb3half.hft_multi_stock_top
+# Loading work_tb3half.hft_single_stock_top_sv_unit
+# Loading work_tb3half.hft_single_stock_top
+# Loading work_tb3half.orderbook_sv_unit
+# Loading work_tb3half.orderbook
+# Loading work_tb3half.ob_opb_sv_unit
+# Loading work_tb3half.ob_opb
+# Loading work_tb3half.ob_flb_bid_sv_unit
+# Loading work_tb3half.ob_flb_bid
+# Loading work_tb3half.flb_refill_engine_bid_1024_sv_unit
+# Loading work_tb3half.flb_refill_engine_bid_1024
+# Loading work_tb3half.pe_msb32
+# Loading work_tb3half.ob_flb_ask_sv_unit
+# Loading work_tb3half.ob_flb_ask
+# Loading work_tb3half.flb_refill_engine_ask_1024_sv_unit
+# Loading work_tb3half.flb_refill_engine_ask_1024
+# Loading work_tb3half.pe_lsb32
+# Loading work_tb3half.tl_top
+# Loading work_tb3half.tl_time
+# Loading work_tb3half.volatility_sv_unit
+# Loading work_tb3half.volatility_ewma
+# Loading work_tb3half.inventory
+# Loading work_tb3half.divider_q16
+# Loading work_tb3half.ln_calc
+# Loading work_tb3half.risk_managers
+# Loading work_tb3half.Order_Generator
+# Loading work_tb3half.execution_trackers
+# Loading work_tb3half.inventory_tracker
+# ** Warning: (vsim-3017) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Too few port connections. Expected 61, found 40.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut File: hft_multi_stock_top.sv
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_parser_order_id'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_parser_quantity'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_parser_side'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_parser_price'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_parser_action'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_parser_valid'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_parser_stock_id'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_parser_timestamp'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_ob_in_order_id'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_ob_in_price'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_ob_in_quantity'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_ob_in_action'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_ob_in_valid'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_ob_in_side'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_ob_event_action'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_ob_event_price'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_ob_event_quantity'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_ob_event_valid'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_ob_event_side'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_best_bid_quantity'.
+# ** Warning: (vsim-3722) tb_hft_single_stock_top_lobster.sv(149): [TFMPC] - Missing connection for port 'o_debug_best_ask_quantity'.
+# ** Warning: (vsim-3015) flb_refill_engine_bid_1024.sv(26): [PCDPC] - Port size (5) does not match connection size (3) for port 'o_idx'. The port definition is at: pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_1_inst/ob_inst/bid_flb/refill_engine/findGroup File: pe_msb32.sv
+# ** Warning: (vsim-3015) flb_refill_engine_ask_1024.sv(26): [PCDPC] - Port size (5) does not match connection size (3) for port 'o_idx'. The port definition is at: pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_1_inst/ob_inst/ask_flb/refill_engine/findGroup File: pe_lsb32.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(281): [PCDPC] - Port size (32) does not match connection size (14) for port 'i_old_order_num_buy'. The port definition is at: Order_Generator/Order_Generator.sv(7).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_1_inst/ogen_inst File: Order_Generator/Order_Generator.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(281): [PCDPC] - Port size (32) does not match connection size (14) for port 'i_old_order_num_sell'. The port definition is at: Order_Generator/Order_Generator.sv(8).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_1_inst/ogen_inst File: Order_Generator/Order_Generator.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(281): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_new_order_num_buy'. The port definition is at: Order_Generator/Order_Generator.sv(23).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_1_inst/ogen_inst File: Order_Generator/Order_Generator.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(281): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_new_order_num_sell'. The port definition is at: Order_Generator/Order_Generator.sv(24).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_1_inst/ogen_inst File: Order_Generator/Order_Generator.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'i_order_id_buy'. The port definition is at: ExecutionTracker/execution_trackers.sv(15).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_1_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'i_order_id_sell'. The port definition is at: ExecutionTracker/execution_trackers.sv(16).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_1_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_exec_order_id'. The port definition is at: ExecutionTracker/execution_trackers.sv(31).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_1_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_live_bid_order_id'. The port definition is at: ExecutionTracker/execution_trackers.sv(36).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_1_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_live_ask_order_id'. The port definition is at: ExecutionTracker/execution_trackers.sv(37).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_1_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) flb_refill_engine_bid_1024.sv(26): [PCDPC] - Port size (5) does not match connection size (3) for port 'o_idx'. The port definition is at: pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_2_inst/ob_inst/bid_flb/refill_engine/findGroup File: pe_msb32.sv
+# ** Warning: (vsim-3015) flb_refill_engine_ask_1024.sv(26): [PCDPC] - Port size (5) does not match connection size (3) for port 'o_idx'. The port definition is at: pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_2_inst/ob_inst/ask_flb/refill_engine/findGroup File: pe_lsb32.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(281): [PCDPC] - Port size (32) does not match connection size (14) for port 'i_old_order_num_buy'. The port definition is at: Order_Generator/Order_Generator.sv(7).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_2_inst/ogen_inst File: Order_Generator/Order_Generator.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(281): [PCDPC] - Port size (32) does not match connection size (14) for port 'i_old_order_num_sell'. The port definition is at: Order_Generator/Order_Generator.sv(8).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_2_inst/ogen_inst File: Order_Generator/Order_Generator.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(281): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_new_order_num_buy'. The port definition is at: Order_Generator/Order_Generator.sv(23).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_2_inst/ogen_inst File: Order_Generator/Order_Generator.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(281): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_new_order_num_sell'. The port definition is at: Order_Generator/Order_Generator.sv(24).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_2_inst/ogen_inst File: Order_Generator/Order_Generator.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'i_order_id_buy'. The port definition is at: ExecutionTracker/execution_trackers.sv(15).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_2_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'i_order_id_sell'. The port definition is at: ExecutionTracker/execution_trackers.sv(16).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_2_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_exec_order_id'. The port definition is at: ExecutionTracker/execution_trackers.sv(31).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_2_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_live_bid_order_id'. The port definition is at: ExecutionTracker/execution_trackers.sv(36).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_2_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_live_ask_order_id'. The port definition is at: ExecutionTracker/execution_trackers.sv(37).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_2_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) flb_refill_engine_bid_1024.sv(26): [PCDPC] - Port size (5) does not match connection size (3) for port 'o_idx'. The port definition is at: pe_msb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_3_inst/ob_inst/bid_flb/refill_engine/findGroup File: pe_msb32.sv
+# ** Warning: (vsim-3015) flb_refill_engine_ask_1024.sv(26): [PCDPC] - Port size (5) does not match connection size (3) for port 'o_idx'. The port definition is at: pe_lsb32.sv(4).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_3_inst/ob_inst/ask_flb/refill_engine/findGroup File: pe_lsb32.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(281): [PCDPC] - Port size (32) does not match connection size (14) for port 'i_old_order_num_buy'. The port definition is at: Order_Generator/Order_Generator.sv(7).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_3_inst/ogen_inst File: Order_Generator/Order_Generator.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(281): [PCDPC] - Port size (32) does not match connection size (14) for port 'i_old_order_num_sell'. The port definition is at: Order_Generator/Order_Generator.sv(8).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_3_inst/ogen_inst File: Order_Generator/Order_Generator.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(281): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_new_order_num_buy'. The port definition is at: Order_Generator/Order_Generator.sv(23).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_3_inst/ogen_inst File: Order_Generator/Order_Generator.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(281): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_new_order_num_sell'. The port definition is at: Order_Generator/Order_Generator.sv(24).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_3_inst/ogen_inst File: Order_Generator/Order_Generator.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'i_order_id_buy'. The port definition is at: ExecutionTracker/execution_trackers.sv(15).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_3_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'i_order_id_sell'. The port definition is at: ExecutionTracker/execution_trackers.sv(16).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_3_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_exec_order_id'. The port definition is at: ExecutionTracker/execution_trackers.sv(31).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_3_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_live_bid_order_id'. The port definition is at: ExecutionTracker/execution_trackers.sv(36).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_3_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# ** Warning: (vsim-3015) hft_single_stock_top.sv(308): [PCDPC] - Port size (32) does not match connection size (14) for port 'o_live_ask_order_id'. The port definition is at: ExecutionTracker/execution_trackers.sv(37).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_hft_single_stock_top_lobster/dut/stock_3_inst/execution_tracker_inst File: ExecutionTracker/execution_trackers.sv
+# run -all
+# === HFT Three-Stock LOBSTER Replay ===
+# Streaming entire merged three-stock file: ITCH_Translator/LOBSTER_SampleFile_AMZN_2012-06-21_1/three_stock_style_hour_message_clean_merged.csv
+# Row limit for this run: 238534
+# [progress] rows_read=50000 messages_sent=49999 last_stock_id=3
+# [progress] rows_read=100000 messages_sent=99999 last_stock_id=3
+# [progress] rows_read=150000 messages_sent=149999 last_stock_id=3
+# [progress] rows_read=200000 messages_sent=199999 last_stock_id=3
+# [info] Reached row limit 238534, stopping replay early for this run.
+# === Replay Done ===
+# Rows read=238535 messages sent=238534
+# --- INTC (stock_id=1) ---
+# position=13 realized_pnl=-33847 mtm_total_pnl=941 inventory_value=34788
+# best_bid=2674 valid=1 best_ask=2678 valid=1 mark_price=2676
+# trading_bid=2673 trading_ask=2679 live_bid_qty=50 live_ask_qty=50
+# quote_payloads=1375 executions=413 bid_fills=221 ask_fills=192 bid_rejects=0 ask_rejects=0
+# --- MSFT (stock_id=2) ---
+# position=3 realized_pnl=-7060 mtm_total_pnl=2051 inventory_value=9111
+# best_bid=3035 valid=1 best_ask=3040 valid=1 mark_price=3037
+# trading_bid=3034 trading_ask=3041 live_bid_qty=50 live_ask_qty=50
+# quote_payloads=1124 executions=287 bid_fills=152 ask_fills=135 bid_rejects=0 ask_rejects=0
+# --- AMZN (stock_id=3) ---
+# position=72 realized_pnl=-1638174 mtm_total_pnl=-33150 inventory_value=1605024
+# best_bid=22290 valid=1 best_ask=22294 valid=1 mark_price=22292
+# trading_bid=22280 trading_ask=22288 live_bid_qty=30 live_ask_qty=70
+# quote_payloads=10482 executions=3138 bid_fills=1793 ask_fills=1345 bid_rejects=0 ask_rejects=0
+# ** Note: $finish    : tb_hft_single_stock_top_lobster.sv(819)
+#    Time: 7156915 ns  Iteration: 1  Instance: /tb_hft_single_stock_top_lobster
+# End time: 13:50:43 on Apr 28,2026, Elapsed time: 0:01:59
+# Errors: 0, Warnings: 55
