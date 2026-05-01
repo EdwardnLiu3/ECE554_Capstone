@@ -460,7 +460,7 @@ class TcpDuplex:
 
 
 class Dashboard:
-    """Two-tab CustomTkinter dashboard rendering each stock's tracker state."""
+    """Multi-tab CustomTkinter dashboard rendering each stock's tracker state."""
 
     PALETTE = {
         "bg": "#1c1c1c",
@@ -476,13 +476,17 @@ class Dashboard:
         "Day P&L", "Total P&L", "Bid Qty", "Ask Qty",
     )
     WINDOW_SECONDS = 10.0
+    TOTAL_TAB = "TOTAL"
 
     def __init__(self, hub: TrackerHub, tickers: list[str]) -> None:
         self.hub = hub
         self.tickers = tickers
+        self.tabs = list(tickers) + [self.TOTAL_TAB]
         self.active_ticker = tickers[0]
         self.running = True
         self.window_mode = "all"  # "10s" = sliding window, "all" = full history
+        self.total_pnl_times: list[float] = []
+        self.total_pnl_values: list[float] = []
 
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
@@ -503,17 +507,17 @@ class Dashboard:
         frame = ctk.CTkFrame(self.app, corner_radius=10)
         frame.pack(fill="x", padx=20, pady=(20, 5))
         self.tab_buttons: dict[str, ctk.CTkButton] = {}
-        for ticker in self.tickers:
+        for tab_name in self.tabs:
             btn = ctk.CTkButton(
                 frame,
-                text=ticker,
+                text=tab_name,
                 width=140,
                 fg_color="#444",
                 hover_color="#666",
-                command=lambda t=ticker: self._select(t),
+                command=lambda t=tab_name: self._select(t),
             )
             btn.pack(side="left", padx=6, pady=10)
-            self.tab_buttons[ticker] = btn
+            self.tab_buttons[tab_name] = btn
         self._highlight_active(self.active_ticker)
 
     def _build_figure(self) -> None:
@@ -579,7 +583,12 @@ class Dashboard:
     def _select(self, ticker: str) -> None:
         self.active_ticker = ticker
         self._highlight_active(ticker)
-        self.ax.set_title(f"{ticker} - Market Price + FPGA Orders", fontsize=17)
+        if ticker == self.TOTAL_TAB:
+            self.ax.set_title("TOTAL - Cumulative P&L Across All Stocks", fontsize=17)
+            self.ax.set_ylabel("Total P&L ($)", fontsize=15)
+        else:
+            self.ax.set_title(f"{ticker} - Market Price + FPGA Orders", fontsize=17)
+            self.ax.set_ylabel("Price ($)", fontsize=15)
         self.canvas.draw_idle()
 
     def _highlight_active(self, ticker: str) -> None:
@@ -603,18 +612,59 @@ class Dashboard:
         self.btn_window.configure(text=label)
         self.canvas.draw_idle()
 
+    def _aggregate_snapshot(self) -> tuple[dict, float | None]:
+        """Sum every stock's tracker snapshot. Returns (totals, midpoint_total_cents)."""
+        totals = {
+            "position": 0,
+            "inventory_value": 0,
+            "day_pnl": 0,
+            "total_pnl": 0,
+            "live_bid_qty": 0,
+            "live_ask_qty": 0,
+        }
+        midpoint_cents = 0.0
+        any_midpoint = False
+        for ticker in self.tickers:
+            stock = self.hub.stocks[ticker]
+            with stock.lock:
+                snap = stock.tracker.get_outputs()
+                if stock.last_midpoint_cents is not None:
+                    midpoint_cents += stock.last_midpoint_cents
+                    any_midpoint = True
+            for key in totals:
+                totals[key] += snap.get(key, 0)
+        return totals, (midpoint_cents if any_midpoint else None)
+
     def _tick(self, _frame):
         if not self.running:
             return ()
-        stock = self.hub.stocks[self.active_ticker]
-        with stock.lock:
-            xs = list(stock.times)
-            ys = list(stock.prices)
-            bids = list(stock.bid_events)
-            asks = list(stock.ask_events)
-            fills = list(stock.fill_events)
-            snap = stock.tracker.get_outputs()
-            midpoint_cents = stock.last_midpoint_cents
+
+        # Sample combined P&L on every tick so the TOTAL tab has a time series
+        # to plot regardless of which tab is currently visible.
+        agg_snap, agg_mid_cents = self._aggregate_snapshot()
+        t_now = time.monotonic() - self.hub.start_wall
+        self.total_pnl_times.append(t_now)
+        self.total_pnl_values.append(agg_snap["total_pnl"] / 100.0)
+
+        is_total = self.active_ticker == self.TOTAL_TAB
+        if is_total:
+            xs = list(self.total_pnl_times)
+            ys = list(self.total_pnl_values)
+            snap = agg_snap
+            midpoint_cents = agg_mid_cents
+            bids: list[tuple[float, float]] = []
+            asks: list[tuple[float, float]] = []
+            fills: list[tuple[float, float, int]] = []
+        else:
+            stock = self.hub.stocks[self.active_ticker]
+            with stock.lock:
+                xs = list(stock.times)
+                ys = list(stock.prices)
+                bids = list(stock.bid_events)
+                asks = list(stock.ask_events)
+                fills = list(stock.fill_events)
+                snap = stock.tracker.get_outputs()
+                midpoint_cents = stock.last_midpoint_cents
 
         self.price_line.set_data(xs, ys)
         self.bid_scatter.set_offsets(np.array(bids) if bids else EMPTY_OFFSETS)
