@@ -444,7 +444,7 @@ class TcpDuplex:
 
 
 class Dashboard:
-    """CustomTkinter dashboard rendering each stock's tracker state."""
+    """Multi-tab CustomTkinter dashboard rendering each stock's tracker state."""
 
     PALETTE = {
         "bg": "#1c1c1c",
@@ -455,18 +455,29 @@ class Dashboard:
         "ask": "#e07a5f",
         "fill": "#f2cc8f",
     }
-    STAT_FIELDS = ("Ticker", "Mark", "Position", "Day P&L", "Total P&L", "Bid Qty", "Ask Qty")
+
+    STAT_FIELDS = (
+        "Mark", "Position", "Inventory Value",
+        "Day P&L", "Cashflow Required",
+        "Total P&L", "Bid Qty", "Ask Qty", "Total Executions",
+    )
+
+    WINDOW_SECONDS = 10.0
+    TOTAL_TAB = "TOTAL"
 
     def __init__(self, hub: TrackerHub, tickers: list[str]) -> None:
-        if GUI_IMPORT_ERROR is not None:
-            missing_name = getattr(GUI_IMPORT_ERROR, "name", "GUI dependency")
-            raise RuntimeError(
-                f"Missing dependency '{missing_name}'. Install the packages in requirements-dashboard.txt to run hft_dashboard.py."
-            ) from GUI_IMPORT_ERROR
         self.hub = hub
         self.tickers = tickers
+        self.tabs = list(tickers) + [self.TOTAL_TAB]
         self.active_ticker = tickers[0]
         self.running = True
+        self.window_mode = "all"
+
+        self.total_pnl_times: list[float] = []
+        self.total_pnl_values: list[float] = []
+
+        # Cashflow Required = abs(history minimum of min(inventory_value, day_pnl))
+        self.max_drawdown = {ticker: 0 for ticker in self.tabs}
 
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
@@ -486,75 +497,151 @@ class Dashboard:
     def _build_tabs(self) -> None:
         frame = ctk.CTkFrame(self.app, corner_radius=10)
         frame.pack(fill="x", padx=20, pady=(20, 5))
+
         self.tab_buttons: dict[str, ctk.CTkButton] = {}
-        for ticker in self.tickers:
+
+        for tab_name in self.tabs:
             btn = ctk.CTkButton(
                 frame,
-                text=ticker,
+                text=tab_name,
                 width=140,
                 fg_color="#444",
                 hover_color="#666",
-                command=lambda t=ticker: self._select(t),
+                command=lambda t=tab_name: self._select(t),
             )
             btn.pack(side="left", padx=6, pady=10)
-            self.tab_buttons[ticker] = btn
+            self.tab_buttons[tab_name] = btn
+
         self._highlight_active(self.active_ticker)
 
     def _build_figure(self) -> None:
         self.fig, self.ax = plt.subplots(figsize=(10, 5))
         self.fig.patch.set_facecolor(self.PALETTE["bg"])
         self.ax.set_facecolor(self.PALETTE["axes"])
-        self.ax.tick_params(colors="white")
+        self.ax.tick_params(colors="white", labelsize=14)
         self.ax.xaxis.label.set_color("white")
         self.ax.yaxis.label.set_color("white")
         self.ax.title.set_color("white")
+
         for spine in self.ax.spines.values():
             spine.set_edgecolor("#555")
+
         self.ax.grid(True, color=self.PALETTE["grid"], alpha=0.3)
-        self.ax.set_xlabel("Seconds since start")
-        self.ax.set_ylabel("Price ($)")
-        self.ax.set_title(f"{self.active_ticker} - Market Price + FPGA Orders")
+        self.ax.set_xlabel("Seconds since start", fontsize=15)
+        self.ax.set_ylabel("Price ($)", fontsize=15)
+        self.ax.set_title(
+            f"{self.active_ticker} - Market Price + FPGA Orders",
+            fontsize=17,
+        )
 
         (self.price_line,) = self.ax.plot(
             [], [], color=self.PALETTE["line"], linewidth=1.8, label="Midpoint"
         )
+
         self.bid_scatter = self.ax.scatter(
             [], [], color=self.PALETTE["bid"], marker="^", s=42, label="FPGA bid"
         )
+
         self.ask_scatter = self.ax.scatter(
             [], [], color=self.PALETTE["ask"], marker="v", s=42, label="FPGA ask"
         )
+
         self.fill_scatter = self.ax.scatter(
             [], [], color=self.PALETTE["fill"], marker="*", s=110, label="Our fill"
         )
+
         self.ax.legend(
-            loc="upper left", facecolor="#222", edgecolor="#555", labelcolor="white"
+            loc="upper left",
+            facecolor="#222",
+            edgecolor="#555",
+            labelcolor="white",
+            fontsize=13,
         )
+
         self.fig.tight_layout()
 
         graph_frame = ctk.CTkFrame(self.app, corner_radius=10)
         graph_frame.pack(fill="both", expand=True, padx=20, pady=(5, 5))
+
         self.canvas = FigureCanvasTkAgg(self.fig, master=graph_frame)
         self.canvas.get_tk_widget().pack(fill="both", expand=True)
 
     def _build_stats(self) -> None:
         frame = ctk.CTkFrame(self.app, corner_radius=10)
         frame.pack(fill="x", padx=20, pady=(5, 20))
+
         self.stat_labels: dict[str, ctk.CTkLabel] = {}
-        for label in self.STAT_FIELDS:
-            cell = ctk.CTkFrame(frame, fg_color="transparent")
-            cell.pack(side="left", padx=12, pady=8)
-            ctk.CTkLabel(cell, text=label, text_color="#888", font=("Segoe UI", 11)).pack()
-            value = ctk.CTkLabel(cell, text="-", text_color="white", font=("Segoe UI", 16, "bold"))
-            value.pack()
+
+        total_cols = len(self.STAT_FIELDS) + 2
+
+        for col in range(total_cols):
+            frame.grid_columnconfigure(col, weight=1, uniform="stats")
+
+        for col, label in enumerate(self.STAT_FIELDS):
+            cell = ctk.CTkFrame(frame, fg_color="transparent", width=115, height=70)
+            cell.grid(row=0, column=col, padx=4, pady=10, sticky="nsew")
+            cell.grid_propagate(False)
+
+            ctk.CTkLabel(
+                cell,
+                text=label,
+                text_color="#aaa",
+                font=("Segoe UI", 12),
+            ).pack(pady=(2, 0))
+
+            value = ctk.CTkLabel(
+                cell,
+                text="-",
+                text_color="white",
+                font=("Segoe UI", 17, "bold"),
+            )
+            value.pack(pady=(2, 0))
+
             self.stat_labels[label] = value
-        self.btn_toggle = ctk.CTkButton(frame, text="Pause", width=110, command=self._toggle)
-        self.btn_toggle.pack(side="right", padx=8)
+
+        self.btn_toggle = ctk.CTkButton(
+            frame,
+            text="Pause",
+            width=110,
+            height=40,
+            font=("Segoe UI", 14, "bold"),
+            command=self._toggle,
+        )
+        self.btn_toggle.grid(
+            row=0,
+            column=len(self.STAT_FIELDS),
+            padx=6,
+            pady=10,
+            sticky="ew",
+        )
+
+        self.btn_window = ctk.CTkButton(
+            frame,
+            text="Window: All",
+            width=130,
+            height=40,
+            font=("Segoe UI", 14, "bold"),
+            command=self._toggle_window,
+        )
+        self.btn_window.grid(
+            row=0,
+            column=len(self.STAT_FIELDS) + 1,
+            padx=6,
+            pady=10,
+            sticky="ew",
+        )
 
     def _select(self, ticker: str) -> None:
         self.active_ticker = ticker
         self._highlight_active(ticker)
-        self.ax.set_title(f"{ticker} - Market Price + FPGA Orders")
+
+        if ticker == self.TOTAL_TAB:
+            self.ax.set_title("TOTAL - Cumulative P&L Across All Stocks", fontsize=17)
+            self.ax.set_ylabel("Total P&L ($)", fontsize=15)
+        else:
+            self.ax.set_title(f"{ticker} - Market Price + FPGA Orders", fontsize=17)
+            self.ax.set_ylabel("Price ($)", fontsize=15)
+
         self.canvas.draw_idle()
 
     def _highlight_active(self, ticker: str) -> None:
@@ -567,69 +654,193 @@ class Dashboard:
     def _toggle(self) -> None:
         self.running = not self.running
         self.btn_toggle.configure(text="Resume" if not self.running else "Pause")
+
         if self.running:
             self.hub.paused.clear()
         else:
             self.hub.paused.set()
 
+    def _toggle_window(self) -> None:
+        self.window_mode = "all" if self.window_mode == "10s" else "10s"
+
+        label = (
+            f"Window: {int(self.WINDOW_SECONDS)}s"
+            if self.window_mode == "10s"
+            else "Window: All"
+        )
+
+        self.btn_window.configure(text=label)
+        self.canvas.draw_idle()
+
+    def _aggregate_snapshot(self) -> tuple[dict, float | None, int]:
+        """Sum every stock's tracker snapshot. Returns totals, midpoint sum, execution count."""
+        totals = {
+            "position": 0,
+            "inventory_value": 0,
+            "day_pnl": 0,
+            "total_pnl": 0,
+            "live_bid_qty": 0,
+            "live_ask_qty": 0,
+        }
+
+        midpoint_cents = 0.0
+        any_midpoint = False
+        total_executions = 0
+
+        for ticker in self.tickers:
+            stock = self.hub.stocks[ticker]
+
+            with stock.lock:
+                snap = stock.tracker.get_outputs()
+                total_executions += len(stock.fill_events)
+
+                if stock.last_midpoint_cents is not None:
+                    midpoint_cents += stock.last_midpoint_cents
+                    any_midpoint = True
+
+            for key in totals:
+                totals[key] += snap.get(key, 0)
+
+        return totals, (midpoint_cents if any_midpoint else None), total_executions
+
     def _tick(self, _frame):
         if not self.running:
             return ()
-        stock = self.hub.stocks[self.active_ticker]
-        with stock.lock:
-            xs = list(stock.times)
-            ys = list(stock.prices)
-            bids = list(stock.bid_events)
-            asks = list(stock.ask_events)
-            fills = list(stock.fill_events)
-            snap = stock.tracker.get_outputs()
-            midpoint_cents = stock.last_midpoint_cents
+
+        agg_snap, agg_mid_cents, agg_executions = self._aggregate_snapshot()
+
+        t_now = time.monotonic() - self.hub.start_wall
+        self.total_pnl_times.append(t_now)
+        self.total_pnl_values.append(agg_snap["total_pnl"] / 100.0)
+
+        is_total = self.active_ticker == self.TOTAL_TAB
+
+        if is_total:
+            xs = list(self.total_pnl_times)
+            ys = list(self.total_pnl_values)
+            snap = agg_snap
+            midpoint_cents = agg_mid_cents
+            bids: list[tuple[float, float]] = []
+            asks: list[tuple[float, float]] = []
+            fills: list[tuple[float, float, int]] = []
+            total_executions = agg_executions
+        else:
+            stock = self.hub.stocks[self.active_ticker]
+
+            with stock.lock:
+                xs = list(stock.times)
+                ys = list(stock.prices)
+                bids = list(stock.bid_events)
+                asks = list(stock.ask_events)
+                fills = list(stock.fill_events)
+                snap = stock.tracker.get_outputs()
+                midpoint_cents = stock.last_midpoint_cents
+
+            total_executions = len(fills)
+
+        day_pnl = snap.get("day_pnl", 0)
+        inventory_value = snap.get("inventory_value", 0)
+
+        current_cashflow_value = min(inventory_value, day_pnl)
+
+        self.max_drawdown[self.active_ticker] = min(
+            self.max_drawdown[self.active_ticker],
+            current_cashflow_value,
+        )
+
+        cashflow_required = abs(self.max_drawdown[self.active_ticker])
 
         self.price_line.set_data(xs, ys)
         self.bid_scatter.set_offsets(np.array(bids) if bids else EMPTY_OFFSETS)
         self.ask_scatter.set_offsets(np.array(asks) if asks else EMPTY_OFFSETS)
+
         if fills:
-            self.fill_scatter.set_offsets(np.array([(t, p) for t, p, _side in fills]))
+            self.fill_scatter.set_offsets(
+                np.array([(t, p) for t, p, _side in fills])
+            )
         else:
             self.fill_scatter.set_offsets(EMPTY_OFFSETS)
 
-        # Span the actual buffered range so the line fills the canvas after the
-        # rolling window starts dropping the oldest events.
-        all_x = xs + [b[0] for b in bids] + [a[0] for a in asks] + [f[0] for f in fills]
-        if all_x:
-            x_lo, x_hi = min(all_x), max(all_x)
-            if x_hi - x_lo < 1.0:
-                x_hi = x_lo + 1.0
-            self.ax.set_xlim(x_lo, x_hi)
-        # Keep the y-range tied to the midpoint trace so a bad FPGA quote
-        # marker cannot flatten the market-price line into a near-horizontal
-        # band at the bottom of the chart.
-        if ys:
-            lo, hi = min(ys), max(ys)
-            if fills:
-                fill_prices = [p for _t, p, _side in fills]
-                lo = min(lo, min(fill_prices))
-                hi = max(hi, max(fill_prices))
-            margin = max(0.05, (hi - lo) * 0.15)
-            self.ax.set_ylim(lo - margin, hi + margin)
+        all_x = (
+            xs
+            + [b[0] for b in bids]
+            + [a[0] for a in asks]
+            + [f[0] for f in fills]
+        )
 
-        self.stat_labels["Ticker"].configure(text=self.active_ticker)
+        if all_x:
+            x_max = max(all_x)
+
+            if self.window_mode == "10s":
+                x_hi = x_max
+                x_lo = x_hi - self.WINDOW_SECONDS
+            else:
+                x_lo, x_hi = min(all_x), x_max
+                if x_hi - x_lo < 1.0:
+                    x_hi = x_lo + 1.0
+
+            self.ax.set_xlim(x_lo, x_hi)
+
+            ys_in = [p for t, p in zip(xs, ys) if x_lo <= t <= x_hi]
+            bids_in = [p for t, p in bids if x_lo <= t <= x_hi]
+            asks_in = [p for t, p in asks if x_lo <= t <= x_hi]
+
+            if ys_in:
+                lo, hi = min(ys_in), max(ys_in)
+
+                if bids_in:
+                    lo = min(lo, min(bids_in))
+                    hi = max(hi, max(bids_in))
+
+                if asks_in:
+                    lo = min(lo, min(asks_in))
+                    hi = max(hi, max(asks_in))
+
+                margin = max(0.05, (hi - lo) * 0.15)
+                self.ax.set_ylim(lo - margin, hi + margin)
+
         self.stat_labels["Mark"].configure(
             text=f"${midpoint_cents / 100:.2f}" if midpoint_cents else "-"
         )
-        self.stat_labels["Position"].configure(text=str(snap.get("position", 0)))
-        self.stat_labels["Day P&L"].configure(text=f"${snap.get('day_pnl', 0) / 100:,.2f}")
-        self.stat_labels["Total P&L"].configure(text=f"${snap.get('total_pnl', 0) / 100:,.2f}")
-        self.stat_labels["Bid Qty"].configure(text=str(snap.get("live_bid_qty", 0)))
-        self.stat_labels["Ask Qty"].configure(text=str(snap.get("live_ask_qty", 0)))
+
+        self.stat_labels["Position"].configure(
+            text=str(snap.get("position", 0))
+        )
+
+        self.stat_labels["Inventory Value"].configure(
+            text=f"${inventory_value / 100:,.2f}"
+        )
+
+        self.stat_labels["Day P&L"].configure(
+            text=f"${day_pnl / 100:,.2f}"
+        )
+
+        self.stat_labels["Cashflow Required"].configure(
+            text=f"${cashflow_required / 100:,.2f}"
+        )
+
+        self.stat_labels["Total P&L"].configure(
+            text=f"${snap.get('total_pnl', 0) / 100:,.2f}"
+        )
+
+        self.stat_labels["Bid Qty"].configure(
+            text=str(snap.get("live_bid_qty", 0))
+        )
+
+        self.stat_labels["Ask Qty"].configure(
+            text=str(snap.get("live_ask_qty", 0))
+        )
+
+        self.stat_labels["Total Executions"].configure(
+            text=str(total_executions)
+        )
 
         self.canvas.draw_idle()
         return ()
 
     def mainloop(self) -> None:
         self.app.mainloop()
-
-
+                
 def spawn_offline(
     hub: TrackerHub,
     csv_path: Path,
